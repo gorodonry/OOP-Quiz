@@ -6,8 +6,4 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\OOPQuiz.Core\OOPQuiz.Core.csproj" />
-  </ItemGroup>
-
 </Project>
