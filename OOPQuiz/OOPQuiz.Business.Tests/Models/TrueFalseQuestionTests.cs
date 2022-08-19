@@ -9,7 +9,7 @@ namespace OOPQuiz.Business.Tests.Models
         public void TestQuestion(string expected, string input)
         {
             // Should be the same as what was specified upon instantiation.
-            var trueFalseQuestion = new TrueFalseQuestion(input, true);
+            var trueFalseQuestion = new TrueFalseQuestion(input, true, "");
 
             var actual = trueFalseQuestion.Question;
 
@@ -22,9 +22,44 @@ namespace OOPQuiz.Business.Tests.Models
         public void TestAnswer(string expected, bool input)
         {
             // Should be the same as what was specified upon instantiation.
-            var trueFalseQuestion = new TrueFalseQuestion("", input);
+            var trueFalseQuestion = new TrueFalseQuestion("", input, "");
 
             var actual = trueFalseQuestion.Answer;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(@"test\uri\image.png", @"test\uri\image.png")]
+        public void TestImageURI(string expected, string input)
+        {
+            // Should be the same as what was specified upon instantiation.
+            var trueFalseQuestion = new TrueFalseQuestion("", true, input);
+
+            var actual = trueFalseQuestion.ImageURI;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void TestFeedbackDefaultBehaviour()
+        {
+            // Should return an empty string.
+            var trueFalseQuestion = new TrueFalseQuestion("", true, "");
+
+            var actual = trueFalseQuestion.Feedback;
+
+            Assert.Equal(string.Empty, actual);
+        }
+
+        [Theory]
+        [InlineData("Feedback", "Feedback")]
+        public void TestFeedbackSetUponInstantiation(string expected, string input)
+        {
+            // Should be the same as what was specified upon instantiation.
+            var trueFalseQuestion = new TrueFalseQuestion("", true, "", input);
+
+            var actual = trueFalseQuestion.Feedback;
 
             Assert.Equal(expected, actual);
         }
@@ -33,11 +68,11 @@ namespace OOPQuiz.Business.Tests.Models
         public void TestChoices()
         {
             // Should always return a list containing "True" and "False".
-            List<string> expected = new() { "True", "False" };
+            Dictionary<string, string> expected = new() { { "True", "" }, { "False", "" } };
 
-            var trueFalseQuestion = new TrueFalseQuestion("", true);
+            var trueFalseQuestion = new TrueFalseQuestion("", true, "");
 
-            var actual = trueFalseQuestion.Choices;
+            var actual = trueFalseQuestion.ChoicesWithFeedback;
 
             Assert.Equal(expected, actual);
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.Policy;
 
 namespace OOPQuiz.Business.Models
 {
@@ -18,11 +19,24 @@ namespace OOPQuiz.Business.Models
         public string Answer { get; }
 
         /// <summary>
+        /// The supporting image for the question.
+        /// </summary>
+        public string ImageURI { get; }
+
+        /// <summary>
+        /// Feedback for the user after the question.
+        /// </summary>
+        /// <remarks>
+        /// Empty if the question doesn't provide any feedback.
+        /// </remarks>
+        public string Feedback { get; }
+
+        /// <summary>
         /// A list of answers to the question for the user to choose from.
         /// </summary>
         /// <remarks>
         /// Empty if the question requires an open-ended answer.
         /// </remarks>
-        public List<string> Choices { get; }
+        public Dictionary<string, string> ChoicesWithFeedback { get; }
     }
 }
