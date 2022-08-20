@@ -1,4 +1,6 @@
-﻿using OOPQuiz.Views;
+﻿using OOPQuiz.Services;
+using OOPQuiz.Services.Interfaces;
+using OOPQuiz.Views;
 using Prism.Ioc;
 using System.Windows;
 
@@ -16,7 +18,7 @@ namespace OOPQuiz
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-
+            containerRegistry.RegisterSingleton<IQuestionService, QuestionService>();
         }
     }
 }
