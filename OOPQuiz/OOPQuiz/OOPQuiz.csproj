@@ -5,13 +5,20 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Assets\csharp.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="4.5.0" />
     <PackageReference Include="Prism.Unity" Version="8.1.97" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Modules\OOPQuiz.Quiz\OOPQuiz.Quiz.csproj" />
     <ProjectReference Include="..\OOPQuiz.Business\OOPQuiz.Business.csproj" />
     <ProjectReference Include="..\OOPQuiz.Core\OOPQuiz.Core.csproj" />
     <ProjectReference Include="..\Services\OOPQuiz.Services.Interfaces\OOPQuiz.Services.Interfaces.csproj" />
     <ProjectReference Include="..\Services\OOPQuiz.Services\OOPQuiz.Services.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\csharp.ico" />
   </ItemGroup>
 </Project>

@@ -7,8 +7,74 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\csharp_question1.PNG" />
+    <None Remove="Images\csharp_question10.PNG" />
+    <None Remove="Images\csharp_question2.PNG" />
+    <None Remove="Images\csharp_question3.PNG" />
+    <None Remove="Images\csharp_question4.PNG" />
+    <None Remove="Images\csharp_question5.PNG" />
+    <None Remove="Images\csharp_question6.PNG" />
+    <None Remove="Images\csharp_question7.PNG" />
+    <None Remove="Images\csharp_question8.PNG" />
+    <None Remove="Images\csharp_question9.PNG" />
+    <None Remove="Images\oophistory_question1.png" />
+    <None Remove="Images\oophistory_question10.png" />
+    <None Remove="Images\oophistory_question2.PNG" />
+    <None Remove="Images\oophistory_question3.png" />
+    <None Remove="Images\oophistory_question4.png" />
+    <None Remove="Images\oophistory_question5.png" />
+    <None Remove="Images\oophistory_question6.png" />
+    <None Remove="Images\oophistory_question7.png" />
+    <None Remove="Images\oophistory_question8.png" />
+    <None Remove="Images\oophistory_question9.png" />
+    <None Remove="Images\python_question1.PNG" />
+    <None Remove="Images\python_question10.PNG" />
+    <None Remove="Images\python_question2.PNG" />
+    <None Remove="Images\python_question3.PNG" />
+    <None Remove="Images\python_question4.PNG" />
+    <None Remove="Images\python_question5.PNG" />
+    <None Remove="Images\python_question6.PNG" />
+    <None Remove="Images\python_question7.PNG" />
+    <None Remove="Images\python_question8.PNG" />
+    <None Remove="Images\python_question9.PNG" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\OOPQuiz.Business\OOPQuiz.Business.csproj" />
     <ProjectReference Include="..\OOPQuiz.Services.Interfaces\OOPQuiz.Services.Interfaces.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\csharp_question1.PNG" />
+    <Resource Include="Images\csharp_question10.PNG" />
+    <Resource Include="Images\csharp_question2.PNG" />
+    <Resource Include="Images\csharp_question3.PNG" />
+    <Resource Include="Images\csharp_question4.PNG" />
+    <Resource Include="Images\csharp_question5.PNG" />
+    <Resource Include="Images\csharp_question6.PNG" />
+    <Resource Include="Images\csharp_question7.PNG" />
+    <Resource Include="Images\csharp_question8.PNG" />
+    <Resource Include="Images\csharp_question9.PNG" />
+    <Resource Include="Images\oophistory_question1.png" />
+    <Resource Include="Images\oophistory_question10.png" />
+    <Resource Include="Images\oophistory_question2.PNG" />
+    <Resource Include="Images\oophistory_question3.png" />
+    <Resource Include="Images\oophistory_question4.png" />
+    <Resource Include="Images\oophistory_question5.png" />
+    <Resource Include="Images\oophistory_question6.png" />
+    <Resource Include="Images\oophistory_question7.png" />
+    <Resource Include="Images\oophistory_question8.png" />
+    <Resource Include="Images\oophistory_question9.png" />
+    <Resource Include="Images\python_question1.PNG" />
+    <Resource Include="Images\python_question10.PNG" />
+    <Resource Include="Images\python_question2.PNG" />
+    <Resource Include="Images\python_question3.PNG" />
+    <Resource Include="Images\python_question4.PNG" />
+    <Resource Include="Images\python_question5.PNG" />
+    <Resource Include="Images\python_question6.PNG" />
+    <Resource Include="Images\python_question7.PNG" />
+    <Resource Include="Images\python_question8.PNG" />
+    <Resource Include="Images\python_question9.PNG" />
   </ItemGroup>
 
 </Project>

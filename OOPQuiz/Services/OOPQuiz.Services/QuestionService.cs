@@ -8,12 +8,14 @@ namespace OOPQuiz.Services
 {
     public class QuestionService : IQuestionService
     {
+        private const string imagePath = @"..\..\..\..\Services\OOPQuiz.Services\Images\";
+
         private static readonly List<IQuestion> pythonQuestions = new()
         {
             new MultiChoiceQuestion(
                 question: "What should be at the beginning of every file using OOP?",
                 answer: "from dataclasses import dataclass",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\python_question1.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}python_question1.png"),
                 choicesWithFeedback: new()
                 {
                     { "from dataclasses import dataclass", "" },
@@ -25,7 +27,7 @@ namespace OOPQuiz.Services
             new MultiChoiceQuestion(
                 question: "What is 'age' in the following code snippet?",
                 answer: "A member",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\python_question2.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}python_question2.png"),
                 choicesWithFeedback: new()
                 {
                     { "A member", "" },
@@ -36,7 +38,7 @@ namespace OOPQuiz.Services
             new MultiChoiceQuestion(
                 question: "What is 'age' in the following code snippet?",
                 answer: "A property",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\python_question3.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}python_question3.png"),
                 choicesWithFeedback: new()
                 {
                     { "A property", "" },
@@ -47,16 +49,16 @@ namespace OOPQuiz.Services
             new OpenEndedQuestion(
                 question: "What is missing from the following code snippet?",
                 answer: "self",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\python_question4.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}python_question4.png"),
                 feedback: "Strictly speaking the use of self as a parameter is just a convention – you can use any parameter as long as you are consistent. But use self – this is a good convention."),
             new TrueFalseQuestion(
                 question: "It is possible to set the age of a Dog object to 5.",
                 answer: false,
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\python_question5.png")),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}python_question5.png")),
             new MultiChoiceQuestion(
                 question: "What is the purpose of the ' -> int' in the following code snippet?",
                 answer: "It is effectively a form of documentation",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\python_question6.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}python_question6.png"),
                 choicesWithFeedback: new()
                 {
                     { "It is effectively a form of documentation", "" },
@@ -68,7 +70,7 @@ namespace OOPQuiz.Services
             new MultiChoiceQuestion(
                 question: "What is the purpose of preceding protected members with an underscore?",
                 answer: "It denotes that a member is protected by properties",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\python_question7.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}python_question7.png"),
                 choicesWithFeedback: new()
                 {
                     { "It denotes that a member is protected by properties", "" },
@@ -80,7 +82,7 @@ namespace OOPQuiz.Services
             new MultiChoiceQuestion(
                 question: "What is 'generate_dog_tag' in the following code snippet?",
                 answer: "A method",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\python_question8.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}python_question8.png"),
                 choicesWithFeedback: new()
                 {
                     { "A method", "" },
@@ -91,7 +93,7 @@ namespace OOPQuiz.Services
             new MultiChoiceQuestion(
                 question: "What is the purpose of a protocol?",
                 answer: "It provides a template for classes, guaranteeing certain members",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\python_question9.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}python_question9.png"),
                 choicesWithFeedback: new()
                 {
                     { "It provides a template for classes, guaranteeing certain members", "" },
@@ -103,7 +105,7 @@ namespace OOPQuiz.Services
             new TrueFalseQuestion(
                 question: "Subclasses can override members defined by base classes.",
                 answer: true,
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\python_question10.png"))
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}python_question10.png"))
         };
 
         private static readonly List<IQuestion> cSharpQuestions = new()
@@ -111,7 +113,7 @@ namespace OOPQuiz.Services
             new MultiChoiceQuestion(
                 question: "What best describes '_age' in the following code snippet?",
                 answer: "A field",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\csharp_question1.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}csharp_question1.png"),
                 choicesWithFeedback: new()
                 {
                     { "A field", "" },
@@ -122,7 +124,7 @@ namespace OOPQuiz.Services
             new MultiChoiceQuestion(
                 question: "What is 'Age' in the following code snippet?",
                 answer: "A property",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\csharp_question2.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}csharp_question2.png"),
                 choicesWithFeedback: new()
                 {
                     { "A property", "" },
@@ -133,7 +135,7 @@ namespace OOPQuiz.Services
             new MultiChoiceQuestion(
                 question: "What needs to be at the beginning of every file using OOP?",
                 answer: "A namespace declaration",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\csharp_question3.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}csharp_question3.png"),
                 choicesWithFeedback: new()
                 {
                     { "A namespace declaration", "" },
@@ -144,16 +146,16 @@ namespace OOPQuiz.Services
             new TrueFalseQuestion(
                 question: "It is possible to set the age of a Dog object to 5.",
                 answer: false,
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\csharp_question4.png")),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}csharp_question4.png")),
             new TrueFalseQuestion(
                 question: "Age can be set.",
                 answer: false,
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\csharp_question5.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}csharp_question5.png"),
                 feedback: "No setter is defined for the protected field _age."),
             new MultiChoiceQuestion(
                 question: "What is the function of '=>' in C#?",
                 answer: "It is shorthand for a getter",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\csharp_question6.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}csharp_question6.png"),
                 choicesWithFeedback: new()
                 {
                     { "It is shorthand for a getter", "" },
@@ -165,7 +167,7 @@ namespace OOPQuiz.Services
             new MultiChoiceQuestion(
                 question: "Which of these is not a protection modifier?",
                 answer: "const",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\csharp_question7.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}csharp_question7.png"),
                 choicesWithFeedback: new()
                 {
                     { "const", "" },
@@ -177,7 +179,7 @@ namespace OOPQuiz.Services
             new MultiChoiceQuestion(
                 question: "What best describes 'GenerateDogTag' in the following code snippet?",
                 answer: "It is a method",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\csharp_question8.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}csharp_question8.png"),
                 choicesWithFeedback: new()
                 {
                     { "It is a method", "" },
@@ -188,11 +190,11 @@ namespace OOPQuiz.Services
             new TrueFalseQuestion(
                 question: "Private members can't be accessed by subclasses.",
                 answer: true,
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\csharp_question9.png")),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}csharp_question9.png")),
             new MultiChoiceQuestion(
                 question: "What is the purpose of an interface?",
                 answer: "It provides a template for classes, guaranteeing certain members",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\csharp_question10.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}csharp_question10.png"),
                 choicesWithFeedback: new()
                 {
                     { "It provides a template for classes, guaranteeing certain members", "" },
@@ -207,7 +209,7 @@ namespace OOPQuiz.Services
             new MultiChoiceQuestion(
                 question: "Who is considered to be the pioneer ('inventor') of OOP?",
                 answer: "Alan Kay",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\oophistory_question1.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}oophistory_question1.png"),
                 choicesWithFeedback: new()
                 {
                     { "Alan Kay", "" },
@@ -218,12 +220,12 @@ namespace OOPQuiz.Services
             new TrueFalseQuestion(
                 question: "The big idea in OOP is messaging.",
                 answer: true,
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\oophistory_question2.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}oophistory_question2.png"),
                 feedback: "\"I'm sorry that I long ago coined the term 'objects' for this topic because it gets many people to focus on the lesser idea. The big idea is 'messaging'.\" - Alan Kay"),
             new MultiChoiceQuestion(
                 question: "Which programming language had a strong influence on the development of OOP?",
                 answer: "Lisp",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\oophistory_question3.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}oophistory_question3.png"),
                 choicesWithFeedback: new()
                 {
                     { "Lisp", "" },
@@ -234,7 +236,7 @@ namespace OOPQuiz.Services
             new MultiChoiceQuestion(
                 question: "Which program was the first to utilise a GUI (Graphical User Interface)?",
                 answer: "Sketchpad",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\oophistory_question4.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}oophistory_question4.png"),
                 choicesWithFeedback: new()
                 {
                     { "Sketchpad", "" },
@@ -245,7 +247,7 @@ namespace OOPQuiz.Services
             new MultiChoiceQuestion(
                 question: "Who is considered to be the world's first computer programmer?",
                 answer: "Ada Lovelace",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\oophistory_question5.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}oophistory_question5.png"),
                 choicesWithFeedback: new()
                 {
                     { "Ada Lovelace", "" },
@@ -256,7 +258,7 @@ namespace OOPQuiz.Services
             new MultiChoiceQuestion(
                 question: "When was the concept of OOP first mooted at MIT (Massachussetts Institute of Technology)?",
                 answer: "1950's",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\oophistory_question6.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}oophistory_question6.png"),
                 choicesWithFeedback: new()
                 {
                     { "1950's", "" },
@@ -267,7 +269,7 @@ namespace OOPQuiz.Services
             new MultiChoiceQuestion(
                 question: "Which programming language is considered to be the first object-oriented language?",
                 answer: "Simula",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\oophistory_question7.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}oophistory_question7.png"),
                 choicesWithFeedback: new()
                 {
                     { "Simula", "" },
@@ -278,7 +280,7 @@ namespace OOPQuiz.Services
             new MultiChoiceQuestion(
                 question: "When did OOP become the dominant programming paradigm?",
                 answer: "1990's",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\oophistory_question8.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}oophistory_question8.png"),
                 choicesWithFeedback: new()
                 {
                     { "1990's", "" },
@@ -289,7 +291,7 @@ namespace OOPQuiz.Services
             new MultiChoiceQuestion(
                 question: "Roughly how many programming languages are available for use as of 2022?",
                 answer: "700",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\oophistory_question9.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}oophistory_question9.png"),
                 choicesWithFeedback: new()
                 {
                     { "700", "" },
@@ -300,7 +302,7 @@ namespace OOPQuiz.Services
             new MultiChoiceQuestion(
                 question: "Which of these is not amongst the 10 most popular programming languages as of August 2022 (by the TIOBE Index)?",
                 answer: "Swift",
-                imageURI: Path.Combine(Directory.GetCurrentDirectory(), @"\Images\oophistory_question10.png"),
+                imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}oophistory_question10.png"),
                 choicesWithFeedback: new()
                 {
                     { "Swift", "" },

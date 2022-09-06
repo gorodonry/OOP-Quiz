@@ -1,7 +1,11 @@
-﻿using OOPQuiz.Services;
+﻿using OOPQuiz.Quiz;
+using OOPQuiz.Services;
 using OOPQuiz.Services.Interfaces;
 using OOPQuiz.Views;
 using Prism.Ioc;
+using Prism.Modularity;
+using System;
+using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace OOPQuiz
@@ -19,6 +23,11 @@ namespace OOPQuiz
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IQuestionService, QuestionService>();
+        }
+
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            moduleCatalog.AddModule<QuizModule>();
         }
     }
 }
