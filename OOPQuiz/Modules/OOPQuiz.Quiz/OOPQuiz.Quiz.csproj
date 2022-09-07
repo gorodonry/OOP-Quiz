@@ -9,5 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\OOPQuiz.Business\OOPQuiz.Business.csproj" />
     <ProjectReference Include="..\..\OOPQuiz.Core\OOPQuiz.Core.csproj" />
+    <ProjectReference Include="..\..\Services\OOPQuiz.Services.Interfaces\OOPQuiz.Services.Interfaces.csproj" />
   </ItemGroup>
 </Project>

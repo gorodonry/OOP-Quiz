@@ -5,6 +5,6 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <Grid>
-            
+        <TextBlock Text="test"/>
     </Grid>
 </UserControl>
