@@ -24,7 +24,7 @@
                     <TextBlock.Text>
                         <MultiBinding StringFormat="{}{0}: Question {1}">
                             <Binding Path="QuestionCategory"/>
-                            <Binding Path="QuestionNumber"/>
+                            <Binding Path="CurrentQuestionNumber"/>
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
