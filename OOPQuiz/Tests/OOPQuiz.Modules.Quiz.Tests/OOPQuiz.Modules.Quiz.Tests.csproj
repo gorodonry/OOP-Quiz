@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Modules\OOPQuiz.Quiz\OOPQuiz.Quiz.csproj" />
+    <ProjectReference Include="..\..\Modules\OOPQuiz.Modules.Quiz\OOPQuiz.Modules.Quiz.csproj" />
   </ItemGroup>
 
 </Project>

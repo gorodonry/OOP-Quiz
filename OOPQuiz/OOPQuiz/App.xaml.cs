@@ -1,4 +1,4 @@
-﻿using OOPQuiz.Quiz;
+﻿using OOPQuiz.Modules.Quiz;
 using OOPQuiz.Services;
 using OOPQuiz.Services.Interfaces;
 using OOPQuiz.Views;

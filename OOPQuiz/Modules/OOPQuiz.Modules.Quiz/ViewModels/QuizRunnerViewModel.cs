@@ -1,11 +1,14 @@
 ﻿using Prism.Mvvm;
 using Prism.Regions;
 using OOPQuiz.Services.Interfaces;
+using OOPQuiz.Modules.Quiz.Models;
 
-namespace OOPQuiz.Quiz.ViewModels
+namespace OOPQuiz.Modules.Quiz.ViewModels
 {
     public class QuizRunnerViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
+        private QuizRunnerModel _model = new();
+
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             

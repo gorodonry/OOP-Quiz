@@ -1,11 +1,11 @@
-﻿using OOPQuiz.Quiz.ViewModels;
-using OOPQuiz.Quiz.Views;
+﻿using OOPQuiz.Modules.Quiz.ViewModels;
+using OOPQuiz.Modules.Quiz.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 using OOPQuiz.Core;
 
-namespace OOPQuiz.Quiz
+namespace OOPQuiz.Modules.Quiz
 {
     public class QuizModule : IModule
     {
