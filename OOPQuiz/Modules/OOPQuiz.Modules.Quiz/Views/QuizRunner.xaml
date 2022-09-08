@@ -4,21 +4,22 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <!-- Title (i.e. name) of the game -->
+            <!-- Display the question category and number -->
             <materialDesign:ColorZone Mode="PrimaryLight"
-                                      Grid.Row="0"
-                                      Grid.Column="0"
-                                      Grid.ColumnSpan="5"
-                                      CornerRadius="4"
-                                      Margin="7">
-                <TextBlock VerticalAlignment="Center"
-                           HorizontalAlignment="Center"
+                                      Grid.Row="0" Grid.Column="0"
+                                      CornerRadius="4" Margin="7">
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
                            Margin="0 10 0 10"
                            FontSize="30">
                     <TextBlock.Text>
@@ -29,6 +30,36 @@
                     </TextBlock.Text>
                 </TextBlock>
             </materialDesign:ColorZone>
+            <!-- Display the question and its accompanying image -->
+            <TextBlock Grid.Row="1"
+                       HorizontalAlignment="Center"
+                       Margin="0 25 0 25"
+                       FontSize="25"
+                       Text="{Binding QuestionAsked}"/>
+            <Image Grid.Row="2"
+                   Margin="50 0 50 0"
+                   Source="{Binding ImageURIForQuestion}"/>
+            <!-- Provide multichoice answers (if the question is open-ended this will bind to an empty list and so display nothing -->
+            <ListBox Grid.Row="3"
+                     Margin="50 30 50 30"
+                     ItemsSource="{Binding PossibleAnswers}">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid IsItemsHost="True" Columns="2"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                        <Setter Property="Margin" Value="2"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock FontSize="20"
+                                   Text="{Binding}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
     </Grid>
 </UserControl>

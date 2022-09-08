@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using OOPQuiz.Services.Interfaces;
 using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace OOPQuiz.Modules.Quiz.Models
 {
@@ -18,6 +19,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         protected string _questionCategory;
         protected List<IQuestion> _questions = new();
         protected int _currentQuestionNumber = 1;
+        protected string _userAnswerToCurrentQuestion;
 
         /// <summary>
         /// Creates a new instance of the quiz runner.
@@ -28,12 +30,31 @@ namespace OOPQuiz.Modules.Quiz.Models
         }
 
         /// <summary>
+        /// Information on the question currently being asked.
+        /// </summary>
+        protected IQuestion CurrentQuestion
+        {
+            get
+            {
+                if (_questions.Count != 0)
+                    return _questions[CurrentQuestionNumber - 1];
+                return null;
+            }
+        }
+
+        /// <summary>
         /// The category of questions asked by this instance of the quiz runner.
         /// </summary>
         public string QuestionCategory
         {
             get { return _questionCategory; }
-            set { _questionCategory = value; }
+            set
+            {
+                _questionCategory = value;
+
+                // Having set the question category, the questions to ask can be determined.
+                SelectQuestions();
+            }
         }
 
         /// <summary>
@@ -42,6 +63,61 @@ namespace OOPQuiz.Modules.Quiz.Models
         public int CurrentQuestionNumber
         {
             get { return _currentQuestionNumber; }
+        }
+
+        /// <summary>
+        /// The question for the user to answer.
+        /// </summary>
+        public string CurrentQuestionAsked
+        {
+            get
+            {
+                if (CurrentQuestion is not null)
+                    return CurrentQuestion.Question;
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns the path of the image for the question.
+        /// </summary>
+        public string ImageURIForCurrentQuestion
+        {
+            get
+            {
+                if (CurrentQuestion is not null)
+                    return CurrentQuestion.ImageURI;
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns a list of choices the user has to choose an answer from.
+        /// </summary>
+        /// <remarks>
+        /// Returns an empty list for open-ended questions.
+        /// </remarks>
+        public List<string> AnswersToChooseFrom
+        {
+            get
+            {
+                if (CurrentQuestion is not null)
+                    return CurrentQuestion.ChoicesWithFeedback.Keys.ToList();
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns a boolean indicating whether or not the current question is open-ended.
+        /// </summary>
+        public bool CurrentQuestionIsOpenEnded
+        {
+            get
+            {
+                if (CurrentQuestion is not null)
+                    return AnswersToChooseFrom.Count == 0;
+                return false;
+            }
         }
 
         /// <summary>
@@ -58,7 +134,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         /// Sets up the list of questions to use in the quiz.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        public void SelectQuestions()
+        protected void SelectQuestions()
         {
             if (allQuestions.ContainsKey(QuestionCategory))
             {
