@@ -130,7 +130,7 @@ namespace OOPQuiz.Services
                     { "A property", "" },
                     { "A field", "Fields store information, and properties dictate what has access to fields" },
                     { "A function", "Functions are separate to classes" },
-                    { "An variable", "" }
+                    { "A variable", "" }
                 }),
             new MultiChoiceQuestion(
                 question: "What needs to be at the beginning of every file using OOP?",
