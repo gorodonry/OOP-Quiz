@@ -3,63 +3,134 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:OOPQuiz.Core.Converters;assembly=OOPQuiz.Core">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:BooleanNegator x:Key="BooleanNegator"/>
     </UserControl.Resources>
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
                 <RowDefinition/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <!-- Display the question category and number -->
+            <!-- Display the question category and number along with the user's score -->
             <materialDesign:ColorZone Mode="PrimaryLight"
                                       Grid.Row="0" Grid.Column="0"
                                       CornerRadius="4" Margin="7">
-                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
-                           Margin="0 10 0 10"
-                           FontSize="30">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0}: Question {1}">
-                            <Binding Path="QuestionCategory"/>
-                            <Binding Path="CurrentQuestionNumber"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
+                <Grid>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
+                               Margin="0 10 0 10"
+                               FontSize="30">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0}: Question {1}">
+                                <Binding Path="QuestionCategory"/>
+                                <Binding Path="CurrentQuestionNumber"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right"
+                               Margin="0 0 25 0"
+                               FontSize="30"
+                               Text="{Binding Score, StringFormat={}Score: {0}}"/>
+                </Grid>
             </materialDesign:ColorZone>
-            <!-- Display the question and its accompanying image -->
-            <TextBlock Grid.Row="1"
-                       HorizontalAlignment="Center"
-                       Margin="0 25 0 25"
-                       FontSize="25"
-                       Text="{Binding QuestionAsked}"/>
-            <Image Grid.Row="2"
-                   Margin="50 0 50 0"
-                   Source="{Binding ImageURIForQuestion}"/>
-            <!-- Provide multichoice answers (if the question is open-ended this will bind to an empty list and so display nothing -->
-            <ListBox Grid.Row="3"
-                     Margin="50 30 50 30"
-                     ItemsSource="{Binding PossibleAnswers}">
-                <ListBox.ItemsPanel>
+            <!-- Display all information relating to the question -->
+            <ItemsControl Grid.Row="1"
+                          ItemsSource="{Binding Question}">
+                <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid IsItemsHost="True" Columns="2"/>
+                        <Grid/>
                     </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                        <Setter Property="Margin" Value="2"/>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                <ListBox.ItemTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock FontSize="20"
-                                   Text="{Binding}"/>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <!-- Display the question and its accompanying image -->
+                            <TextBlock Grid.Row="0"
+                                       HorizontalAlignment="Center"
+                                       Margin="0 25 0 25"
+                                       FontSize="25"
+                                       Text="{Binding Question}"/>
+                            <Image Grid.Row="1"
+                                   Margin="50 0 50 0"
+                                   Stretch="None"
+                                   HorizontalAlignment="Center" VerticalAlignment="Top"
+                                   Source="{Binding ImageURI}"/>
+                            <!-- Provide multichoice answers (if the question is open-ended this will bind to an empty list and so display nothing) -->
+                            <ListBox x:Name="MultiChoiceAnswerPool"
+                                     Grid.Row="2"
+                                     Margin="50 30 50 30"
+                                     ItemsSource="{Binding ChoicesWithFeedback.Keys}">
+                                <ListBox.SelectedItem>
+                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                             Path="DataContext.UserAnswer" Mode="OneWayToSource"
+                                             UpdateSourceTrigger="PropertyChanged"/>
+                                </ListBox.SelectedItem>
+                                <ListBox.IsEnabled>
+                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                             Path="DataContext.QuestionAnswered"
+                                             Converter="{StaticResource BooleanNegator}"/>
+                                </ListBox.IsEnabled>
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid IsItemsHost="True" Columns="2"/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                        <Setter Property="Margin" Value="2"/>
+                                        <Setter Property="Height" Value="75"/>
+                                        <Setter Property="Background" Value="#F2F2F2"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock FontSize="20" Text="{Binding}"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <!-- Provide a textbox for the user if the question is open-ended -->
+                            <TextBox Grid.Row="2"
+                                     Margin="50 30 50 30"
+                                     Width="1000"
+                                     FontSize="20"
+                                     HorizontalAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     materialDesign:HintAssist.Hint="Type your answer here..."
+                                     materialDesign:HintAssist.IsFloating="True"
+                                     DataContext="{RelativeSource AncestorType={x:Type UserControl}}">
+                                <TextBox.Visibility>
+                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                             Path="DataContext.IsOpenEndedQuestion"
+                                             Converter="{StaticResource BooleanToVisibilityConverter}"/>
+                                </TextBox.Visibility>
+                                <TextBox.Text>
+                                    <Binding Path="DataContext.UserAnswer" Mode="OneWayToSource"
+                                             UpdateSourceTrigger="PropertyChanged"
+                                             RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"/>
+                                </TextBox.Text>
+                            </TextBox>
+                        </Grid>
                     </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <!-- Button to advance the quiz, depending upon the status of the quiz could submit an answer, advance to the next question, or finish the quiz -->
+            <Button x:Name="SubmitAnswerButton"
+                    Grid.Row="2"
+                    Width="750"
+                    Margin="0 0 0 50"
+                    Command="{Binding SubmitAnswer}"
+                    Click="SubmitAnswerButton_Click" ClickMode="Press"
+                    Visibility="{Binding QuestionAnswered, Converter={StaticResource InverseBoolToVisConverter}}"
+                    Content="Submit Answer"/>
         </Grid>
     </Grid>
 </UserControl>

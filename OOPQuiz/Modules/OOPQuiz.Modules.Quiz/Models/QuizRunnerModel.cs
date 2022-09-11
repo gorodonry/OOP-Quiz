@@ -13,13 +13,21 @@ namespace OOPQuiz.Modules.Quiz.Models
     public class QuizRunnerModel
     {
         protected const int numberOfQuestions = 10;
+        protected const int pointsPerQuestion = 10;
 
         protected Dictionary<string, List<IQuestion>> allQuestions;
 
         protected string _questionCategory;
         protected List<IQuestion> _questions = new();
         protected int _currentQuestionNumber = 1;
+
+        protected bool _currentQuestionAnswered = false;
         protected string _userAnswerToCurrentQuestion;
+        protected string _feedbackForCurrentQuestion = string.Empty;
+
+        protected int _score = 0;
+
+        protected string _buttonAction = "Submit Answer";
 
         /// <summary>
         /// Creates a new instance of the quiz runner.
@@ -32,7 +40,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         /// <summary>
         /// Information on the question currently being asked.
         /// </summary>
-        protected IQuestion CurrentQuestion
+        public IQuestion CurrentQuestion
         {
             get
             {
@@ -66,45 +74,27 @@ namespace OOPQuiz.Modules.Quiz.Models
         }
 
         /// <summary>
-        /// The question for the user to answer.
+        /// Indicates whether or not the current question has been answered.
         /// </summary>
-        public string CurrentQuestionAsked
+        public bool CurrentQuestionAnswered
         {
             get
             {
                 if (CurrentQuestion is not null)
-                    return CurrentQuestion.Question;
-                return null;
+                    return _currentQuestionAnswered;
+                return false;
             }
         }
 
         /// <summary>
-        /// Returns the path of the image for the question.
-        /// </summary>
-        public string ImageURIForCurrentQuestion
-        {
-            get
-            {
-                if (CurrentQuestion is not null)
-                    return CurrentQuestion.ImageURI;
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Returns a list of choices the user has to choose an answer from.
+        /// A string explaining the correct answer to the current question.
         /// </summary>
         /// <remarks>
-        /// Returns an empty list for open-ended questions.
+        /// Not provided for every question. Set to an empty string if the question has not yet been answered.
         /// </remarks>
-        public List<string> AnswersToChooseFrom
+        public string FeedbackForCurrentQuestion
         {
-            get
-            {
-                if (CurrentQuestion is not null)
-                    return CurrentQuestion.ChoicesWithFeedback.Keys.ToList();
-                return null;
-            }
+            get { return _feedbackForCurrentQuestion; }
         }
 
         /// <summary>
@@ -115,9 +105,48 @@ namespace OOPQuiz.Modules.Quiz.Models
             get
             {
                 if (CurrentQuestion is not null)
-                    return AnswersToChooseFrom.Count == 0;
+                    return CurrentQuestion.ChoicesWithFeedback.Count == 0;
                 return false;
             }
+        }
+
+        /// <summary>
+        /// The user's score for the current quiz.
+        /// </summary>
+        public int UserScore
+        {
+            get { return _score; }
+        }
+
+        /// <summary>
+        /// Information on what action is currently available to the user.
+        /// </summary>
+        /// <remarks>
+        /// One of "Submit Answer", "Next Question", and "Finish Quiz".
+        /// </remarks>
+        public string ButtonAction
+        {
+            get { return _buttonAction; }
+        }
+
+        /// <summary>
+        /// Loads the information for the next question.
+        /// </summary>
+        public void LoadNextQuestion()
+        {
+            if (_currentQuestionNumber < numberOfQuestions)
+            {
+                _currentQuestionNumber += 1;
+
+                _currentQuestionAnswered = false;
+
+                _buttonAction = "Submit Answer";
+            }
+        }
+
+        public void AnswerQuestion(string userAnswer)
+        {
+
         }
 
         /// <summary>

@@ -11,5 +11,10 @@ namespace OOPQuiz.Modules.Quiz.Views
         {
             InitializeComponent();
         }
+
+        private void SubmitAnswerButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
     }
 }
