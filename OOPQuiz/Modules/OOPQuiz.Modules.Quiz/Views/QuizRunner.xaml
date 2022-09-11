@@ -12,6 +12,10 @@
             <Setter Property="Width" Value="750"/>
             <Setter Property="Margin" Value="0 0 0 50"/>
         </Style>
+        <Style x:Key="CorrectIncorrectMessage" TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignTextBlock}">
+            <Setter Property="Margin" Value="5 2 0 0"/>
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid>
@@ -48,25 +52,38 @@
                     <RowDefinition/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="300"/>
+                </Grid.ColumnDefinitions>
                 <!-- Display the question and its accompanying image -->
-                <TextBlock Grid.Row="0"
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
                            HorizontalAlignment="Center"
                            Margin="0 25 0 25"
                            FontSize="25"
                            Text="{Binding Question.Question}"/>
-                <Image Grid.Row="1"
+                <Image Grid.Row="1" Grid.Column="1"
                        Margin="50 0 50 0"
                        Stretch="None"
                        HorizontalAlignment="Center" VerticalAlignment="Top"
                        Source="{Binding Question.ImageURI}"/>
+                <!-- Display feedback for the user's answer -->
+                <TextBlock Grid.Row="1" Grid.Column="2"
+                           Margin="0 30 50 0"
+                           HorizontalAlignment="Stretch"
+                           Visibility="{Binding QuestionAnswered, Converter={StaticResource BooleanToVisibilityConverter}}"
+                           FontSize="15"
+                           TextWrapping="WrapWithOverflow"
+                           Text="{Binding QuestionFeedback}"/>
                 <!-- Provide multichoice answers (if the question is open-ended this will bind to an empty list and so display nothing) -->
                 <ListBox x:Name="MultiChoiceAnswerPool"
-                         Grid.Row="2"
+                         Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
                          Margin="50 30 50 30"
-                         ItemsSource="{Binding Question.ChoicesWithFeedback.Keys}">
+                         ItemsSource="{Binding Question.Choices}">
                     <ListBox.SelectedItem>
                         <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                 Path="DataContext.UserAnswer" Mode="OneWayToSource"
+                                 Path="DataContext.UserChoice" Mode="OneWayToSource"
                                  UpdateSourceTrigger="PropertyChanged"/>
                     </ListBox.SelectedItem>
                     <ListBox.IsEnabled>
@@ -83,17 +100,17 @@
                         <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
                             <Setter Property="Margin" Value="2"/>
                             <Setter Property="Height" Value="75"/>
-                            <Setter Property="Background" Value="#F2F2F2"/>
+                            <Setter Property="Background" Value="{Binding BackgroundHexCode}"/>
                         </Style>
                     </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock FontSize="20" Text="{Binding}"/>
+                            <TextBlock FontSize="20" Text="{Binding PotentialAnswer}"/>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
                 <!-- Provide a textbox for the user if the question is open-ended -->
-                <TextBox Grid.Row="2"
+                <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
                          Margin="50 30 50 30"
                          Width="1000"
                          FontSize="20"

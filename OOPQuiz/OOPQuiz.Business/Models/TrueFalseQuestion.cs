@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using OOPQuiz.Core.Models;
+using Prism.Mvvm;
 
 namespace OOPQuiz.Business.Models
 {
     /// <summary>
     /// A question with a true/false format. Conforms to <see cref="IQuestion"/>.
     /// </summary>
-    public class TrueFalseQuestion : IQuestion
+    public class TrueFalseQuestion : BindableBase, IQuestion
     {
-        protected readonly string question;
-        protected readonly bool answer;
-        protected readonly string imageURI;
-        protected readonly string feedback;
-        protected readonly Dictionary<string, string> choicesWithFeedback = new() { { "True", "" }, { "False", "" } };
+        protected readonly string _question;
+        protected readonly bool _answer;
+        protected readonly string _imageURI;
+        protected readonly string _feedback;
+        protected readonly List<Choice> _choices = new() { new Choice("True"), new Choice("False") };
 
         /// <summary>
         /// Instantiates a new true/false question.
@@ -23,26 +24,26 @@ namespace OOPQuiz.Business.Models
         /// <param name="feedback">Feedback for the user after they answer. Set to an empty string if none.</param>
         public TrueFalseQuestion(string question, bool answer, string imageURI, string feedback = "")
         {
-            this.question = question;
-            this.answer = answer;
-            this.imageURI = imageURI;
-            this.feedback = feedback;
+            _question = question;
+            _answer = answer;
+            _imageURI = imageURI;
+            _feedback = feedback;
         }
 
         /// <summary>
         /// The question for the user to answer.
         /// </summary>
-        public string Question => question;
+        public string Question => _question;
 
         /// <summary>
         /// The answer to the question.
         /// </summary>
-        public string Answer => Methods.Capitalise(answer.ToString());
+        public string Answer => Methods.Capitalise(_answer.ToString());
 
         /// <summary>
         /// The supporting image for the question.
         /// </summary>
-        public string ImageURI => imageURI;
+        public string ImageURI => _imageURI;
 
         /// <summary>
         /// Feedback for the user after the question.
@@ -50,7 +51,7 @@ namespace OOPQuiz.Business.Models
         /// <remarks>
         /// Empty if the question doesn't provide any feedback.
         /// </remarks>
-        public string Feedback => feedback;
+        public string Feedback => _feedback;
 
         /// <summary>
         /// The choices the user has for the question (true/false).
@@ -58,6 +59,6 @@ namespace OOPQuiz.Business.Models
         /// <remarks>
         /// Any feedback for true/false questions should be provided as general feedback.
         /// </remarks>
-        public Dictionary<string, string> ChoicesWithFeedback => choicesWithFeedback;
+        public List<Choice> Choices => _choices;
     }
 }

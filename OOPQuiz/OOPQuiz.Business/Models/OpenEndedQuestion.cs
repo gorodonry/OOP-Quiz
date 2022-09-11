@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using Prism.Mvvm;
+using System.Collections.Generic;
 
 namespace OOPQuiz.Business.Models
 {
     /// <summary>
     /// A question with an open-ended format. Conforms to <see cref="IQuestion"/>.
     /// </summary>
-    public class OpenEndedQuestion : IQuestion
+    public class OpenEndedQuestion : BindableBase, IQuestion
     {
-        protected readonly string question;
-        protected readonly string answer;
-        protected readonly string imageURI;
-        protected readonly string feedback;
-        protected readonly Dictionary<string, string> choicesWithFeedback = new();
+        protected readonly string _question;
+        protected readonly string _answer;
+        protected readonly string _imageURI;
+        protected readonly string _feedback;
+        protected readonly List<Choice> _choices = new();
 
         /// <summary>
         /// Instantiates a new open-ended question.
@@ -22,26 +23,26 @@ namespace OOPQuiz.Business.Models
         /// <param name="feedback">Feedback for the user after they answer. Set to an empty string if none.</param>
         public OpenEndedQuestion(string question, string answer, string imageURI, string feedback = "")
         {
-            this.question = question;
-            this.answer = answer;
-            this.imageURI = imageURI;
-            this.feedback = feedback;
+            _question = question;
+            _answer = answer;
+            _imageURI = imageURI;
+            _feedback = feedback;
         }
 
         /// <summary>
         /// The question for the user to answer.
         /// </summary>
-        public string Question => question;
+        public string Question => _question;
 
         /// <summary>
         /// The answer to the question.
         /// </summary>
-        public string Answer => answer;
+        public string Answer => _answer;
 
         /// <summary>
         /// The supporting image for the question.
         /// </summary>
-        public string ImageURI => imageURI;
+        public string ImageURI => _imageURI;
 
         /// <summary>
         /// Feedback for the user after the question.
@@ -49,11 +50,11 @@ namespace OOPQuiz.Business.Models
         /// <remarks>
         /// Empty if the question doesn't provide any feedback.
         /// </remarks>
-        public string Feedback => feedback;
+        public string Feedback => _feedback;
 
         /// <summary>
         /// Returns an empty dictionary since this is an open-ended question.
         /// </summary>
-        public Dictionary<string, string> ChoicesWithFeedback => choicesWithFeedback;
+        public List<Choice> Choices => _choices;
     }
 }

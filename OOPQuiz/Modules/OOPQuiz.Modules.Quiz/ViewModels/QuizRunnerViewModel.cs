@@ -6,6 +6,7 @@ using OOPQuiz.Business.Models;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Prism.Commands;
+using System;
 
 namespace OOPQuiz.Modules.Quiz.ViewModels
 {
@@ -55,6 +56,28 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
 
         private string _userAnswer;
 
+        private Choice _userChoice;
+
+        /// <summary>
+        /// The answer the user has selected (as a <see cref="Choice"/>).
+        /// </summary>
+        /// <remarks>
+        /// This effectively acts as a converter for xaml elements that pass the entire choice back.
+        /// </remarks>
+        public Choice UserChoice
+        {
+            private get { return _userChoice; }
+            set
+            {
+                SetProperty(ref _userChoice, value);
+
+                if (value is not null)
+                {
+                    UserAnswer = value.PotentialAnswer;
+                }
+            }
+        }
+
         /// <summary>
         /// The answer the user has selected.
         /// </summary>
@@ -101,6 +124,11 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         {
             _model.AnswerQuestion(UserAnswer);
 
+            RaisePropertyChanged(nameof(QuestionAnswered));
+            RaisePropertyChanged(nameof(QuestionFeedback));
+            RaisePropertyChanged(nameof(Score));
+
+            RaisePropertyChanged(nameof(QuizButtonAction));
             AdvanceQuiz.RaiseCanExecuteChanged();
         }
 
@@ -126,7 +154,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
 
                 // Alert the view to the change in the question.
                 RaisePropertyChanged(nameof(Question));
-                RaisePropertyChanged(nameof(QuestionFeedback));
+                RaisePropertyChanged(nameof(QuestionAnswered));
                 RaisePropertyChanged(nameof(IsOpenEndedQuestion));
                 RaisePropertyChanged(nameof(CurrentQuestionNumber));
 

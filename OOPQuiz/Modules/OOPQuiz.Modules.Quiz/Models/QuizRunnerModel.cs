@@ -22,7 +22,6 @@ namespace OOPQuiz.Modules.Quiz.Models
         protected int _currentQuestionNumber = 1;
 
         protected bool _currentQuestionAnswered = false;
-        protected string _userAnswerToCurrentQuestion;
         protected string _feedbackForCurrentQuestion = string.Empty;
 
         protected int _score = 0;
@@ -105,7 +104,7 @@ namespace OOPQuiz.Modules.Quiz.Models
             get
             {
                 if (CurrentQuestion is not null)
-                    return CurrentQuestion.ChoicesWithFeedback.Count == 0;
+                    return CurrentQuestion.Choices.Count == 0;
                 return false;
             }
         }
@@ -144,9 +143,60 @@ namespace OOPQuiz.Modules.Quiz.Models
             }
         }
 
+        /// <summary>
+        /// Processes the users answer and updates the model accordingly.
+        /// </summary>
+        /// <param name="userAnswer">The user's answer to the question.</param>
+        /// <remarks>
+        /// If the user is correct, their score will be increased.
+        /// </remarks>
         public void AnswerQuestion(string userAnswer)
         {
+            if (userAnswer == CurrentQuestion.Answer)
+            {
+                _feedbackForCurrentQuestion = CurrentQuestion.Feedback;
 
+                _score += pointsPerQuestion;
+            }
+            else
+            {
+                // Get the answer specific feedback and set the background colour of the answer chosen to red (signifying incorrect).
+                string answerSpecificFeedback = string.Empty;
+
+                for (int i = 0; i < CurrentQuestion.Choices.Count; i++)
+                {
+                    if (CurrentQuestion.Choices[i].PotentialAnswer == userAnswer)
+                    {
+                        answerSpecificFeedback = CurrentQuestion.Choices[i].FeedbackForAnswer;
+
+                        _questions[_currentQuestionNumber - 1].Choices[i].BackgroundHexCode = "#FF0000";
+                    }
+                }
+
+                string generalFeedback = CurrentQuestion.Feedback;
+
+                _feedbackForCurrentQuestion = $"{answerSpecificFeedback}{(string.IsNullOrEmpty(answerSpecificFeedback) ? "" : ". ")}{generalFeedback}";
+            }
+
+            // Set the background colour of the correct answer to green.
+            for (int i = 0; i < CurrentQuestion.Choices.Count; i++)
+            {
+                if (CurrentQuestion.Choices[i].PotentialAnswer == CurrentQuestion.Answer)
+                {
+                    _questions[_currentQuestionNumber - 1].Choices[i].BackgroundHexCode = "#00FF00";
+                }
+            }
+
+            if (_currentQuestionNumber == 10)
+            {
+                _buttonAction = "Finish Quiz";
+            }
+            else
+            {
+                _buttonAction = "Next Question";
+            }
+
+            _currentQuestionAnswered = true;
         }
 
         /// <summary>
