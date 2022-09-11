@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using Prism.Mvvm;
+using OOPQuiz.Core.Models;
 
 namespace OOPQuiz.Business.Models
 {
@@ -32,6 +33,8 @@ namespace OOPQuiz.Business.Models
             _imageURI = imageURI;
             _feedback = feedback;
             _choices = choices;
+
+            _choices.Shuffle();
         }
 
         /// <summary>

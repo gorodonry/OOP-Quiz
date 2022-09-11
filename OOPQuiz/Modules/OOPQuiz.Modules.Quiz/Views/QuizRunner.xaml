@@ -4,7 +4,8 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:converters="clr-namespace:OOPQuiz.Core.Converters;assembly=OOPQuiz.Core">
+             xmlns:converters="clr-namespace:OOPQuiz.Core.Converters;assembly=OOPQuiz.Core"
+             Background="White">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters:BooleanNegator x:Key="BooleanNegator"/>
@@ -70,7 +71,7 @@
                            HorizontalAlignment="Stretch"
                            Visibility="{Binding QuestionAnswered, Converter={StaticResource BooleanToVisibilityConverter}}"
                            FontSize="15"
-                           TextWrapping="WrapWithOverflow"
+                           TextWrapping="WrapWithOverflow" TextAlignment="Justify"
                            Text="{Binding QuestionFeedback}"/>
                 <!-- Provide multichoice answers (if the question is open-ended this will bind to an empty list and so display nothing) -->
                 <ListBox x:Name="MultiChoiceAnswerPool"
@@ -115,8 +116,7 @@
                          materialDesign:HintAssist.Hint="Type your answer here..."
                          materialDesign:HintAssist.IsFloating="True"
                          Visibility="{Binding IsOpenEndedQuestion, Converter={StaticResource BooleanToVisibilityConverter}}"
-                         Text="{Binding UserAnswer, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
-                </TextBox>
+                         Text="{Binding UserAnswer, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
             <!-- Button to advance the quiz, depending upon the status of the quiz could submit an answer, advance to the next question, or finish the quiz -->
             <Button x:Name="SubmitAnswerButton"

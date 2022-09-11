@@ -93,6 +93,14 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         }
 
         /// <summary>
+        /// Returns a boolean indicating whether or not the user got the right answer.
+        /// </summary>
+        public bool UserCorrect
+        {
+            get { return _model.UserCorrect; }
+        }
+
+        /// <summary>
         /// Feedback provided after the user answers the question.
         /// </summary>
         public string QuestionFeedback

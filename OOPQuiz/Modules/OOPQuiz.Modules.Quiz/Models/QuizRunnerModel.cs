@@ -22,6 +22,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         protected int _currentQuestionNumber = 1;
 
         protected bool _currentQuestionAnswered = false;
+        protected bool _userCorrect;
         protected string _feedbackForCurrentQuestion = string.Empty;
 
         protected int _score = 0;
@@ -83,6 +84,14 @@ namespace OOPQuiz.Modules.Quiz.Models
                     return _currentQuestionAnswered;
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Indicates whether or not the user got the current question right.
+        /// </summary>
+        public bool UserCorrect
+        {
+            get { return _userCorrect; }
         }
 
         /// <summary>
@@ -154,12 +163,16 @@ namespace OOPQuiz.Modules.Quiz.Models
         {
             if (userAnswer == CurrentQuestion.Answer)
             {
+                _userCorrect = true;
+
                 _feedbackForCurrentQuestion = CurrentQuestion.Feedback;
 
                 _score += pointsPerQuestion;
             }
             else
             {
+                _userCorrect = false;
+
                 // Get the answer specific feedback and set the background colour of the answer chosen to red (signifying incorrect).
                 string answerSpecificFeedback = string.Empty;
 

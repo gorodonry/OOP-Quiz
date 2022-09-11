@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace OOPQuiz.Core.Models
 {
@@ -10,6 +12,8 @@ namespace OOPQuiz.Core.Models
     /// </remarks>
     public static class Methods
     {
+        private static Random rng = new Random();
+
         /// <summary>
         /// Makes the first character of a string upper case.
         /// </summary>
@@ -32,6 +36,28 @@ namespace OOPQuiz.Core.Models
             }
 
             return char.ToUpper(str[0]).ToString() + string.Join("", new ArraySegment<char>(str.ToCharArray(), 1, str.Length - 1));
+        }
+
+        /// <summary>
+        /// Shuffles a list in place.
+        /// </summary>
+        /// <typeparam name="T">The generic type.</typeparam>
+        /// <param name="list">The sequence of objects to shuffle.</param>
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            int n = list.Count;
+
+            while (n > 1)
+            {
+                n--;
+
+                int k = rng.Next(n + 1);
+
+                T value = list[k];
+
+                list[k] = list[n];
+                list[n] = value;
+            }
         }
     }
 }
