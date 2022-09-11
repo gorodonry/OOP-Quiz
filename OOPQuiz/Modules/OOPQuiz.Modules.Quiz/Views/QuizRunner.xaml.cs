@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows;
 
 namespace OOPQuiz.Modules.Quiz.Views
 {
@@ -10,11 +11,6 @@ namespace OOPQuiz.Modules.Quiz.Views
         public QuizRunner()
         {
             InitializeComponent();
-        }
-
-        private void SubmitAnswerButton_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-
         }
     }
 }

@@ -24,9 +24,9 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         /// <summary>
         /// Information on the question currently being asked.
         /// </summary>
-        public List<IQuestion> Question
+        public IQuestion Question
         {
-            get { return new() { _model.CurrentQuestion }; }
+            get { return _model.CurrentQuestion; }
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             {
                 SetProperty(ref _userAnswer, value);
 
-                AdvanceQuiz.RaiseCanExecuteChanged();
+                SubmitAnswer.RaiseCanExecuteChanged();
             }
         }
 
