@@ -15,5 +15,18 @@
 
             Assert.Equal(expected, capitalisedString);
         }
+
+        [Fact]
+        public void TestShuffle()
+        {
+            // Should shuffle the list in place.
+            List<string> originalList = new() { "a", "b", "c", "d", "e" };
+
+            List<string> listToShuffle = originalList;
+
+            listToShuffle.Shuffle();
+
+            Assert.Equal(originalList, listToShuffle);
+        }
     }
 }

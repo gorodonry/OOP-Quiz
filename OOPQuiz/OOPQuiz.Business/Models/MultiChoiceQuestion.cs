@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using Prism.Mvvm;
 using OOPQuiz.Core.Models;
+using System.Diagnostics;
 
 namespace OOPQuiz.Business.Models
 {
@@ -28,6 +29,21 @@ namespace OOPQuiz.Business.Models
         /// <exception cref="ArgumentException"></exception>
         public MultiChoiceQuestion(string question, string answer, string imageURI, List<Choice> choices, string feedback = "")
         {
+            // Ensure that the answer to the question is in fact one of the choices.
+            List<string> potentialAnswers = new();
+
+            foreach (Choice choice in choices)
+            {
+                potentialAnswers.Add(choice.PotentialAnswer);
+            }
+
+            if (!potentialAnswers.Contains(answer))
+                throw new ArgumentException("Answer not among choices provided");
+
+            // Ensure the right number of choices has been provided.
+            if (choices.Count < 2 || choices.Count > 6)
+                throw new ArgumentException("Number of choices not in the correct range (2-6)");
+
             _question = question;
             _answer = answer;
             _imageURI = imageURI;

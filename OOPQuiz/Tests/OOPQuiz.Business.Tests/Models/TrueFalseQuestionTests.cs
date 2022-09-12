@@ -67,14 +67,21 @@ namespace OOPQuiz.Business.Tests.Models
         [Fact]
         public void TestChoices()
         {
-            // Should always return a list containing "True" and "False".
-            Dictionary<string, string> expected = new() { { "True", "" }, { "False", "" } };
+            // Should always return a list of choices containing "True" and "False".
+            List<string> expected = new() { "True", "False" };
 
             var trueFalseQuestion = new TrueFalseQuestion("", true, "");
 
-            var actual = trueFalseQuestion.ChoicesWithFeedback;
+            var actual = trueFalseQuestion.Choices;
 
-            Assert.Equal(expected, actual);
+            Assert.Equal(2, actual.Count);
+
+            foreach (Choice choice in actual)
+            {
+                Assert.Contains(choice.PotentialAnswer, expected);
+
+                expected.Remove(choice.PotentialAnswer);
+            }
         }
     }
 }
