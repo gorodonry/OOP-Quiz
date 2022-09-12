@@ -19,7 +19,8 @@ namespace OOPQuiz.Modules.Quiz.Models
 
         protected string _questionCategory;
         protected List<IQuestion> _questions = new();
-        protected int _currentQuestionNumber = 1;
+        protected List<bool?> _answers = new();
+        protected int _currentQuestionIndex = 0;
 
         protected bool _currentQuestionAnswered = false;
         protected bool? _userCorrect;
@@ -45,7 +46,7 @@ namespace OOPQuiz.Modules.Quiz.Models
             get
             {
                 if (_questions.Count != 0)
-                    return _questions[CurrentQuestionNumber - 1];
+                    return _questions[_currentQuestionIndex];
                 return null;
             }
         }
@@ -70,7 +71,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         /// </summary>
         public int CurrentQuestionNumber
         {
-            get { return _currentQuestionNumber; }
+            get { return _currentQuestionIndex + 1; }
         }
 
         /// <summary>
@@ -127,6 +128,17 @@ namespace OOPQuiz.Modules.Quiz.Models
         }
 
         /// <summary>
+        /// A list of booleans indicating which questions the user got right.
+        /// </summary>
+        /// <remarks>
+        /// Questions that have not yet been answered have a null value.
+        /// </remarks>
+        public List<bool?> Answers
+        {
+            get { return _answers; }
+        }
+
+        /// <summary>
         /// Information on what action is currently available to the user.
         /// </summary>
         /// <remarks>
@@ -142,9 +154,9 @@ namespace OOPQuiz.Modules.Quiz.Models
         /// </summary>
         public void LoadNextQuestion()
         {
-            if (_currentQuestionNumber < numberOfQuestions)
+            if (_currentQuestionIndex < numberOfQuestions - 1)
             {
-                _currentQuestionNumber += 1;
+                _currentQuestionIndex += 1;
 
                 _currentQuestionAnswered = false;
 
@@ -184,7 +196,7 @@ namespace OOPQuiz.Modules.Quiz.Models
                     {
                         answerSpecificFeedback = CurrentQuestion.Choices[i].FeedbackForAnswer;
 
-                        _questions[_currentQuestionNumber - 1].Choices[i].BackgroundHexCode = "#FF0000";
+                        _questions[_currentQuestionIndex].Choices[i].BackgroundHexCode = "#FF0000";
                     }
                 }
 
@@ -198,11 +210,11 @@ namespace OOPQuiz.Modules.Quiz.Models
             {
                 if (CurrentQuestion.Choices[i].PotentialAnswer == CurrentQuestion.Answer)
                 {
-                    _questions[_currentQuestionNumber - 1].Choices[i].BackgroundHexCode = "#00FF00";
+                    _questions[_currentQuestionIndex].Choices[i].BackgroundHexCode = "#00FF00";
                 }
             }
 
-            if (_currentQuestionNumber == 10)
+            if (_currentQuestionIndex == numberOfQuestions - 1)
             {
                 _buttonAction = "Finish Quiz";
             }
@@ -212,6 +224,8 @@ namespace OOPQuiz.Modules.Quiz.Models
             }
 
             _currentQuestionAnswered = true;
+
+            _answers[_currentQuestionIndex] = _userCorrect;
         }
 
         /// <summary>
@@ -242,6 +256,8 @@ namespace OOPQuiz.Modules.Quiz.Models
                     _questions.Add(question);
 
                     questionPool.Remove(question);
+
+                    _answers.Add(null);
                 }
             }
             else

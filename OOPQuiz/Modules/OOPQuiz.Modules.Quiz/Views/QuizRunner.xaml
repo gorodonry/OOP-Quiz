@@ -15,10 +15,24 @@
             <Setter Property="Width" Value="750"/>
             <Setter Property="Margin" Value="0 0 0 50"/>
         </Style>
+        <Style x:Key="ProgressBarSeparator" TargetType="Separator">
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="2"/>
+            <Setter Property="Background" Value="DarkGray"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="ProgressBarTextBlock" TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignTextBlock}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Margin" Value="20 0 20 0"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Gray"/>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
                 <RowDefinition Height="auto"/>
@@ -44,8 +58,37 @@
                                Text="{Binding Score, StringFormat={}Score: {0}}"/>
                 </Grid>
             </materialDesign:ColorZone>
+            <!-- Progress bar -->
+            <StackPanel Grid.Row="1"
+                        Margin="0 20 0 20"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                <TextBlock Style="{StaticResource ProgressBarTextBlock}" Text="Start"/>
+                <ItemsControl Grid.Row="1"
+                              Margin="0 20 0 20"
+                              HorizontalAlignment="Center"
+                              ItemsSource="{Binding AnswersForProgressBar}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid IsItemsHost="True" Columns="{Binding AnswersForProgressBar.Count}"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Separator Style="{StaticResource ProgressBarSeparator}"/>
+                                <Ellipse Width="30" Height="30"
+                                         Fill="{Binding Mode=OneWay, Converter={StaticResource BooleanToAnswerFeedbackColourConverter}}"
+                                         Stroke="DarkGray" StrokeThickness="2"/>
+                                <Separator Style="{StaticResource ProgressBarSeparator}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <TextBlock Style="{StaticResource ProgressBarTextBlock}" Text="End"/>
+            </StackPanel>
             <!-- Display all information relating to the question -->
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
@@ -123,13 +166,13 @@
             <!-- Button to advance the quiz, depending upon the status of the quiz could submit an answer, advance to the next question, or finish the quiz -->
             <Button x:Name="SubmitAnswerButton"
                     Style="{StaticResource QuizButton}"
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Command="{Binding SubmitAnswer}"
                     Visibility="{Binding QuestionAnswered, Converter={StaticResource InverseBoolToVisConverter}}"
                     Content="Submit Answer"/>
             <Button x:Name="AdvanceQuizButton"
                     Style="{StaticResource QuizButton}"
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Command="{Binding AdvanceQuiz}"
                     Visibility="{Binding QuestionAnswered, Converter={StaticResource BooleanToVisibilityConverter}}"
                     Content="{Binding QuizButtonAction}"/>

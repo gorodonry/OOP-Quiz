@@ -4,6 +4,7 @@ using OOPQuiz.Services.Interfaces;
 using OOPQuiz.Modules.Quiz.Models;
 using OOPQuiz.Business.Models;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Prism.Commands;
 using System;
@@ -124,6 +125,14 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             get { return _model.UserScore; }
         }
 
+        /// <summary>
+        /// A list of booleans indicating which questions the user got right.
+        /// </summary>
+        public ObservableCollection<bool?> AnswersForProgressBar
+        {
+            get { return new ObservableCollection<bool?>(_model.Answers); }
+        }
+
         private DelegateCommand _submitAnswer;
         public DelegateCommand SubmitAnswer =>
             _submitAnswer ?? (_submitAnswer = new DelegateCommand(ExecuteSubmitAnswer, CanExecuteSubmitAnswer));
@@ -136,6 +145,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             RaisePropertyChanged(nameof(UserCorrect));
             RaisePropertyChanged(nameof(QuestionFeedback));
             RaisePropertyChanged(nameof(Score));
+            RaisePropertyChanged(nameof(AnswersForProgressBar));
 
             RaisePropertyChanged(nameof(QuizButtonAction));
             AdvanceQuiz.RaiseCanExecuteChanged();
@@ -196,6 +206,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             RaisePropertyChanged(nameof(QuestionCategory));
             RaisePropertyChanged(nameof(Question));
             RaisePropertyChanged(nameof(IsOpenEndedQuestion));
+            RaisePropertyChanged(nameof(AnswersForProgressBar));
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

@@ -43,6 +43,9 @@ namespace OOPQuiz.Core.Models
         /// </summary>
         /// <typeparam name="T">The generic type.</typeparam>
         /// <param name="list">The sequence of objects to shuffle.</param>
+        /// <remarks>
+        /// Based on the Fisher-Yates Shuffle, retrieved from https://stackoverflow.com/questions/273313/randomize-a-listt.
+        /// </remarks>
         public static void Shuffle<T>(this IList<T> list)
         {
             int n = list.Count;
