@@ -22,7 +22,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         protected int _currentQuestionNumber = 1;
 
         protected bool _currentQuestionAnswered = false;
-        protected bool _userCorrect;
+        protected bool? _userCorrect;
         protected string _feedbackForCurrentQuestion = string.Empty;
 
         protected int _score = 0;
@@ -89,7 +89,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         /// <summary>
         /// Indicates whether or not the user got the current question right.
         /// </summary>
-        public bool UserCorrect
+        public bool? UserCorrect
         {
             get { return _userCorrect; }
         }
@@ -147,6 +147,8 @@ namespace OOPQuiz.Modules.Quiz.Models
                 _currentQuestionNumber += 1;
 
                 _currentQuestionAnswered = false;
+
+                _userCorrect = null;
 
                 _buttonAction = "Submit Answer";
             }

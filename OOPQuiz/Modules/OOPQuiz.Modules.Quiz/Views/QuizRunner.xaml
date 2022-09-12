@@ -9,6 +9,8 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters:BooleanNegator x:Key="BooleanNegator"/>
+        <converters:BooleanToAnswerFeedbackColourConverter x:Key="BooleanToAnswerFeedbackColourConverter"/>
+        <converters:BooleanToAnswerFeedbackMessageConverter x:Key="BooleanToAnswerFeedbackMessageConverter"/>
         <Style x:Key="QuizButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
             <Setter Property="Width" Value="750"/>
             <Setter Property="Margin" Value="0 0 0 50"/>
@@ -83,11 +85,6 @@
                                  Path="DataContext.UserChoice" Mode="OneWayToSource"
                                  UpdateSourceTrigger="PropertyChanged"/>
                     </ListBox.SelectedItem>
-                    <ListBox.IsEnabled>
-                        <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                 Path="DataContext.QuestionAnswered"
-                                 Converter="{StaticResource BooleanNegator}"/>
-                    </ListBox.IsEnabled>
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid IsItemsHost="True" Columns="2"/>
@@ -109,13 +106,18 @@
                 <!-- Provide a textbox for the user if the question is open-ended -->
                 <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
                          Margin="50 30 50 30"
-                         Width="1000"
+                         MinWidth="400" MaxWidth="1000"
                          FontSize="20"
                          HorizontalAlignment="Center"
                          HorizontalContentAlignment="Center"
+                         Foreground="{Binding UserCorrect, Converter={StaticResource BooleanToAnswerFeedbackColourConverter}}"
                          materialDesign:HintAssist.Hint="Type your answer here..."
                          materialDesign:HintAssist.IsFloating="True"
+                         materialDesign:HintAssist.HelperText="{Binding UserCorrect, Converter={StaticResource BooleanToAnswerFeedbackMessageConverter}}"
+                         materialDesign:HintAssist.HelperTextFontSize="15"
+                         materialDesign:HintAssist.Foreground="{Binding UserCorrect, Converter={StaticResource BooleanToAnswerFeedbackColourConverter}}"
                          Visibility="{Binding IsOpenEndedQuestion, Converter={StaticResource BooleanToVisibilityConverter}}"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
                          Text="{Binding UserAnswer, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
             <!-- Button to advance the quiz, depending upon the status of the quiz could submit an answer, advance to the next question, or finish the quiz -->

@@ -95,7 +95,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         /// <summary>
         /// Returns a boolean indicating whether or not the user got the right answer.
         /// </summary>
-        public bool UserCorrect
+        public bool? UserCorrect
         {
             get { return _model.UserCorrect; }
         }
@@ -133,6 +133,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             _model.AnswerQuestion(UserAnswer);
 
             RaisePropertyChanged(nameof(QuestionAnswered));
+            RaisePropertyChanged(nameof(UserCorrect));
             RaisePropertyChanged(nameof(QuestionFeedback));
             RaisePropertyChanged(nameof(Score));
 
@@ -163,6 +164,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
                 // Alert the view to the change in the question.
                 RaisePropertyChanged(nameof(Question));
                 RaisePropertyChanged(nameof(QuestionAnswered));
+                RaisePropertyChanged(nameof(UserCorrect));
                 RaisePropertyChanged(nameof(IsOpenEndedQuestion));
                 RaisePropertyChanged(nameof(CurrentQuestionNumber));
 
