@@ -64,7 +64,7 @@ namespace OOPQuiz.Services
                     new("It is effectively a form of documentation"),
                     new("It causes the property to raise an error if an integer is not returned"),
                     new("It specifies the parameters of the property must be integers"),
-                    new("It doesn't really meant anything")
+                    new("It doesn't really meant anything", "You are absolutely right; it doesn't really mean anything")
                 },
                 feedback: "It provides an indication that the property should return an integer."),
             new MultiChoiceQuestion(
@@ -139,9 +139,9 @@ namespace OOPQuiz.Services
                 choices: new()
                 {
                     new("A namespace declaration"),
-                    new("using Dataclasses"),
-                    new("using System.Dataclasses"),
-                    new("using System")
+                    new("using Dataclasses;"),
+                    new("using System.Dataclasses;"),
+                    new("using System;")
                 }),
             new TrueFalseQuestion(
                 question: "It is possible to set the age of a Dog object to 5.",
