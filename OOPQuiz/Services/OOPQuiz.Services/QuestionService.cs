@@ -50,7 +50,7 @@ namespace OOPQuiz.Services
                 question: "What is missing from the following code snippet?",
                 answer: "self",
                 imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}python_question4.png"),
-                feedback: "A correct answer was: self. Strictly speaking the use of self as a parameter is just a convention – you can use any parameter as long as you are consistent. But use self – this is a good convention."),
+                feedback: "A correct answer was: self. You may have noticed it was missing as a parameter from the property. Strictly speaking the use of self as a parameter is just a convention – you can use any parameter you like as long as you are consistent. But please don't be that guy; use self – this is a good convention."),
             new TrueFalseQuestion(
                 question: "It is possible to set the age of a Dog object to 5.",
                 answer: false,
