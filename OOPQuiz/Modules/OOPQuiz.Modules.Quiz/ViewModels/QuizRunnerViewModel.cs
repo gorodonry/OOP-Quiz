@@ -139,7 +139,14 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
 
         void ExecuteSubmitAnswer()
         {
-            _model.AnswerQuestion(UserAnswer);
+            if (IsOpenEndedQuestion)
+            {
+                _model.AnswerQuestion(UserAnswer.ToLower());
+            }
+            else
+            {
+                _model.AnswerQuestion(UserAnswer);
+            }
 
             RaisePropertyChanged(nameof(QuestionAnswered));
             RaisePropertyChanged(nameof(UserCorrect));

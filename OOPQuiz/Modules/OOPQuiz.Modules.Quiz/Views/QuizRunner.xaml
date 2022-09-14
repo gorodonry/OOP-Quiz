@@ -121,6 +121,7 @@
                 <ListBox x:Name="MultiChoiceAnswerPool"
                          Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
                          Margin="50 30 50 30"
+                         IsHitTestVisible="{Binding QuestionAnswered, Converter={StaticResource BooleanNegator}}"
                          ItemsSource="{Binding Question.Choices}">
                     <ListBox.SelectedItem>
                         <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
@@ -159,6 +160,7 @@
                          materialDesign:HintAssist.HelperTextFontSize="15"
                          materialDesign:HintAssist.Foreground="{Binding UserCorrect, Converter={StaticResource BooleanToAnswerFeedbackColourConverter}}"
                          Visibility="{Binding IsOpenEndedQuestion, Converter={StaticResource BooleanToVisibilityConverter}}"
+                         IsHitTestVisible="{Binding QuestionAnswered, Converter={StaticResource BooleanNegator}}"
                          Style="{StaticResource MaterialDesignOutlinedTextBox}"
                          Text="{Binding UserAnswer, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
