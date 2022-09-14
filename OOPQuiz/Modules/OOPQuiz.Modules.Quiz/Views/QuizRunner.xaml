@@ -102,7 +102,7 @@
                            FontSize="25"
                            Text="{Binding Question.Question}"/>
                 <Image Grid.Row="1"
-                       Margin="50 0 50 0"
+                       Margin="200 0 200 0"
                        HorizontalAlignment="Center" VerticalAlignment="Top"
                        Source="{Binding Question.ImageURI}"/>
                 <!-- Provide multichoice answers (if the question is open-ended this will bind to an empty list and so display nothing) -->
