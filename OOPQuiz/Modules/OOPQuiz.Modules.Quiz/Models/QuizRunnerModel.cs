@@ -202,7 +202,9 @@ namespace OOPQuiz.Modules.Quiz.Models
 
                 string generalFeedback = CurrentQuestion.Feedback;
 
-                _feedbackForCurrentQuestion = $"{answerSpecificFeedback}{(string.IsNullOrEmpty(answerSpecificFeedback) ? "" : ". ")}{generalFeedback}";
+                bool bothTypesOfFeedback = !string.IsNullOrEmpty(answerSpecificFeedback) && !string.IsNullOrEmpty(generalFeedback);
+
+                _feedbackForCurrentQuestion = $"{answerSpecificFeedback}{(bothTypesOfFeedback ? " " : "")}{generalFeedback}";
             }
 
             // Set the background colour of the correct answer to green.

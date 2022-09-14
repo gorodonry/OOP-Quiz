@@ -19,8 +19,8 @@ namespace OOPQuiz.Services
                 choices: new()
                 {
                     new("from dataclasses import dataclass"),
-                    new("from dataclasses import *", "This would work, but it is bad practice"),
-                    new("import dataclasses", "This would work, but make for cumbersome programming"),
+                    new("from dataclasses import *", "This would work, but it is very bad practice."),
+                    new("import dataclasses", "This would work, but make for cumbersome programming. Why make life hard for yourself?"),
                     new("import sys", "")
                 },
                 feedback: "Note that this step is actually optional - you can do OOP in Python without the dataclasses module."),
@@ -31,9 +31,9 @@ namespace OOPQuiz.Services
                 choices: new()
                 {
                     new("A member"),
-                    new("An integer", "Yes, but also no"),
-                    new("A property", "Members store information, and properties dictate what has access to members"),
-                    new("An attribute", "Yes, it is an attribute of the Dog class, but more specifically it is a member")
+                    new("An integer", "Yes, but also no."),
+                    new("A property", "Not quite - members store information, and properties dictate what has access to members."),
+                    new("An attribute", "Yes, it is an attribute of the Dog class, but more specifically it is a member.")
                 }),
             new MultiChoiceQuestion(
                 question: "What is 'age' in the following code snippet?",
@@ -42,8 +42,8 @@ namespace OOPQuiz.Services
                 choices: new()
                 {
                     new("A property"),
-                    new("A member", "Members store information, and properties dictate what has access to members"),
-                    new("A function", "Functions are separate to classes"),
+                    new("A member", "Not quite - members store information, and properties dictate what has access to members."),
+                    new("A function", "Functions are defined outside of classes (a function defined inside a class is called a method)."),
                     new("A variable", "")
                 }),
             new OpenEndedQuestion(
@@ -62,11 +62,11 @@ namespace OOPQuiz.Services
                 choices: new()
                 {
                     new("It is effectively a form of documentation"),
-                    new("It causes the property to raise an error if an integer is not returned"),
+                    new("It causes the property to raise an error if an integer is not returned", "In many other languages this would be true."),
                     new("It specifies the parameters of the property must be integers"),
-                    new("It doesn't really meant anything", "You are absolutely right; it doesn't really mean anything")
+                    new("It doesn't really meant anything", "You are absolutely right; it doesn't really mean anything (thanks Python).")
                 },
-                feedback: "It provides an indication that the property should return an integer."),
+                feedback: "In Python it provides an *indication* that the property should return an integer."),
             new MultiChoiceQuestion(
                 question: "What is the purpose of preceding protected members with an underscore?",
                 answer: "It denotes that a member is protected by properties",
@@ -75,10 +75,10 @@ namespace OOPQuiz.Services
                 {
                     new("It denotes that a member is protected by properties"),
                     new("It prevents the member from being accessed directly"),
-                    new("It has literally no purpose", "Functionally, yes"),
+                    new("It has literally no purpose", "Functionally, yes."),
                     new("All integer variables are preceded by an underscore")
                 },
-                feedback: "But because Python doesn't protect them properly, you can access them anyway."),
+                feedback: "Because Python doesn't protect them properly, you can access members from anywhere anyway."),
             new MultiChoiceQuestion(
                 question: "What is 'generate_dog_tag' in the following code snippet?",
                 answer: "A method",
@@ -86,9 +86,9 @@ namespace OOPQuiz.Services
                 choices: new()
                 {
                     new("A method"),
-                    new("A function", "This is a method not a function because it is defined inside a class"),
+                    new("A function", "Almost - this is a method not a function because it is defined inside a class."),
                     new("A property"),
-                    new("An attribute", "Yes, it is an attribute of the Dog class, but more specifically it is a method")
+                    new("An attribute", "Yes, it is an attribute of the Dog class, but more specifically it is a method.")
                 }),
             new MultiChoiceQuestion(
                 question: "What is the purpose of a protocol?",
@@ -98,10 +98,10 @@ namespace OOPQuiz.Services
                 {
                     new("It provides a template for classes, guaranteeing certain members"),
                     new("It provides a way for data to be shared between classes"),
-                    new("They have no real function"),
-                    new("It's a special type of overridable class")
+                    new("They have no real function", "Very tempted to mark you correct, considering this is Python."),
+                    new("It's a special type of overridable class", "You aren't wrong, but we can be more specific.")
                 },
-                feedback: "Only there is no guarantee because Python doesn't enforce them."),
+                feedback: "In reality there is no guarantee because Python doesn't enforce them. This also makes them hella painful to use."),
             new TrueFalseQuestion(
                 question: "Subclasses can override members defined by base classes.",
                 answer: true,
@@ -117,9 +117,9 @@ namespace OOPQuiz.Services
                 choices: new()
                 {
                     new("A field"),
-                    new("An integer", "Yes, but also no"),
-                    new("A property", "Fields store information, and properties dictate what has access to fields"),
-                    new("A member", "Yes, it is a member of the Dog class, but more specifically it is a field")
+                    new("An integer", "Yes, but also no."),
+                    new("A property", "Not quite - fields store information, and properties dictate what has access to fields."),
+                    new("A member", "Yes, it is a member of the Dog class, but more specifically it is a field.")
                 }),
             new MultiChoiceQuestion(
                 question: "What is 'Age' in the following code snippet?",
@@ -128,8 +128,8 @@ namespace OOPQuiz.Services
                 choices: new()
                 {
                     new("A property"),
-                    new("A field", "Fields store information, and properties dictate what has access to fields"),
-                    new("A function", "Functions are separate to classes"),
+                    new("A field", "Not quite - fields store information, and properties dictate what has access to fields."),
+                    new("A function", "Functions are defined outside of classes (a function defined inside a class is called a method)."),
                     new("A variable")
                 }),
             new MultiChoiceQuestion(
@@ -142,7 +142,8 @@ namespace OOPQuiz.Services
                     new("using Dataclasses;"),
                     new("using System.Dataclasses;"),
                     new("using System;")
-                }),
+                },
+                feedback: "This isn't specific to OOP - every C# file needs this."),
             new TrueFalseQuestion(
                 question: "It is possible to set the age of a Dog object to 5.",
                 answer: false,
@@ -159,8 +160,8 @@ namespace OOPQuiz.Services
                 choices: new()
                 {
                     new("It is shorthand for a getter"),
-                    new("It is a comparison operator"),
-                    new("It increments age by 1"),
+                    new("It is a comparison operator", "If it were a comparison operator it would be the other way round (>=)!"),
+                    new("It increments age by 1", "You are thinking of ++."),
                     new("It sets the accessible property Age to the protected field age")
                 },
                 feedback: "Defining getters in this way precludes the option of defining a setter."),
@@ -172,7 +173,7 @@ namespace OOPQuiz.Services
                 {
                     new("const"),
                     new("private"),
-                    new("public", "Functionally, yes"),
+                    new("public", "Public is the default (or implicit) protection modifier for C#."),
                     new("protected")
                 },
                 feedback: "Const doesn't specify what has access to a variable, whereas protection modifiers do."),
@@ -183,9 +184,9 @@ namespace OOPQuiz.Services
                 choices: new()
                 {
                     new("It is a method"),
-                    new("It is a function", "This is a method not a function because it is defined inside a class"),
+                    new("It is a function", "This is a method not a function because it is defined inside a class."),
                     new("It is a property"),
-                    new("It is a member", "Yes, it is an member of the Dog class, but more specifically it is a method")
+                    new("It is a member", "Yes, it is a member of the Dog class, but more specifically it is a method.")
                 }),
             new TrueFalseQuestion(
                 question: "Private members can't be accessed by subclasses.",
@@ -201,7 +202,8 @@ namespace OOPQuiz.Services
                     new("It provides a way for components to interact with the user"),
                     new("They have no real function"),
                     new("It's a special type of overridable class")
-                })
+                },
+                feedback: "In C# interfaces are enforced and are immensely useful - this very question was constructed with them!")
         };
 
         private static readonly List<IQuestion> OOPHistoryQuestions = new()

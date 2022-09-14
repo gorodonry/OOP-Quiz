@@ -110,6 +110,14 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         }
 
         /// <summary>
+        /// Set to true only if the question has been answered and there is feedback available.
+        /// </summary>
+        public bool QuestionAnsweredAndFeedbackPresent
+        {
+            get { return _model.CurrentQuestionAnswered && !string.IsNullOrEmpty(_model.FeedbackForCurrentQuestion); }
+        }
+
+        /// <summary>
         /// Action currently available to the user.
         /// </summary>
         public string QuizButtonAction
@@ -149,6 +157,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             }
 
             RaisePropertyChanged(nameof(QuestionAnswered));
+            RaisePropertyChanged(nameof(QuestionAnsweredAndFeedbackPresent));
             RaisePropertyChanged(nameof(UserCorrect));
             RaisePropertyChanged(nameof(QuestionFeedback));
             RaisePropertyChanged(nameof(Score));
@@ -181,6 +190,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
                 // Alert the view to the change in the question.
                 RaisePropertyChanged(nameof(Question));
                 RaisePropertyChanged(nameof(QuestionAnswered));
+                RaisePropertyChanged(nameof(QuestionAnsweredAndFeedbackPresent));
                 RaisePropertyChanged(nameof(UserCorrect));
                 RaisePropertyChanged(nameof(IsOpenEndedQuestion));
                 RaisePropertyChanged(nameof(CurrentQuestionNumber));

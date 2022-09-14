@@ -36,6 +36,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <!-- Display the question category and number along with the user's score -->
             <materialDesign:ColorZone Mode="PrimaryLight"
@@ -94,33 +95,20 @@
                     <RowDefinition/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="300"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="300"/>
-                </Grid.ColumnDefinitions>
                 <!-- Display the question and its accompanying image -->
-                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                <TextBlock Grid.Row="0"
                            HorizontalAlignment="Center"
                            Margin="0 0 0 25"
                            FontSize="25"
                            Text="{Binding Question.Question}"/>
-                <Image Grid.Row="1" Grid.Column="1"
+                <Image Grid.Row="1"
                        Margin="50 0 50 0"
                        HorizontalAlignment="Center" VerticalAlignment="Top"
                        Source="{Binding Question.ImageURI}"/>
-                <!-- Display feedback for the user's answer -->
-                <TextBlock Grid.Row="1" Grid.Column="2"
-                           Margin="0 30 50 0"
-                           HorizontalAlignment="Stretch"
-                           Visibility="{Binding QuestionAnswered, Converter={StaticResource BooleanToVisibilityConverter}}"
-                           FontSize="15"
-                           TextWrapping="WrapWithOverflow" TextAlignment="Justify"
-                           Text="{Binding QuestionFeedback}"/>
                 <!-- Provide multichoice answers (if the question is open-ended this will bind to an empty list and so display nothing) -->
                 <ListBox x:Name="MultiChoiceAnswerPool"
-                         Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
-                         Margin="50 30 50 30"
+                         Grid.Row="2"
+                         Margin="50 30 50 15"
                          IsHitTestVisible="{Binding QuestionAnswered, Converter={StaticResource BooleanNegator}}"
                          ItemsSource="{Binding Question.Choices}">
                     <ListBox.SelectedItem>
@@ -147,7 +135,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
                 <!-- Provide a textbox for the user if the question is open-ended -->
-                <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+                <TextBox Grid.Row="2"
                          Margin="50 30 50 30"
                          MinWidth="400" MaxWidth="1000"
                          FontSize="20"
@@ -164,16 +152,25 @@
                          Style="{StaticResource MaterialDesignOutlinedTextBox}"
                          Text="{Binding UserAnswer, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
+            <!-- Display feedback for the user's answer -->
+            <TextBlock Grid.Row="3"
+                       Margin="0 0 0 20"
+                       HorizontalAlignment="Center"
+                       MaxWidth="1000"
+                       Visibility="{Binding QuestionAnsweredAndFeedbackPresent, Converter={StaticResource BooleanToVisibilityConverter}}"
+                       FontSize="15"
+                       TextWrapping="WrapWithOverflow" TextAlignment="Center"
+                       Text="{Binding QuestionFeedback}"/>
             <!-- Button to advance the quiz, depending upon the status of the quiz could submit an answer, advance to the next question, or finish the quiz -->
             <Button x:Name="SubmitAnswerButton"
                     Style="{StaticResource QuizButton}"
-                    Grid.Row="3"
+                    Grid.Row="4"
                     Command="{Binding SubmitAnswer}"
                     Visibility="{Binding QuestionAnswered, Converter={StaticResource InverseBoolToVisConverter}}"
                     Content="Submit Answer"/>
             <Button x:Name="AdvanceQuizButton"
                     Style="{StaticResource QuizButton}"
-                    Grid.Row="3"
+                    Grid.Row="4"
                     Command="{Binding AdvanceQuiz}"
                     Visibility="{Binding QuestionAnswered, Converter={StaticResource BooleanToVisibilityConverter}}"
                     Content="{Binding QuizButtonAction}"/>
