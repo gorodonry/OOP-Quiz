@@ -13,7 +13,7 @@ namespace OOPQuiz.Services
         private static readonly List<IQuestion> pythonQuestions = new()
         {
             new MultiChoiceQuestion(
-                question: "What should be at the beginning of every file using OOP?",
+                question: "Which of the following is typically at the beginning of every file using OOP?",
                 answer: "from dataclasses import dataclass",
                 imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}python_question1.png"),
                 choices: new()
@@ -25,26 +25,26 @@ namespace OOPQuiz.Services
                 },
                 feedback: "Note that this step is actually optional - you can do OOP in Python without the dataclasses module."),
             new MultiChoiceQuestion(
-                question: "What is 'age' in the following code snippet?",
-                answer: "A member",
+                question: "What best describes 'age' in the following code snippet?",
+                answer: "It is a member",
                 imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}python_question2.png"),
                 choices: new()
                 {
-                    new("A member"),
-                    new("An integer", "Yes, but also no."),
-                    new("A property", "Not quite - members store information, and properties dictate what has access to members."),
-                    new("An attribute", "Yes, it is an attribute of the Dog class, but more specifically it is a member.")
+                    new("It is a member"),
+                    new("It is an integer", "Yes, but also no."),
+                    new("It is a property", "Not quite - members store information, and properties dictate what has access to members."),
+                    new("It is an attribute", "Yes, it is an attribute of the Dog class, but more specifically it is a member.")
                 }),
             new MultiChoiceQuestion(
-                question: "What is 'age' in the following code snippet?",
-                answer: "A property",
+                question: "What best describes 'age' in the following code snippet?",
+                answer: "It is a property",
                 imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}python_question3.png"),
                 choices: new()
                 {
-                    new("A property"),
-                    new("A member", "Not quite - members store information, and properties dictate what has access to members."),
-                    new("A function", "Functions are defined outside of classes (a function defined inside a class is called a method)."),
-                    new("A variable", "")
+                    new("It is a property"),
+                    new("It is a member", "Not quite - members store information, and properties dictate what has access to members."),
+                    new("It is a function", "Functions are defined outside of classes (a function defined inside a class is called a method)."),
+                    new("It is a variable", "")
                 }),
             new OpenEndedQuestion(
                 question: "What is missing from the following code snippet?",
@@ -69,26 +69,26 @@ namespace OOPQuiz.Services
                 feedback: "In Python it provides an *indication* that the property should return an integer."),
             new MultiChoiceQuestion(
                 question: "What is the purpose of preceding protected members with an underscore?",
-                answer: "It denotes that a member is protected by properties",
+                answer: "It denotes that a member is protected by the class",
                 imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}python_question7.png"),
                 choices: new()
                 {
-                    new("It denotes that a member is protected by properties"),
+                    new("It denotes that a member is protected by the class"),
                     new("It prevents the member from being accessed directly"),
                     new("It has literally no purpose", "Functionally, yes."),
                     new("All integer variables are preceded by an underscore")
                 },
-                feedback: "Because Python doesn't protect them properly, you can access members from anywhere anyway."),
+                feedback: "Because Python doesn't protect attributes properly, you can access anything in a class from anywhere anyway."),
             new MultiChoiceQuestion(
-                question: "What is 'generate_dog_tag' in the following code snippet?",
-                answer: "A method",
+                question: "What best describes 'generate_dog_tag' in the following code snippet?",
+                answer: "It is a method",
                 imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}python_question8.png"),
                 choices: new()
                 {
-                    new("A method"),
-                    new("A function", "Almost - this is a method not a function because it is defined inside a class."),
-                    new("A property"),
-                    new("An attribute", "Yes, it is an attribute of the Dog class, but more specifically it is a method.")
+                    new("It is a method"),
+                    new("It is a function", "Almost - this is a method not a function because it is defined inside a class."),
+                    new("It is a property"),
+                    new("It is an attribute", "Yes, it is an attribute of the Dog class, but more specifically it is a method.")
                 }),
             new MultiChoiceQuestion(
                 question: "What is the purpose of a protocol?",
@@ -112,25 +112,25 @@ namespace OOPQuiz.Services
         {
             new MultiChoiceQuestion(
                 question: "What best describes '_age' in the following code snippet?",
-                answer: "A field",
+                answer: "It is a field",
                 imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}csharp_question1.png"),
                 choices: new()
                 {
-                    new("A field"),
-                    new("An integer", "Yes, but also no."),
-                    new("A property", "Not quite - fields store information, and properties dictate what has access to fields."),
-                    new("A member", "Yes, it is a member of the Dog class, but more specifically it is a field.")
+                    new("It is a field"),
+                    new("It is an integer", "Yes, but also no."),
+                    new("It is a property", "Not quite - fields store information, and properties dictate what has access to fields."),
+                    new("It is a member", "Yes, it is a member of the Dog class, but more specifically it is a field.")
                 }),
             new MultiChoiceQuestion(
-                question: "What is 'Age' in the following code snippet?",
-                answer: "A property",
+                question: "What best describes 'Age' in the following code snippet?",
+                answer: "It is a property",
                 imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}csharp_question2.png"),
                 choices: new()
                 {
-                    new("A property"),
-                    new("A field", "Not quite - fields store information, and properties dictate what has access to fields."),
-                    new("A function", "Functions are defined outside of classes (a function defined inside a class is called a method)."),
-                    new("A variable")
+                    new("It is a property"),
+                    new("It is a field", "Not quite - fields store information, and properties dictate what has access to fields."),
+                    new("It is a function", "Functions are defined outside of classes (a function defined inside a class is called a method)."),
+                    new("It is a variable")
                 }),
             new MultiChoiceQuestion(
                 question: "What needs to be at the beginning of every file using OOP?",
