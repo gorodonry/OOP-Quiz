@@ -11,6 +11,7 @@
         <converters:BooleanNegator x:Key="BooleanNegator"/>
         <converters:BooleanToAnswerFeedbackColourConverter x:Key="BooleanToAnswerFeedbackColourConverter"/>
         <converters:BooleanToAnswerFeedbackMessageConverter x:Key="BooleanToAnswerFeedbackMessageConverter"/>
+        <converters:StringToAnswerStatusColourConverter x:Key="StringToAnswerStatusColourConverter"/>
         <Style x:Key="QuizButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
             <Setter Property="Width" Value="750"/>
             <Setter Property="Margin" Value="0 0 0 30"/>
@@ -79,8 +80,8 @@
                             <StackPanel Orientation="Horizontal">
                                 <Separator Style="{StaticResource ProgressBarSeparator}"/>
                                 <Ellipse Width="30" Height="30"
-                                         Fill="{Binding Mode=OneWay, Converter={StaticResource BooleanToAnswerFeedbackColourConverter}}"
-                                         Stroke="DarkGray" StrokeThickness="2"/>
+                                         Fill="{Binding Mode=OneWay, Converter={StaticResource StringToAnswerStatusColourConverter}}"
+                                         Stroke="DarkGray" StrokeThickness="1"/>
                                 <Separator Style="{StaticResource ProgressBarSeparator}"/>
                             </StackPanel>
                         </DataTemplate>

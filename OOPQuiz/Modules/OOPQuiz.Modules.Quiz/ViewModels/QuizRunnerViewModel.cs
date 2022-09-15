@@ -18,42 +18,27 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         /// <summary>
         /// The category of questions asked by this instance of the quiz runner.
         /// </summary>
-        public string QuestionCategory
-        {
-            get { return _model.QuestionCategory; }
-        }
+        public string QuestionCategory => _model.QuestionCategory;
 
         /// <summary>
         /// Information on the question currently being asked.
         /// </summary>
-        public IQuestion Question
-        {
-            get { return _model.CurrentQuestion; }
-        }
+        public IQuestion Question => _model.CurrentQuestion;
 
         /// <summary>
         /// The number of the current question.
         /// </summary>
-        public int CurrentQuestionNumber
-        {
-            get { return _model.CurrentQuestionNumber; }
-        }
+        public int CurrentQuestionNumber => _model.CurrentQuestionNumber;
 
         /// <summary>
         /// Indicates whether or not the current question is open-ended.
         /// </summary>
-        public bool IsOpenEndedQuestion
-        {
-            get { return _model.CurrentQuestionIsOpenEnded; }
-        }
+        public bool IsOpenEndedQuestion => _model.CurrentQuestionIsOpenEnded;
 
         /// <summary>
         /// Indicates whether or not the current question has been answered.
         /// </summary>
-        public bool QuestionAnswered
-        {
-            get { return _model.CurrentQuestionAnswered; }
-        }
+        public bool QuestionAnswered => _model.CurrentQuestionAnswered;
 
         private string _userAnswer;
 
@@ -96,50 +81,32 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         /// <summary>
         /// Returns a boolean indicating whether or not the user got the right answer.
         /// </summary>
-        public bool? UserCorrect
-        {
-            get { return _model.UserCorrect; }
-        }
+        public bool? UserCorrect => _model.UserCorrect;
 
         /// <summary>
         /// Feedback provided after the user answers the question.
         /// </summary>
-        public string QuestionFeedback
-        {
-            get { return _model.FeedbackForCurrentQuestion; }
-        }
+        public string QuestionFeedback => _model.FeedbackForCurrentQuestion;
 
         /// <summary>
         /// Set to true only if the question has been answered and there is feedback available.
         /// </summary>
-        public bool QuestionAnsweredAndFeedbackPresent
-        {
-            get { return _model.CurrentQuestionAnswered && !string.IsNullOrEmpty(_model.FeedbackForCurrentQuestion); }
-        }
+        public bool QuestionAnsweredAndFeedbackPresent => _model.CurrentQuestionAnswered && !string.IsNullOrEmpty(_model.FeedbackForCurrentQuestion);
 
         /// <summary>
         /// Action currently available to the user.
         /// </summary>
-        public string QuizButtonAction
-        {
-            get { return _model.ButtonAction; }
-        }
+        public string QuizButtonAction => _model.ButtonAction;
 
         /// <summary>
         /// The user's score.
         /// </summary>
-        public int Score
-        {
-            get { return _model.UserScore; }
-        }
+        public int Score => _model.UserScore;
 
         /// <summary>
-        /// A list of booleans indicating which questions the user got right.
+        /// A list of strings indicating the answer status for each question.
         /// </summary>
-        public ObservableCollection<bool?> AnswersForProgressBar
-        {
-            get { return new ObservableCollection<bool?>(_model.Answers); }
-        }
+        public ObservableCollection<string> AnswersForProgressBar => _model.AnswerStatuses;
 
         private DelegateCommand _submitAnswer;
         public DelegateCommand SubmitAnswer =>
@@ -192,6 +159,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
                 RaisePropertyChanged(nameof(QuestionAnswered));
                 RaisePropertyChanged(nameof(QuestionAnsweredAndFeedbackPresent));
                 RaisePropertyChanged(nameof(UserCorrect));
+                RaisePropertyChanged(nameof(AnswersForProgressBar));
                 RaisePropertyChanged(nameof(IsOpenEndedQuestion));
                 RaisePropertyChanged(nameof(CurrentQuestionNumber));
 

@@ -4,6 +4,8 @@ using OOPQuiz.Services.Interfaces;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using OOPQuiz.Core.Models;
+using System.Collections.ObjectModel;
 
 namespace OOPQuiz.Modules.Quiz.Models
 {
@@ -19,7 +21,7 @@ namespace OOPQuiz.Modules.Quiz.Models
 
         protected string _questionCategory;
         protected List<IQuestion> _questions = new();
-        protected List<bool?> _answers = new();
+        protected ObservableCollection<string> _answerStatuses = new();
         protected int _currentQuestionIndex = 0;
 
         protected bool _currentQuestionAnswered = false;
@@ -69,10 +71,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         /// <summary>
         /// The number of the current question.
         /// </summary>
-        public int CurrentQuestionNumber
-        {
-            get { return _currentQuestionIndex + 1; }
-        }
+        public int CurrentQuestionNumber => _currentQuestionIndex + 1;
 
         /// <summary>
         /// Indicates whether or not the current question has been answered.
@@ -90,10 +89,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         /// <summary>
         /// Indicates whether or not the user got the current question right.
         /// </summary>
-        public bool? UserCorrect
-        {
-            get { return _userCorrect; }
-        }
+        public bool? UserCorrect => _userCorrect;
 
         /// <summary>
         /// A string explaining the correct answer to the current question.
@@ -101,10 +97,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         /// <remarks>
         /// Not provided for every question. Set to an empty string if the question has not yet been answered.
         /// </remarks>
-        public string FeedbackForCurrentQuestion
-        {
-            get { return _feedbackForCurrentQuestion; }
-        }
+        public string FeedbackForCurrentQuestion => _feedbackForCurrentQuestion;
 
         /// <summary>
         /// Returns a boolean indicating whether or not the current question is open-ended.
@@ -122,21 +115,15 @@ namespace OOPQuiz.Modules.Quiz.Models
         /// <summary>
         /// The user's score for the current quiz.
         /// </summary>
-        public int UserScore
-        {
-            get { return _score; }
-        }
+        public int UserScore => _score;
 
         /// <summary>
-        /// A list of booleans indicating which questions the user got right.
+        /// A list of strings indicating the answer status for each question.
         /// </summary>
         /// <remarks>
-        /// Questions that have not yet been answered have a null value.
+        /// Questions that have not yet been answered or selected have a null value.
         /// </remarks>
-        public List<bool?> Answers
-        {
-            get { return _answers; }
-        }
+        public ObservableCollection<string> AnswerStatuses => _answerStatuses;
 
         /// <summary>
         /// Information on what action is currently available to the user.
@@ -144,10 +131,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         /// <remarks>
         /// One of "Submit Answer", "Next Question", and "Finish Quiz".
         /// </remarks>
-        public string ButtonAction
-        {
-            get { return _buttonAction; }
-        }
+        public string ButtonAction => _buttonAction;
 
         /// <summary>
         /// Loads the information for the next question.
@@ -161,6 +145,8 @@ namespace OOPQuiz.Modules.Quiz.Models
                 _currentQuestionAnswered = false;
 
                 _userCorrect = null;
+
+                _answerStatuses[_currentQuestionIndex] = "Selected";
 
                 _buttonAction = "Submit Answer";
             }
@@ -227,7 +213,7 @@ namespace OOPQuiz.Modules.Quiz.Models
 
             _currentQuestionAnswered = true;
 
-            _answers[_currentQuestionIndex] = _userCorrect;
+            _answerStatuses[_currentQuestionIndex] = Methods.Capitalise(_userCorrect.ToString());
         }
 
         /// <summary>
@@ -259,8 +245,10 @@ namespace OOPQuiz.Modules.Quiz.Models
 
                     questionPool.Remove(question);
 
-                    _answers.Add(null);
+                    _answerStatuses.Add(null);
                 }
+
+                _answerStatuses[0] = "Selected";
             }
             else
             {

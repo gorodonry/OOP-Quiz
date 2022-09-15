@@ -5,31 +5,32 @@ using System.Windows.Data;
 namespace OOPQuiz.Core.Converters
 {
     /// <summary>
-    /// Converts a boolean to a colour indicating whether or not the user got the answer correct.
+    /// Returns a colour indicating the answer status of the question.
     /// </summary>
     /// <remarks>
     /// Conversion back is not supported.
     /// </remarks>
-    public class BooleanToAnswerFeedbackColourConverter : IValueConverter
+    public class StringToAnswerStatusColourConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            switch ((bool?)value)
+            switch ((string)value)
             {
-                case null:
-                    // If the user has not yet answered, return grey.
+                case "Selected":
+                    // If the question has been selected, return grey.
                     return "#909090";
 
-                case true:
+                case "True":
                     // If the question has been correctly answered, return green.
                     return "#228B22";
 
-                case false:
+                case "False":
                     // If the question has been incorrectly answered, return red.
                     return "#FF0000";
 
                 default:
-                    throw new ArgumentException("Value entered was not a boolean");
+                    // If none of the above apply, return white.
+                    return "#FFFFFF";
             }
         }
 
