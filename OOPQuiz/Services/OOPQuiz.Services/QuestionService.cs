@@ -64,7 +64,7 @@ namespace OOPQuiz.Services
                     new("It is effectively a form of documentation"),
                     new("It causes the property to raise an error if an integer is not returned", "In many other languages this would be true."),
                     new("It specifies the parameters of the property must be integers"),
-                    new("It doesn't really meant anything", "You are absolutely right; it doesn't really mean anything (thanks Python).")
+                    new("It doesn't really mean anything", "You are absolutely right; it doesn't really mean anything (thanks Python).")
                 },
                 feedback: "In Python it provides an *indication* that the property should return an integer."),
             new MultiChoiceQuestion(
