@@ -9,7 +9,7 @@ namespace OOPQuiz.Business.Tests.Models
         public void TestQuestion(string expected, string input)
         {
             // Should be the same as what was specified upon instantiation.
-            var multiChoiceQuestion = new MultiChoiceQuestion(input, "Choice 1", "", new() { { "Choice 1", "" } , { "Choice 2", "" } });
+            var multiChoiceQuestion = new MultiChoiceQuestion(input, "Choice 1", "", new() { new("Choice 1"), new("Choice 2") });
 
             var actual = multiChoiceQuestion.Question;
 
@@ -21,7 +21,7 @@ namespace OOPQuiz.Business.Tests.Models
         public void TestValidAnswer(string expected, string input)
         {
             // Should be the same as what was specified upon instantiation.
-            var multiChoiceQuestion = new MultiChoiceQuestion("", input, "", new() { { input, "" }, { "", "" } });
+            var multiChoiceQuestion = new MultiChoiceQuestion("", input, "", new() { new(input), new("") });
 
             var actual = multiChoiceQuestion.Answer;
 
@@ -33,7 +33,7 @@ namespace OOPQuiz.Business.Tests.Models
         public void TestInvalidAnswer(string input)
         {
             // An exception should be raised if an answer that is not among the choices is provided.
-            Assert.Throws<ArgumentException>(() => new MultiChoiceQuestion("", input, "", new() { { "Choice 1", "" }, { "Choice 2", "" } }));
+            Assert.Throws<ArgumentException>(() => new MultiChoiceQuestion("", input, "", new() { new("Choice 1"), new("Choice 2") }));
         }
 
         [Theory]
@@ -41,7 +41,7 @@ namespace OOPQuiz.Business.Tests.Models
         public void TestImageURI(string expected, string input)
         {
             // Should be the same as what was specified upon instantiation.
-            var multiChoiceQuestion = new MultiChoiceQuestion("", "Choice 1", input, new() { { "Choice 1", "" }, { "Choice 2", "" } });
+            var multiChoiceQuestion = new MultiChoiceQuestion("", "Choice 1", input, new() { new("Choice 1"), new("Choice 2") });
 
             var actual = multiChoiceQuestion.ImageURI;
 
@@ -52,11 +52,11 @@ namespace OOPQuiz.Business.Tests.Models
         public void TestGeneralFeedbackDefaultBehaviour()
         {
             // Should return an empty string.
-            var multiChoiceQuestion = new MultiChoiceQuestion("", "Choice 1", "", new() { { "Choice 1", "" }, { "Choice 2", "" } });
+            var multiChoiceQuestion = new MultiChoiceQuestion("", "Choice 1", "", new() { new("Choice 1"), new("Choice 2") });
 
             var actual = multiChoiceQuestion.Feedback;
 
-            Assert.Equal(string.Empty, actual);
+            Assert.Empty(actual);
         }
 
         [Theory]
@@ -64,7 +64,7 @@ namespace OOPQuiz.Business.Tests.Models
         public void TestGeneralFeedbackSetUponInstantiation(string expected, string input)
         {
             // Should be the same as what was specified upon instantiation.
-            var multiChoiceQuestion = new MultiChoiceQuestion("", "Choice 1", "", new() { { "Choice 1", "" }, { "Choice 2", "" } }, input);
+            var multiChoiceQuestion = new MultiChoiceQuestion("", "Choice 1", "", new() { new("Choice 1"), new("Choice 2") }, input);
 
             var actual = multiChoiceQuestion.Feedback;
 
@@ -82,18 +82,25 @@ namespace OOPQuiz.Business.Tests.Models
             // Should be the same as what was specified upon instantiation.
             List<string> expected = input.ToList();
 
-            Dictionary<string, string> choicesDictionary = new();
+            List<Choice> choicesList = new();
 
             foreach (string choice in input)
             {
-                choicesDictionary[choice] = "";
+                choicesList.Add(new(choice));
             }
 
-            var multiChoiceQuestion = new MultiChoiceQuestion("", "Option 1", "", choicesDictionary);
+            var multiChoiceQuestion = new MultiChoiceQuestion("", "Option 1", "", choicesList);
 
-            var actual = multiChoiceQuestion.ChoicesWithFeedback.Keys.ToList();
+            var actualChoices = multiChoiceQuestion.Choices;
 
-            Assert.Equal(expected, actual);
+            // Note that the constructor for the multichoice question randomises the order the choices occur in.
+            foreach (var actual in actualChoices)
+            {
+                Assert.Contains(actual.PotentialAnswer, expected);
+
+                // Ensure each element occurs once only.
+                expected.Remove(actual.PotentialAnswer);
+            }
         }
 
         [Theory]
@@ -102,14 +109,14 @@ namespace OOPQuiz.Business.Tests.Models
         public void TestInvalidChoices(params string[] input)
         {
             // Shouldn't be able to set less than two or more than 6 options for the question.
-            Dictionary<string, string> choicesDictionary = new();
+            List<Choice> choicesList = new();
 
             foreach (string choice in input)
             {
-                choicesDictionary[choice] = "";
+                choicesList.Add(new(choice));
             }
 
-            Assert.Throws<ArgumentException>(() => new MultiChoiceQuestion("", "Option 1", "", choicesDictionary));
+            Assert.Throws<ArgumentException>(() => new MultiChoiceQuestion("", "Option 1", "", choicesList));
         }
 
         [Theory]
@@ -117,17 +124,21 @@ namespace OOPQuiz.Business.Tests.Models
         public void TestChoicesFeedbackSetUponInstantiation(string expected, string[] input)
         {
             // Feedback for specific options should be equal to that specified upon instantiation.
-            Dictionary<string, string> choicesDictionary = new()
+            List<Choice> choicesList = new()
             {
-                { input[0], input[1] },
-                { "", "" }
+                new(input[0], input[1]),
+                new("")
             };
 
-            var multiChoiceQuestion = new MultiChoiceQuestion("", "", "", choicesDictionary);
+            var multiChoiceQuestion = new MultiChoiceQuestion("", "", "", choicesList);
 
-            var actual = multiChoiceQuestion.ChoicesWithFeedback[input[0]];
+            var actual = new List<string>()
+            {
+                multiChoiceQuestion.Choices[0].FeedbackForAnswer,
+                multiChoiceQuestion.Choices[1].FeedbackForAnswer
+            };
 
-            Assert.Equal(expected, actual);
+            Assert.Contains(expected, actual);
         }
     }
 }

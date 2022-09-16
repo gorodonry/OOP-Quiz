@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Security.Policy;
 
 namespace OOPQuiz.Business.Models
 {
@@ -37,6 +36,6 @@ namespace OOPQuiz.Business.Models
         /// <remarks>
         /// Empty if the question requires an open-ended answer.
         /// </remarks>
-        public Dictionary<string, string> ChoicesWithFeedback { get; }
+        public List<Choice> Choices { get; }
     }
 }

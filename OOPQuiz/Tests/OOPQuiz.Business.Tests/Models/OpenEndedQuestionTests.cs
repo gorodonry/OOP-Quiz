@@ -64,13 +64,13 @@
         [Fact]
         public void TestChoices()
         {
-            // Should always return an empty dictionary.
+            // Should always return an empty list of choices.
             var openEndedQuestion = new OpenEndedQuestion("", "", "");
 
-            var actual = openEndedQuestion.ChoicesWithFeedback;
+            var actual = openEndedQuestion.Choices;
 
             Assert.Empty(actual);
-            Assert.IsType<Dictionary<string, string>>(actual);
+            Assert.IsType<List<Choice>>(actual);
         }
     }
 }

@@ -9,8 +9,10 @@
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
         FontFamily="{materialDesign:MaterialDesignFont}"
+        WindowState="Maximized"
+        MinHeight="700" MinWidth="1200"
         Icon="/Assets/csharp.ico"
-        Title="{Binding Title}" Height="350" Width="525">
+        Title="{Binding Title}">
     <Grid>
         <ContentControl prism:RegionManager.RegionName="ContentRegion" />
     </Grid>

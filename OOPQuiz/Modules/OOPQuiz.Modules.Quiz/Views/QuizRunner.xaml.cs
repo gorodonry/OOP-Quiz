@@ -1,6 +1,7 @@
 ﻿using System.Windows.Controls;
+using System.Windows;
 
-namespace OOPQuiz.Quiz.Views
+namespace OOPQuiz.Modules.Quiz.Views
 {
     /// <summary>
     /// Interaction logic for QuizRunner
