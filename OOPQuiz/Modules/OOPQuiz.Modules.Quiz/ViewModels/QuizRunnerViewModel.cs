@@ -3,11 +3,9 @@ using Prism.Regions;
 using OOPQuiz.Services.Interfaces;
 using OOPQuiz.Modules.Quiz.Models;
 using OOPQuiz.Business.Models;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Prism.Commands;
-using System;
 
 namespace OOPQuiz.Modules.Quiz.ViewModels
 {

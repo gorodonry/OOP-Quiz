@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Prism.Mvvm;
 
 namespace OOPQuiz.Business.Models
 {

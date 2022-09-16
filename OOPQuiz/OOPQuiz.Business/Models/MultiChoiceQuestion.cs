@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
-using System.Linq;
 using Prism.Mvvm;
 using OOPQuiz.Core.Models;
-using System.Diagnostics;
 
 namespace OOPQuiz.Business.Models
 {
