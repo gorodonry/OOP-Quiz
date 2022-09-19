@@ -152,7 +152,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         }
 
         /// <summary>
-        /// Processes the users answer and updates the model accordingly.
+        /// Processes the user's answer and updates the model accordingly.
         /// </summary>
         /// <param name="userAnswer">The user's answer to the question.</param>
         /// <remarks>

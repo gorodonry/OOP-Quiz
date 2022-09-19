@@ -6,12 +6,20 @@ using OOPQuiz.Business.Models;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Prism.Commands;
+using System;
+using OOPQuiz.Core;
+using OOPQuiz.Modules.Quiz.Views;
 
 namespace OOPQuiz.Modules.Quiz.ViewModels
 {
+    /// <summary>
+    /// View model for the page that runs the quiz.
+    /// </summary>
     public class QuizRunnerViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
         private readonly QuizRunnerModel _model = new();
+
+        private bool _exitingQuiz = false;
 
         /// <summary>
         /// The category of questions asked by this instance of the quiz runner.
@@ -148,6 +156,45 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         {
             if (QuizButtonAction == "Next Question")
             {
+                var parameters = new NavigationParameters
+                {
+                    { "QuestionCategory", QuestionCategory },
+                    { "CurrentScore", Score }
+                };
+
+                _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(BettingPage), parameters);
+            }
+            else
+            {
+                _exitingQuiz = true;
+
+                // Navigate to a finish screen for the quiz (coming in a later sprint).
+            }
+        }
+
+        bool CanExecuteAdvanceQuiz()
+        {
+            return QuestionAnswered;
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            if (!navigationContext.Parameters.ContainsKey("OnNavigatedTo"))
+                throw new ArgumentException("No 'OnNavigatedTo' parameter provided with the NavigationContext upon navigation to the QuizRunner");
+
+            if (navigationContext.Parameters.GetValue<string>("OnNavigatedTo") == "Initialise Quiz")
+            {
+                // Determine the question category, and from that the questions.
+                _model.QuestionCategory = navigationContext.Parameters.GetValue<string>("QuestionCategory");
+
+                // Setting the question category will alter the following properties; alert the view to the change.
+                RaisePropertyChanged(nameof(QuestionCategory));
+                RaisePropertyChanged(nameof(Question));
+                RaisePropertyChanged(nameof(IsOpenEndedQuestion));
+                RaisePropertyChanged(nameof(AnswersForProgressBar));
+            }
+            else if (navigationContext.Parameters.GetValue<string>("OnNavigatedTo") == "Process Bet")
+            {
                 _model.LoadNextQuestion();
 
                 _userAnswer = string.Empty;
@@ -164,32 +211,6 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
                 RaisePropertyChanged(nameof(QuizButtonAction));
                 SubmitAnswer.RaiseCanExecuteChanged();
             }
-            else
-            {
-                // Navigate to a finish screen for the quiz (coming in a later sprint).
-            }
-        }
-
-        bool CanExecuteAdvanceQuiz()
-        {
-            return QuestionAnswered;
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            // Determine the question category, and from that the questions.
-
-            // This will be the case once the menu has been set up.
-            // _model.QuestionCategory = navigationContext.Parameters.GetValue<string>("QuestionCategory");
-
-            // In the meantime, this is a placeholder.
-            _model.QuestionCategory = "Python";
-
-            // Setting the question category will alter the following properties; alert the view to the change.
-            RaisePropertyChanged(nameof(QuestionCategory));
-            RaisePropertyChanged(nameof(Question));
-            RaisePropertyChanged(nameof(IsOpenEndedQuestion));
-            RaisePropertyChanged(nameof(AnswersForProgressBar));
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -202,7 +223,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             
         }
 
-        public bool KeepAlive => false;
+        public bool KeepAlive => !_exitingQuiz;
 
         private readonly IRegionManager _regionManager;
 
