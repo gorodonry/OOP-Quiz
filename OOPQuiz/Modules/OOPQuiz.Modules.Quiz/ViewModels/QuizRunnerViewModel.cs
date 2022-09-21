@@ -159,6 +159,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
                 var parameters = new NavigationParameters
                 {
                     { "QuestionCategory", QuestionCategory },
+                    { "AnswersForProgressBar", AnswersForProgressBar },
                     { "CurrentScore", Score }
                 };
 

@@ -4,8 +4,84 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:OOPQuiz.Core.Converters;assembly=OOPQuiz.Core"
              Background="White">
+    <UserControl.Resources>
+        <converters:StringToAnswerStatusColourConverter x:Key="StringToAnswerStatusColourConverter"/>
+    </UserControl.Resources>
     <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
             
+            <!-- Display the question category along with the user's score -->
+            <materialDesign:ColorZone Grid.Row="0"
+                                      Style="{StaticResource ColourZoneHeader}">
+                <Grid>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
+                               Margin="0 10 0 10"
+                               FontSize="30"
+                               Text="{Binding QuestionCategory, StringFormat={}{0} Quiz}">
+                    </TextBlock>
+                    <TextBlock x:Name="UserScore"
+                               VerticalAlignment="Center" HorizontalAlignment="Right"
+                               Margin="0 0 25 0"
+                               FontSize="30"
+                               Text="{Binding Score, StringFormat={}Score: {0}}"/>
+                </Grid>
+            </materialDesign:ColorZone>
+            
+            <!-- Progress bar from the quiz runner -->
+            <StackPanel Grid.Row="1"
+                        Style="{StaticResource ProgressBarPanel}">
+                <TextBlock Style="{StaticResource ProgressBarTextBlock}" Text="Start"/>
+                <ItemsControl Style="{StaticResource ProgressBarItemsControl}"
+                              ItemsSource="{Binding AnswersForProgressBar}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid IsItemsHost="True" Columns="{Binding AnswersForProgressBar.Count}"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Separator Style="{StaticResource ProgressBarSeparator}"/>
+                                <Ellipse Style="{StaticResource ProgressBarQuestionStatusDot}"
+                                         Fill="{Binding Mode=OneWay, Converter={StaticResource StringToAnswerStatusColourConverter}}"/>
+                                <Separator Style="{StaticResource ProgressBarSeparator}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <TextBlock Style="{StaticResource ProgressBarTextBlock}" Text="End"/>
+            </StackPanel>
+            
+            <!-- Provide betting options for the user -->
+            <TextBox x:Name="BettingInput"
+                     Grid.Row="2"
+                     Width="400"
+                     FontSize="20"
+                     HorizontalAlignment="Center" VerticalAlignment="Center"
+                     HorizontalContentAlignment="Center"
+                     materialDesign:HintAssist.Hint="How many points would you like to bet?"
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                     PreviewTextInput="BettingInput_PreviewTextInput"
+                     Text="{Binding PointsBetByUser, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <!-- Information on how to bet -->
+            
+            
+            <!-- Button to submit the bet and advance to the next question -->
+            <Button x:Name="SubmitBetButton"
+                    Style="{StaticResource QuizButton}"
+                    Grid.Row="4"
+                    Command="{Binding SubmitBet}"
+                    Content="Submit Bet"/>
+        </Grid>
     </Grid>
 </UserControl>

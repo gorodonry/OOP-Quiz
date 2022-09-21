@@ -60,10 +60,13 @@ namespace OOPQuiz.Modules.Quiz.Models
             get { return _questionCategory; }
             set
             {
-                _questionCategory = value;
+                if (_questionCategory is null)
+                {
+                    _questionCategory = value;
 
-                // Having set the question category, the questions to ask can be determined.
-                SelectQuestions();
+                    // Having set the question category, the questions to ask can be determined.
+                    SelectQuestions();
+                }
             }
         }
 
@@ -221,8 +224,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         /// <param name="questions">Dictionary of all questions, obtained from <see cref="IQuestionService"/>.</param>
         public void ImportQuestions(Dictionary<string, List<IQuestion>> questions)
         {
-            if (allQuestions is null)
-                allQuestions = questions;
+            allQuestions ??= questions;
         }
 
         /// <summary>

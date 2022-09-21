@@ -3,8 +3,8 @@ using Prism.Regions;
 using OOPQuiz.Core;
 using OOPQuiz.Modules.Quiz.Views;
 using Prism.Commands;
-using System;
 using System.Diagnostics;
+using System.Collections.ObjectModel;
 
 namespace OOPQuiz.Modules.Quiz.ViewModels
 {
@@ -23,6 +23,16 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         /// </remarks>
         public string QuestionCategory => _questionCategory;
 
+        private ObservableCollection<string> _answersForProgressBar;
+
+        /// <summary>
+        /// A list of strings indicating the answer status for each question.
+        /// </summary>
+        /// <remarks>
+        /// Obtained from the NavigationContext.
+        /// </remarks>
+        public ObservableCollection<string> AnswersForProgressBar => _answersForProgressBar;
+
         private int _score;
 
         /// <summary>
@@ -30,18 +40,20 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         /// </summary>
         public int Score => _score;
 
-        private int _betSizeAsPercentage;
+        private string _pointsBetByUser;
 
         /// <summary>
-        /// The size of the user's bet as a percentage of their current points.
+        /// The number of points the user wants to bet as a string.
         /// </summary>
-        /// <remarks>
-        /// Maximum value is 100 and minimum value is 0.
-        /// </remarks>
-        public int BetSizeAsPercentage
+        public string PointsBetByUser
         {
-            get { return _betSizeAsPercentage; }
-            set { SetProperty(ref _betSizeAsPercentage, Math.Min(Math.Max(value, 0), 100)); }
+            get { return _pointsBetByUser; }
+            set
+            {
+                SetProperty(ref _pointsBetByUser, value);
+
+                SubmitBet.RaiseCanExecuteChanged();
+            }
         }
 
         private DelegateCommand _submitBet;
@@ -53,7 +65,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             var parameters = new NavigationParameters
             {
                 { "OnNavigatedTo", "Process Bet" },
-                { "BetSizeAsPercentage", BetSizeAsPercentage }
+                { "PointsBetByUser", int.Parse(PointsBetByUser) }
             };
 
             _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(QuizRunner), parameters);
@@ -61,18 +73,19 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
 
         bool CanExecuteSubmitBet()
         {
-            return true;
+            return !string.IsNullOrEmpty(PointsBetByUser);
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             _questionCategory = navigationContext.Parameters.GetValue<string>("QuestionCategory");
+            _answersForProgressBar = navigationContext.Parameters.GetValue<ObservableCollection<string>>("AnswersForProgressBar");
             _score = navigationContext.Parameters.GetValue<int>("CurrentScore");
 
-            // The following is a placeholder until the betting page has been properly set up.
-            BetSizeAsPercentage = 0;
-
-            ExecuteSubmitBet();
+            // Update the view to reflect the new information.
+            RaisePropertyChanged(nameof(QuestionCategory));
+            RaisePropertyChanged(nameof(AnswersForProgressBar));
+            RaisePropertyChanged(nameof(Score));
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

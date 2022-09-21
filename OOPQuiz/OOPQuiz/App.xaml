@@ -11,6 +11,50 @@
                 <materialDesign:BundledTheme BaseTheme="Inherit" PrimaryColor="DeepPurple" SecondaryColor="Green"/>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            
+            <!-- Styling for the colour-zone used as a header by multiple views -->
+            <Style x:Key="ColourZoneHeader" TargetType="materialDesign:ColorZone">
+                <Setter Property="Mode" Value="PrimaryLight"/>
+                <Setter Property="CornerRadius" Value="4"/>
+                <Setter Property="Margin" Value="7"/>
+            </Style>
+            
+            <!-- Styling for the progress bar used by multiple views of the quiz -->
+            <Style x:Key="ProgressBarPanel" TargetType="StackPanel">
+                <Setter Property="Margin" Value="0 10 0 10"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Orientation" Value="Horizontal"/>
+            </Style>
+            <Style x:Key="ProgressBarItemsControl" TargetType="ItemsControl">
+                <Setter Property="Margin" Value="0 20 0 20"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="ProgressBarSeparator" TargetType="Separator">
+                <Setter Property="Width" Value="40"/>
+                <Setter Property="Height" Value="2"/>
+                <Setter Property="Background" Value="DarkGray"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="ProgressBarTextBlock" TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignTextBlock}">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="Margin" Value="20 0 20 0"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Foreground" Value="Gray"/>
+            </Style>
+            <Style x:Key="ProgressBarQuestionStatusDot" TargetType="Ellipse">
+                <Setter Property="Width" Value="30"/>
+                <Setter Property="Height" Value="30"/>
+                <Setter Property="Stroke" Value="DarkGray"/>
+                <Setter Property="StrokeThickness" Value="1"/>
+            </Style>
+            
+            <!-- Styling for the buttons used in the quiz -->
+            <Style x:Key="QuizButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
+                <Setter Property="Width" Value="750"/>
+                <Setter Property="Margin" Value="0 0 0 30"/>
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>
