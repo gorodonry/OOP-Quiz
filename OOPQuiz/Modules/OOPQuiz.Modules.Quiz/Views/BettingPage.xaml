@@ -16,11 +16,15 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="350"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="350"/>
+            </Grid.ColumnDefinitions>
             
             <!-- Display the question category along with the user's score -->
-            <materialDesign:ColorZone Grid.Row="0"
+            <materialDesign:ColorZone Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
                                       Style="{StaticResource ColourZoneHeader}">
                 <Grid>
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
@@ -37,7 +41,7 @@
             </materialDesign:ColorZone>
             
             <!-- Progress bar from the quiz runner -->
-            <StackPanel Grid.Row="1"
+            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
                         Style="{StaticResource ProgressBarPanel}">
                 <TextBlock Style="{StaticResource ProgressBarTextBlock}" Text="Start"/>
                 <ItemsControl Style="{StaticResource ProgressBarItemsControl}"
@@ -63,7 +67,7 @@
             
             <!-- Provide betting options for the user -->
             <TextBox x:Name="BettingInput"
-                     Grid.Row="2"
+                     Grid.Row="2" Grid.Column="1"
                      Width="400"
                      FontSize="20"
                      HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -74,12 +78,41 @@
                      Text="{Binding PointsBetByUser, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
 
             <!-- Information on how to bet -->
-            
+            <Expander Grid.Row="2" Grid.Column="0"
+                      ExpandDirection="Right"
+                      Margin="20 30 0 0"
+                      Background="White">
+                <Expander.Header>
+                    <TextBlock Text="Betting Instructions"
+                               RenderTransformOrigin="0.5 0.5">
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform Angle="270"/>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                </Expander.Header>
+                <StackPanel Margin="10 15 0 15">
+                    <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                               Margin="20 0 0 2"
+                               Text="Adding a bit of spice..."/>
+                    <TextBlock TextWrapping="WrapWithOverflow"
+                               TextAlignment="Justify"
+                               Style="{StaticResource MaterialDesignTextBlock}">
+                        To gain extra points, you can bet some or all of your current score.
+                        If you get the next question right you are rewarded handsomely - but be warned; get it wrong and you will lose all the points you bet!
+                        Enter a number between 0 and your current score into the text box in the middle to bet.
+                        It will only accept numbers - I know my regex! After a few initial errors anyway :)
+                        <LineBreak/><LineBreak/>
+                        Betting all of your score will get you quadruple points.
+                        Betting some of your score will get you double points.
+                        Bet sensibly...
+                    </TextBlock>
+                </StackPanel>
+            </Expander>
             
             <!-- Button to submit the bet and advance to the next question -->
             <Button x:Name="SubmitBetButton"
+                    Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
                     Style="{StaticResource QuizButton}"
-                    Grid.Row="4"
                     Command="{Binding SubmitBet}"
                     Content="Submit Bet"/>
         </Grid>
