@@ -166,8 +166,9 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
 
         void ExecuteAdvanceQuiz()
         {
-            if (QuizButtonAction == "Next Question")
+            if (QuizButtonAction == "Next Question" && Score != 0)
             {
+                // Navigate to the betting page if the user has points to make a bet with.
                 var parameters = new NavigationParameters
                 {
                     { "QuestionCategory", QuestionCategory },
@@ -176,6 +177,10 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
                 };
 
                 _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(BettingPage), parameters);
+            }
+            else if (QuizButtonAction == "Next Question")
+            {
+                LoadNextQuestion();
             }
             else
             {
@@ -188,6 +193,28 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         bool CanExecuteAdvanceQuiz()
         {
             return QuestionAnswered;
+        }
+
+        /// <summary>
+        /// Loads the next question from the model and alerts the view to the change.
+        /// </summary>
+        public void LoadNextQuestion()
+        {
+            _model.LoadNextQuestion();
+
+            _userAnswer = string.Empty;
+
+            // Alert the view to the change in the question.
+            RaisePropertyChanged(nameof(Question));
+            RaisePropertyChanged(nameof(QuestionAnswered));
+            RaisePropertyChanged(nameof(QuestionAnsweredAndFeedbackPresent));
+            RaisePropertyChanged(nameof(UserCorrect));
+            RaisePropertyChanged(nameof(AnswersForProgressBar));
+            RaisePropertyChanged(nameof(IsOpenEndedQuestion));
+            RaisePropertyChanged(nameof(CurrentQuestionNumber));
+
+            RaisePropertyChanged(nameof(QuizButtonAction));
+            SubmitAnswer.RaiseCanExecuteChanged();
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
@@ -217,21 +244,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
                 RaisePropertyChanged(nameof(BetMade));
                 RaisePropertyChanged(nameof(UserHasBetPoints));
 
-                _model.LoadNextQuestion();
-
-                _userAnswer = string.Empty;
-
-                // Alert the view to the change in the question.
-                RaisePropertyChanged(nameof(Question));
-                RaisePropertyChanged(nameof(QuestionAnswered));
-                RaisePropertyChanged(nameof(QuestionAnsweredAndFeedbackPresent));
-                RaisePropertyChanged(nameof(UserCorrect));
-                RaisePropertyChanged(nameof(AnswersForProgressBar));
-                RaisePropertyChanged(nameof(IsOpenEndedQuestion));
-                RaisePropertyChanged(nameof(CurrentQuestionNumber));
-
-                RaisePropertyChanged(nameof(QuizButtonAction));
-                SubmitAnswer.RaiseCanExecuteChanged();
+                LoadNextQuestion();
             }
         }
 
