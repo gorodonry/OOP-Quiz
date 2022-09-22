@@ -28,7 +28,7 @@
                                FontSize="30"
                                Text="{Binding QuestionCategory, StringFormat={}{0} Quiz}">
                     </TextBlock>
-                    <TextBlock x:Name="UserScore"
+                    <TextBlock x:Name="UserScore" Style="{StaticResource MaterialDesignTextBlock}"
                                VerticalAlignment="Center" HorizontalAlignment="Right"
                                Margin="0 0 25 0"
                                FontSize="30"

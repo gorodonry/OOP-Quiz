@@ -110,6 +110,16 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         public int Score => _model.UserScore;
 
         /// <summary>
+        /// The bet the user has made.
+        /// </summary>
+        public int BetMade => _model.PointsBetByUser;
+
+        /// <summary>
+        /// A boolean indicating whether or not the user has bet points.
+        /// </summary>
+        public bool UserHasBetPoints => _model.PointsBetByUser != 0;
+
+        /// <summary>
         /// A list of strings indicating the answer status for each question.
         /// </summary>
         public ObservableCollection<string> AnswersForProgressBar => _model.AnswerStatuses;
@@ -134,6 +144,8 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             RaisePropertyChanged(nameof(UserCorrect));
             RaisePropertyChanged(nameof(QuestionFeedback));
             RaisePropertyChanged(nameof(Score));
+            RaisePropertyChanged(nameof(BetMade));
+            RaisePropertyChanged(nameof(UserHasBetPoints));
             RaisePropertyChanged(nameof(AnswersForProgressBar));
 
             RaisePropertyChanged(nameof(QuizButtonAction));
@@ -196,6 +208,15 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             }
             else if (navigationContext.Parameters.GetValue<string>("OnNavigatedTo") == "Process Bet")
             {
+                int betMade = navigationContext.Parameters.GetValue<int>("PointsBetByUser");
+
+                _model.MakeBet(betMade);
+
+                // Alert the view to the change in the score due to betting.
+                RaisePropertyChanged(nameof(Score));
+                RaisePropertyChanged(nameof(BetMade));
+                RaisePropertyChanged(nameof(UserHasBetPoints));
+
                 _model.LoadNextQuestion();
 
                 _userAnswer = string.Empty;
