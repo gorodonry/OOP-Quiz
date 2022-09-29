@@ -20,7 +20,7 @@ namespace OOPQuiz.Modules.Quiz.Views
         private void BettingInput_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             // Bet entered must be less than or equal to the user's score.
-            if (_acceptableBetChars.IsMatch(e.Text))
+            if (_acceptableBetChars.IsMatch(e.Text) && (int.TryParse(BettingInput.Text, out _) || string.IsNullOrEmpty(BettingInput.Text)))
             {
                 // Take into account the position of the caret.
                 int newBet = int.Parse(BettingInput.Text.Insert(BettingInput.CaretIndex, e.Text));

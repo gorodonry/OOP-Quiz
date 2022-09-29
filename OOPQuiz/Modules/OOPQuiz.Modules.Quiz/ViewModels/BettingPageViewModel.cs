@@ -60,6 +60,9 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         public DelegateCommand SubmitBet =>
             _submitBet ?? (_submitBet = new DelegateCommand(ExecuteSubmitBet, CanExecuteSubmitBet));
 
+        /// <summary>
+        /// Submits the bet indicated by the user.
+        /// </summary>
         void ExecuteSubmitBet()
         {
             var parameters = new NavigationParameters
@@ -71,9 +74,41 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(QuizRunner), parameters);
         }
 
+        /// <summary>
+        /// Indicates whether or not a bet can be submitted.
+        /// </summary>
+        /// <returns>True if a bet has been entered.</returns>
         bool CanExecuteSubmitBet()
         {
-            return !string.IsNullOrEmpty(PointsBetByUser);
+            return !string.IsNullOrEmpty(PointsBetByUser) && int.TryParse(PointsBetByUser, out _);
+        }
+
+        private DelegateCommand _submitAllPoints;
+        public DelegateCommand SubmitAllPoints =>
+            _submitAllPoints ?? (_submitAllPoints = new DelegateCommand(ExecuteSubmitAllPoints));
+
+        /// <summary>
+        /// Submits all the user's current points as a bet.
+        /// </summary>
+        void ExecuteSubmitAllPoints()
+        {
+            _pointsBetByUser = _score.ToString();
+
+            ExecuteSubmitBet();
+        }
+
+        private DelegateCommand _submitNoPoints;
+        public DelegateCommand SubmitNoPoints =>
+            _submitNoPoints ?? (_submitNoPoints = new DelegateCommand(ExecuteSubmitNoPoints));
+
+        /// <summary>
+        /// Submits no points as a bet.
+        /// </summary>
+        void ExecuteSubmitNoPoints()
+        {
+            _pointsBetByUser = "0";
+
+            ExecuteSubmitBet();
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)

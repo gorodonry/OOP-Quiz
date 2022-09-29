@@ -128,6 +128,9 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         public DelegateCommand SubmitAnswer =>
             _submitAnswer ?? (_submitAnswer = new DelegateCommand(ExecuteSubmitAnswer, CanExecuteSubmitAnswer));
 
+        /// <summary>
+        /// Indicates the fact that the user has answered the question to the model and updates the view accordingly.
+        /// </summary>
         void ExecuteSubmitAnswer()
         {
             if (IsOpenEndedQuestion)
@@ -152,6 +155,10 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             AdvanceQuiz.RaiseCanExecuteChanged();
         }
 
+        /// <summary>
+        /// Indicates whether or not the user can submit their current answer.
+        /// </summary>
+        /// <returns>A boolean indicating whether or not they have entered/selected an answer.</returns>
         bool CanExecuteSubmitAnswer()
         {
             // User cannot submit a blank answer.
@@ -164,6 +171,12 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         public DelegateCommand AdvanceQuiz =>
             _advanceQuiz ?? (_advanceQuiz = new DelegateCommand(ExecuteAdvanceQuiz, CanExecuteAdvanceQuiz));
 
+        /// <summary>
+        /// Advances the quiz.
+        /// </summary>
+        /// <remarks>
+        /// This either means loading the next question, loading the betting page, or loading the finish quiz page depending on the quiz status.
+        /// </remarks>
         void ExecuteAdvanceQuiz()
         {
             if (QuizButtonAction == "Next Question" && Score != 0)
@@ -190,6 +203,13 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             }
         }
 
+        /// <summary>
+        /// Indicates whether or not the quiz is in a state that it can advance from.
+        /// </summary>
+        /// <returns>A boolean.</returns>
+        /// <remarks>
+        /// Always returns true.
+        /// </remarks>
         bool CanExecuteAdvanceQuiz()
         {
             return QuestionAnswered;
