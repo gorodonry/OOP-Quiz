@@ -32,5 +32,12 @@ namespace OOPQuiz.Modules.Quiz.Views
                 e.Handled = true;
             }
         }
+
+        private void BettingInput_PreviewCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            // Prevent pasting into the betting input.
+            if (e.Command == ApplicationCommands.Paste)
+                e.Handled = true;
+        }
     }
 }

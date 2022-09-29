@@ -79,6 +79,7 @@
                          HorizontalContentAlignment="Center"
                          materialDesign:HintAssist.Hint="How many points would you like to bet?"
                          Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         CommandManager.PreviewCanExecute="BettingInput_PreviewCanExecute"
                          PreviewTextInput="BettingInput_PreviewTextInput"
                          Text="{Binding PointsBetByUser, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
                 <StackPanel Grid.Row="2" Grid.Column="1"
