@@ -22,7 +22,10 @@ namespace OOPQuiz.Modules.Quiz.Views
             // Bet entered must be less than or equal to the user's score.
             if (_acceptableBetChars.IsMatch(e.Text))
             {
-                e.Handled = !(int.Parse(BettingInput.Text + e.Text) <= int.Parse(UserScore.Text.Remove(0, "Score: ".Length)));
+                // Take into account the position of the caret.
+                int newBet = int.Parse(BettingInput.Text.Insert(BettingInput.CaretIndex, e.Text));
+
+                e.Handled = !(newBet <= int.Parse(UserScore.Text.Remove(0, "Score: ".Length)));
             }
             else
             {
