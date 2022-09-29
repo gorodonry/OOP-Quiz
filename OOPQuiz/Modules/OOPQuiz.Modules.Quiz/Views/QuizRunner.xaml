@@ -12,22 +12,8 @@
         <converters:BooleanToAnswerFeedbackColourConverter x:Key="BooleanToAnswerFeedbackColourConverter"/>
         <converters:BooleanToAnswerFeedbackMessageConverter x:Key="BooleanToAnswerFeedbackMessageConverter"/>
         <converters:StringToAnswerStatusColourConverter x:Key="StringToAnswerStatusColourConverter"/>
-        <Style x:Key="QuizButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
-            <Setter Property="Width" Value="750"/>
-            <Setter Property="Margin" Value="0 0 0 30"/>
-        </Style>
-        <Style x:Key="ProgressBarSeparator" TargetType="Separator">
-            <Setter Property="Width" Value="40"/>
-            <Setter Property="Height" Value="2"/>
-            <Setter Property="Background" Value="DarkGray"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-        </Style>
-        <Style x:Key="ProgressBarTextBlock" TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignTextBlock}">
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="Margin" Value="20 0 20 0"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="Gray"/>
+        <Style x:Key="ScoreDisplayTextBlock" TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignTextBlock}">
+            <Setter Property="FontSize" Value="30"/>
         </Style>
     </UserControl.Resources>
     <Grid>
@@ -39,10 +25,10 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
+            
             <!-- Display the question category and number along with the user's score -->
-            <materialDesign:ColorZone Mode="PrimaryLight"
-                                      Grid.Row="0" Grid.Column="0"
-                                      CornerRadius="4" Margin="7">
+            <materialDesign:ColorZone Grid.Row="0"
+                                      Style="{StaticResource ColourZoneHeader}">
                 <Grid>
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
                                Margin="0 10 0 10"
@@ -54,21 +40,25 @@
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right"
-                               Margin="0 0 25 0"
-                               FontSize="30"
-                               Text="{Binding Score, StringFormat={}Score: {0}}"/>
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center" HorizontalAlignment="Right"
+                                Margin="0 0 25 0">
+                        <TextBlock Style="{StaticResource ScoreDisplayTextBlock}" Text="Score:"/>
+                        <TextBlock Style="{StaticResource ScoreDisplayTextBlock}"
+                                   Foreground="DarkRed"
+                                   Visibility="{Binding UserHasBetPoints, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                   Text="{Binding BetMade, StringFormat={} {0} +}"/>
+                        <TextBlock Style="{StaticResource ScoreDisplayTextBlock}"
+                                   Text="{Binding Score, StringFormat={} {0}}"/>
+                    </StackPanel>
                 </Grid>
             </materialDesign:ColorZone>
+            
             <!-- Progress bar -->
             <StackPanel Grid.Row="1"
-                        Margin="0 10 0 10"
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal">
+                        Style="{StaticResource ProgressBarPanel}">
                 <TextBlock Style="{StaticResource ProgressBarTextBlock}" Text="Start"/>
-                <ItemsControl Grid.Row="1"
-                              Margin="0 20 0 20"
-                              HorizontalAlignment="Center"
+                <ItemsControl Style="{StaticResource ProgressBarItemsControl}"
                               ItemsSource="{Binding AnswersForProgressBar}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -79,9 +69,8 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Separator Style="{StaticResource ProgressBarSeparator}"/>
-                                <Ellipse Width="30" Height="30"
-                                         Fill="{Binding Mode=OneWay, Converter={StaticResource StringToAnswerStatusColourConverter}}"
-                                         Stroke="DarkGray" StrokeThickness="1"/>
+                                <Ellipse Style="{StaticResource ProgressBarQuestionStatusDot}"
+                                         Fill="{Binding Mode=OneWay, Converter={StaticResource StringToAnswerStatusColourConverter}}"/>
                                 <Separator Style="{StaticResource ProgressBarSeparator}"/>
                             </StackPanel>
                         </DataTemplate>
@@ -89,6 +78,7 @@
                 </ItemsControl>
                 <TextBlock Style="{StaticResource ProgressBarTextBlock}" Text="End"/>
             </StackPanel>
+            
             <!-- Display all information relating to the question -->
             <Grid Grid.Row="2">
                 <Grid.RowDefinitions>
@@ -96,6 +86,7 @@
                     <RowDefinition/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
+                
                 <!-- Display the question and its accompanying image -->
                 <TextBlock Grid.Row="0"
                            HorizontalAlignment="Center"
@@ -106,6 +97,7 @@
                        Margin="200 0 200 0"
                        HorizontalAlignment="Center" VerticalAlignment="Top"
                        Source="{Binding Question.ImageURI}"/>
+                
                 <!-- Provide multichoice answers (if the question is open-ended this will bind to an empty list and so display nothing) -->
                 <ListBox x:Name="MultiChoiceAnswerPool"
                          Grid.Row="2"
@@ -135,6 +127,7 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+                
                 <!-- Provide a textbox for the user if the question is open-ended -->
                 <TextBox Grid.Row="2"
                          Margin="50 30 50 30"
@@ -153,6 +146,7 @@
                          Style="{StaticResource MaterialDesignOutlinedTextBox}"
                          Text="{Binding UserAnswer, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
+            
             <!-- Display feedback for the user's answer -->
             <TextBlock Grid.Row="3"
                        Margin="0 0 0 20"
@@ -162,6 +156,7 @@
                        FontSize="15"
                        TextWrapping="WrapWithOverflow" TextAlignment="Center"
                        Text="{Binding QuestionFeedback}"/>
+            
             <!-- Button to advance the quiz, depending upon the status of the quiz could submit an answer, advance to the next question, or finish the quiz -->
             <Button x:Name="SubmitAnswerButton"
                     Style="{StaticResource QuizButton}"

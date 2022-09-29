@@ -28,6 +28,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         protected string _feedbackForCurrentQuestion = string.Empty;
 
         protected int _score = 0;
+        protected int _pointsBet = 0;
 
         protected string _buttonAction = "Submit Answer";
 
@@ -60,10 +61,13 @@ namespace OOPQuiz.Modules.Quiz.Models
             get { return _questionCategory; }
             set
             {
-                _questionCategory = value;
+                if (_questionCategory is null)
+                {
+                    _questionCategory = value;
 
-                // Having set the question category, the questions to ask can be determined.
-                SelectQuestions();
+                    // Having set the question category, the questions to ask can be determined.
+                    SelectQuestions();
+                }
             }
         }
 
@@ -117,6 +121,11 @@ namespace OOPQuiz.Modules.Quiz.Models
         public int UserScore => _score;
 
         /// <summary>
+        /// The number of points the user has bet for the current question.
+        /// </summary>
+        public int PointsBetByUser => _pointsBet;
+
+        /// <summary>
         /// A list of strings indicating the answer status for each question.
         /// </summary>
         /// <remarks>
@@ -152,7 +161,25 @@ namespace OOPQuiz.Modules.Quiz.Models
         }
 
         /// <summary>
-        /// Processes the users answer and updates the model accordingly.
+        /// Processes a bet made by the user.
+        /// </summary>
+        /// <param name="pointsBet"></param>
+        public void MakeBet(int pointsBet)
+        {
+            if (pointsBet <= _score)
+            {
+                _pointsBet = pointsBet;
+
+                _score -= _pointsBet;
+            }
+            else
+            {
+                throw new ArgumentException("Bet made is larger than score");
+            }
+        }
+
+        /// <summary>
+        /// Processes the user's answer and updates the model accordingly.
         /// </summary>
         /// <param name="userAnswer">The user's answer to the question.</param>
         /// <remarks>
@@ -166,7 +193,13 @@ namespace OOPQuiz.Modules.Quiz.Models
 
                 _feedbackForCurrentQuestion = CurrentQuestion.Feedback;
 
+                // If the user bet all their points, award them quadruple points, otherwise award them double points.
+                if (_score == 0)
+                    _score += _pointsBet * 2;
+
                 _score += pointsPerQuestion;
+
+                _score += _pointsBet * 2;
             }
             else
             {
@@ -210,6 +243,8 @@ namespace OOPQuiz.Modules.Quiz.Models
                 _buttonAction = "Next Question";
             }
 
+            _pointsBet = 0;
+
             _currentQuestionAnswered = true;
 
             _answerStatuses[_currentQuestionIndex] = Methods.Capitalise(_userCorrect.ToString());
@@ -221,8 +256,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         /// <param name="questions">Dictionary of all questions, obtained from <see cref="IQuestionService"/>.</param>
         public void ImportQuestions(Dictionary<string, List<IQuestion>> questions)
         {
-            if (allQuestions is null)
-                allQuestions = questions;
+            allQuestions ??= questions;
         }
 
         /// <summary>

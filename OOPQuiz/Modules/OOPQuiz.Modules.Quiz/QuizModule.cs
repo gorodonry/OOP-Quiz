@@ -18,12 +18,14 @@ namespace OOPQuiz.Modules.Quiz
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(QuizRunner));
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(MainMenu));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterForNavigation<MainMenu, MainMenuViewModel>();
             containerRegistry.RegisterForNavigation<QuizRunner, QuizRunnerViewModel>();
+            containerRegistry.RegisterForNavigation<BettingPage, BettingPageViewModel>();
         }
     }
 }
