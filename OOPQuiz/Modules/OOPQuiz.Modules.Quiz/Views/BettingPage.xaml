@@ -79,16 +79,12 @@
 
             <!-- Information on how to bet -->
             <Expander Grid.Row="2" Grid.Column="0"
-                      ExpandDirection="Right"
+                      ExpandDirection="Down"
                       Margin="20 30 0 0"
                       Background="White">
                 <Expander.Header>
-                    <TextBlock Text="Betting Instructions"
-                               RenderTransformOrigin="0.5 0.5">
-                        <TextBlock.LayoutTransform>
-                            <RotateTransform Angle="270"/>
-                        </TextBlock.LayoutTransform>
-                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Center"
+                               Text="Betting Instructions"/>
                 </Expander.Header>
                 <StackPanel Margin="10 15 0 15">
                     <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
