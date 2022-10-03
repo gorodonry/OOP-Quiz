@@ -5,6 +5,54 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="350"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="350"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Header for the menu -->
+            <materialDesign:ColorZone Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                                      Style="{StaticResource ColourZoneHeader}">
+                <Grid>
+                    <TextBlock Style="{StaticResource ColourZoneHeaderCentralTextBlock}"
+                               Text="OOP Quiz"/>
+                    <TextBlock Style="{StaticResource MaterialDesignTextBlock}"
+                               HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                               Margin="0 0 30 3"
+                               FontSize="20"
+                               Text="By Ryan Gordon"/>
+                </Grid>
+            </materialDesign:ColorZone>
             
+            <!-- Provide instructions on how to use the quiz in an expander -->
+            
+            
+            <!-- Allow for the selection of a question category -->
+            <StackPanel Grid.Row="1" Grid.Column="1"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock FontSize="15"
+                           Text="Select a question category"/>
+                <ComboBox ItemsSource="{Binding QuestionCategories}"
+                          SelectedItem="{Binding SelectedQuestionCategory}"
+                          Margin="20 10 0 0"/>
+            </StackPanel>
+            
+            <!-- Display user highscores on the right -->
+            
+            
+            <!-- Start quiz button -->
+            <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+                    Style="{StaticResource QuizButton}"
+                    Command="{Binding StartQuiz}"
+                    Content="Take Quiz"/>
+        </Grid>
     </Grid>
 </UserControl>

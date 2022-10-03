@@ -31,9 +31,7 @@
             <materialDesign:ColorZone Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
                                       Style="{StaticResource ColourZoneHeader}">
                 <Grid>
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
-                               Margin="0 10 0 10"
-                               FontSize="30"
+                    <TextBlock Style="{StaticResource ColourZoneHeaderCentralTextBlock}"
                                Text="{Binding QuestionCategory, StringFormat={}{0} Quiz}">
                     </TextBlock>
                     <TextBlock x:Name="UserScore" Style="{StaticResource MaterialDesignTextBlock}"
