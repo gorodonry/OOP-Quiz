@@ -4,6 +4,23 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <UserControl.Resources>
+        <Style x:Key="BulletPoint" TargetType="Ellipse">
+            <Setter Property="Height" Value="4"/>
+            <Setter Property="Width" Value="4"/>
+            <Setter Property="Fill" Value="Black"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+        <Style x:Key="BulletPointHost" TargetType="BulletDecorator">
+            <Setter Property="Margin" Value="10 0 0 0"/>
+        </Style>
+        <Style x:Key="BulletTextBlock" TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignTextBlock}">
+            <Setter Property="Margin" Value="5 0 0 0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="TextAlignment" Value="Justify"/>
+            <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -33,7 +50,58 @@
             </materialDesign:ColorZone>
             
             <!-- Provide instructions on how to use the quiz in an expander -->
-            
+            <Expander Grid.Row="1" Grid.Column="0"
+                      ExpandDirection="Down"
+                      Margin="20 30 0 0">
+                <Expander.Header>
+                    <TextBlock HorizontalAlignment="Center"
+                               Text="Instructions"/>
+                </Expander.Header>
+                <StackPanel Margin="10 15 0 15">
+                    <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                               Margin="20 0 0 2"
+                               Text="Welcome to OOP Quiz!"/>
+                    <TextBlock TextWrapping="WrapWithOverflow"
+                               TextAlignment="Justify"
+                               Style="{StaticResource MaterialDesignTextBlock}">
+                        A (mostly) multichoice quiz with three different categories available.
+                        Just like any other multichoice quiz, click on the answer you have selected and then click 'submit answer'.
+                        It's not rocket science!
+                        <LineBreak/><LineBreak/>
+                        To make things interesting, this quiz also allows you to bet points after every question (provided you have points to bet...).
+                        Instructions for how to do this are available when you bet, if it isn't intuitive.
+                        The maximum number of points you can get is 3 495 250 (not arbitrary I swear) and the minmum is 0.
+                        <LineBreak/><LineBreak/>
+                        There are three different question categories:
+                        <LineBreak/>
+                        <BulletDecorator Style="{StaticResource BulletPointHost}">
+                            <BulletDecorator.Bullet>
+                                <Ellipse Style="{StaticResource BulletPoint}"/>
+                            </BulletDecorator.Bullet>
+                            <TextBlock Style="{StaticResource BulletTextBlock}">C# - object oriented questions for C# users</TextBlock>
+                        </BulletDecorator>
+                        <LineBreak/>
+                        <BulletDecorator Style="{StaticResource BulletPointHost}">
+                            <BulletDecorator.Bullet>
+                                <Ellipse Style="{StaticResource BulletPoint}"/>
+                            </BulletDecorator.Bullet>
+                            <TextBlock Style="{StaticResource BulletTextBlock}">Python - object oriented questions for Python users</TextBlock>
+                        </BulletDecorator>
+                        <LineBreak/>
+                        <BulletDecorator Style="{StaticResource BulletPointHost}">
+                            <BulletDecorator.Bullet>
+                                <Ellipse Style="{StaticResource BulletPoint}"/>
+                            </BulletDecorator.Bullet>
+                            <TextBlock Style="{StaticResource BulletTextBlock}">History of OOP - questions about the history of OOP</TextBlock>
+                        </BulletDecorator>
+                        <LineBreak/><LineBreak/>
+                        If you have no idea what C# or Python are I would recommend going with History of OOP (which contains no coding jargon),
+                        but you're welcome to try any of them. Good luck!
+                        <LineBreak/><LineBreak/>
+                        For the record, C# and Python are programming languages - this quiz was written using C#.
+                    </TextBlock>
+                </StackPanel>
+            </Expander>
             
             <!-- Allow for the selection of a question category -->
             <StackPanel Grid.Row="1" Grid.Column="1"
