@@ -51,35 +51,14 @@ namespace OOPQuiz.Business.Models
             _choices.Shuffle();
         }
 
-        /// <summary>
-        /// The question for the user to answer.
-        /// </summary>
         public string Question => _question;
 
-        /// <summary>
-        /// The answer to the question.
-        /// </summary>
         public string Answer => _answer;
 
-        /// <summary>
-        /// The supporting image for the question.
-        /// </summary>
         public string ImageURI => _imageURI;
 
-        /// <summary>
-        /// Feedback for the user after the question.
-        /// </summary>
-        /// <remarks>
-        /// Empty if the question doesn't provide any feedback.
-        /// </remarks>
         public string Feedback => _feedback;
 
-        /// <summary>
-        /// The choices the user has for the question.
-        /// </summary>
-        /// <remarks>
-        /// There can be anywhere between 2 and 6 choices to choose from, but typically there are 4.
-        /// </remarks>
         public List<Choice> Choices => _choices;
     }
 }

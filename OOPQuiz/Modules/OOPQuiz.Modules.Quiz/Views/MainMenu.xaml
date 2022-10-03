@@ -35,7 +35,7 @@
                 <ColumnDefinition Width="350"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Header for the menu -->
+            <!-- Header for the main menu -->
             <materialDesign:ColorZone Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
                                       Style="{StaticResource ColourZoneHeader}">
                 <Grid>

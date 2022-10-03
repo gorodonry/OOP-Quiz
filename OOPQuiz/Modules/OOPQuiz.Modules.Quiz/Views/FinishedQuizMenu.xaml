@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="OOPQuiz.Modules.Quiz.Views.FinishedQuizMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <!-- Header for the finished quiz menu -->
+            <materialDesign:ColorZone Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                                      Style="{StaticResource ColourZoneHeader}">
+                <TextBlock Style="{StaticResource ColourZoneHeaderCentralTextBlock}"
+                           Text="{Binding QuestionCategory}"/>
+            </materialDesign:ColorZone>
+        </Grid>
+    </Grid>
+</UserControl>

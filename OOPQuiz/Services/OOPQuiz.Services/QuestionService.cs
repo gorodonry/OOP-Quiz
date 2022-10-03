@@ -321,19 +321,11 @@ namespace OOPQuiz.Services
             { "History of OOP", OOPHistoryQuestions }
         };
 
-        /// <summary>
-        /// The question categories in this program.
-        /// </summary>
-        /// <returns>A list of question categories.</returns>
         public List<string> GetQuestionCategories()
         {
             return allQuestions.Keys.ToList();
         }
 
-        /// <summary>
-        /// The questions in this program.
-        /// </summary>
-        /// <returns>A dictionary with the key as the question category and the value as a list of questions for that category.</returns>
         public Dictionary<string, List<IQuestion>> GetQuestions()
         {
             return allQuestions;

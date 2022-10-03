@@ -197,9 +197,15 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             }
             else
             {
+                // Navigate to the finished quiz menu.
                 _exitingQuiz = true;
 
-                // Navigate to a finish screen for the quiz (coming in a later sprint).
+                var parameters = new NavigationParameters
+                {
+                    { "QuestionCategory", QuestionCategory }
+                };
+
+                _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(FinishedQuizMenu), parameters);
             }
         }
 
