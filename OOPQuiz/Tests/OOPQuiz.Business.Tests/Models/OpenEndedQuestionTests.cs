@@ -72,5 +72,17 @@
             Assert.Empty(actual);
             Assert.IsType<List<Choice>>(actual);
         }
+
+        [Fact]
+        public void TestClone()
+        {
+            // Clone should not be the same instance but should have all the same data.
+            var openEndedQuestion = new OpenEndedQuestion("", "", "");
+
+            var clone = openEndedQuestion.Clone();
+
+            Assert.IsType<OpenEndedQuestion>(clone);
+            Assert.NotSame(openEndedQuestion, clone);
+        }
     }
 }

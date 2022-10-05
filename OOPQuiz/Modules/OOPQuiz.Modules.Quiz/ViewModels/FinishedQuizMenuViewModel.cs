@@ -2,6 +2,9 @@
 using Prism.Regions;
 using OOPQuiz.Modules.Quiz.Models;
 using System.Linq;
+using Prism.Commands;
+using OOPQuiz.Core;
+using OOPQuiz.Modules.Quiz.Views;
 
 namespace OOPQuiz.Modules.Quiz.ViewModels
 {
@@ -44,6 +47,15 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         /// General feedback based off the user's performance.
         /// </summary>
         public string GeneralFeedback => _generalFeedback;
+
+        private DelegateCommand _exitToMainMenu;
+        public DelegateCommand ExitToMainMenu =>
+            _exitToMainMenu ?? (_exitToMainMenu = new DelegateCommand(ExecuteExitToMainMenu));
+
+        void ExecuteExitToMainMenu()
+        {
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(MainMenu));
+        }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {

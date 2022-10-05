@@ -4,8 +4,10 @@ using Prism.Regions;
 using OOPQuiz.Modules.Quiz.Views;
 using OOPQuiz.Services.Interfaces;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Prism.Commands;
+using System.Linq;
+
+using System.Diagnostics;
 
 namespace OOPQuiz.Modules.Quiz.ViewModels
 {
@@ -90,7 +92,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         {
             _regionManager = regionManager;
 
-            _questionCategories = questionService.GetQuestionCategories();
+            _questionCategories = questionService.GetQuestionCategories().ToList();
         }
     }
 }

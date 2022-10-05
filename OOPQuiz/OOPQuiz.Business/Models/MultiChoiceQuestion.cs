@@ -60,5 +60,17 @@ namespace OOPQuiz.Business.Models
         public string Feedback => _feedback;
 
         public List<Choice> Choices => _choices;
+
+        public object Clone()
+        {
+            List<Choice> choices = new();
+
+            foreach (Choice choice in _choices)
+            {
+                choices.Add((Choice)choice.Clone());
+            }
+
+            return new MultiChoiceQuestion(_question, _answer, _imageURI, choices, _feedback);
+        }
     }
 }

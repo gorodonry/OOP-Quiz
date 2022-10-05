@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using OOPQuiz.Services.Interfaces;
 using System;
-using System.Diagnostics;
 using OOPQuiz.Core.Models;
 using System.Collections.ObjectModel;
 using System.Linq;
+
+using System.Diagnostics;
 
 namespace OOPQuiz.Modules.Quiz.Models
 {

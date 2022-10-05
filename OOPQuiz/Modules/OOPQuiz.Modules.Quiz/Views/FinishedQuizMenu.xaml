@@ -9,6 +9,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -66,6 +67,14 @@
             </Grid>
             
             <!-- Display the individual questions for the user to review -->
+            
+            
+            <!-- Button to return to the main menu -->
+            <Button x:Name="ExitToMainMenuButton"
+                    Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                    Style="{StaticResource QuizButton}"
+                    Command="{Binding ExitToMainMenu}"
+                    Content="Return to Main Menu"/>
         </Grid>
     </Grid>
 </UserControl>

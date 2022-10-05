@@ -75,5 +75,21 @@
 
             Assert.Equal(expected, input);
         }
+
+        [Fact]
+        public void TestClone()
+        {
+            // Clone should not be the same instance but should have all the same data.
+            var choice = new Choice("Answer", "Feedback", "Hex code");
+
+            var clone = choice.Clone();
+
+            Assert.IsType<Choice>(clone);
+            Assert.NotSame(choice, clone);
+
+            Assert.Equal(choice.PotentialAnswer, ((Choice)clone).PotentialAnswer);
+            Assert.Equal(choice.FeedbackForAnswer, ((Choice)clone).FeedbackForAnswer);
+            Assert.Equal(choice.BackgroundHexCode, ((Choice)clone).BackgroundHexCode);
+        }
     }
 }

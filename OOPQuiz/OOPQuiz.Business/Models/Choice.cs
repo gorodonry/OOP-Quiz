@@ -1,16 +1,17 @@
 ﻿using Prism.Mvvm;
+using System;
 
 namespace OOPQuiz.Business.Models
 {
     /// <summary>
     /// A potential answer for a multichoice question.
     /// </summary>
-    public class Choice : BindableBase
+    public class Choice : BindableBase, ICloneable
     {
         protected readonly string _potentialAnswer;
         protected readonly string _feedbackForAnswer;
 
-        protected string _backGroundHexCode;
+        protected string _backgroundHexCode;
 
         /// <summary>
         /// A potential answer for a multichoice question.
@@ -22,7 +23,7 @@ namespace OOPQuiz.Business.Models
         {
             _potentialAnswer = potentialAnswer;
             _feedbackForAnswer = feedbackForAnswer;
-            _backGroundHexCode = backgroundHexCode;
+            _backgroundHexCode = backgroundHexCode;
         }
 
         /// <summary>
@@ -52,13 +53,18 @@ namespace OOPQuiz.Business.Models
         /// </remarks>
         public string BackgroundHexCode
         {
-            get { return _backGroundHexCode; }
+            get { return _backgroundHexCode; }
             set
             {
-                _backGroundHexCode = value;
+                _backgroundHexCode = value;
 
                 RaisePropertyChanged(nameof(BackgroundHexCode));
             }
+        }
+
+        public object Clone()
+        {
+            return new Choice(_potentialAnswer, _feedbackForAnswer, _backgroundHexCode);
         }
     }
 }

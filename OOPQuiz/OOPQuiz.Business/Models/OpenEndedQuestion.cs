@@ -38,5 +38,10 @@ namespace OOPQuiz.Business.Models
         public string Feedback => _feedback;
 
         public List<Choice> Choices => _choices;
+
+        public object Clone()
+        {
+            return new OpenEndedQuestion(_question, _answer, _imageURI, _feedback);
+        }
     }
 }

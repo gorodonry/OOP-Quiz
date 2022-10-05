@@ -4,11 +4,12 @@ using OOPQuiz.Services.Interfaces;
 using OOPQuiz.Modules.Quiz.Models;
 using OOPQuiz.Business.Models;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using Prism.Commands;
 using System;
 using OOPQuiz.Core;
 using OOPQuiz.Modules.Quiz.Views;
+
+using System.Diagnostics;
 
 namespace OOPQuiz.Modules.Quiz.ViewModels
 {

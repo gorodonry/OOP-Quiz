@@ -3,6 +3,7 @@ using OOPQuiz.Services.Interfaces;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Collections.Immutable;
 
 namespace OOPQuiz.Services
 {
@@ -321,14 +322,29 @@ namespace OOPQuiz.Services
             { "History of OOP", OOPHistoryQuestions }
         };
 
-        public List<string> GetQuestionCategories()
+        public ImmutableList<string> GetQuestionCategories()
         {
-            return allQuestions.Keys.ToList();
+            return allQuestions.Keys.ToImmutableList();
         }
 
         public Dictionary<string, List<IQuestion>> GetQuestions()
         {
-            return allQuestions;
+            // Create and then return a deep copy of the question dictionary.
+            Dictionary<string, List<IQuestion>> deepCopy = new();
+
+            foreach (KeyValuePair<string, List<IQuestion>> entry in allQuestions)
+            {
+                List<IQuestion> subDeepCopy = new();
+
+                foreach (IQuestion subEntry in entry.Value)
+                {
+                    subDeepCopy.Add((IQuestion)subEntry.Clone());
+                }
+
+                deepCopy.Add(entry.Key, subDeepCopy);
+            }
+
+            return deepCopy;
         }
     }
 }
