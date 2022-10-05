@@ -11,12 +11,46 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
             <!-- Header for the finished quiz menu -->
-            <materialDesign:ColorZone Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+            <materialDesign:ColorZone Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                                       Style="{StaticResource ColourZoneHeader}">
                 <TextBlock Style="{StaticResource ColourZoneHeaderCentralTextBlock}"
                            Text="{Binding QuestionCategory}"/>
             </materialDesign:ColorZone>
+
+            <!-- Display general performance information -->
+            <Grid Grid.Row="1" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                
+                <!-- Display the number of questions the user got right -->
+                <TextBlock Grid.Row="0"
+                           HorizontalAlignment="Center"
+                           Margin="0 100 0 50"
+                           FontSize="50">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} / {1}">
+                            <Binding Path="NumberOfQuestionsCorrect"/>
+                            <Binding Path="NumberOfQuestionsInQuiz"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <TextBlock Grid.Row="1"
+                           HorizontalAlignment="Center"
+                           Height="50" MaxWidth="400"
+                           TextAlignment="Center" TextWrapping="Wrap"
+                           Text="{Binding GeneralFeedback}"/>
+            </Grid>
+            
+            <!-- Display the individual questions for the user to review -->
         </Grid>
     </Grid>
 </UserControl>
