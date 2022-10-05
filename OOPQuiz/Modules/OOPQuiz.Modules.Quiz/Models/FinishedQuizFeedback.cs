@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="numberOfQuestionsCorrectlyAnswered">The number of questions correctly answered by the user.</param>
         /// <returns>A string containing feedback.</returns>
-        public static string GetFeedbackBasedOnNumberOfQuestionsCorrectlyAnswered(int numberOfQuestionsCorrectlyAnswered)
+        public static string GetFeedbackBasedOnNumberOfQuestionsCorrectlyAnswered(int numberOfQuestionsCorrectlyAnswered, int score)
         {
             string feedback;
 
@@ -45,7 +45,16 @@
                     break;
 
                 case 10:
-                    feedback = "A perfect score - well done! But did you get maximum points?";
+                    // Check if the user also got maximum points, if so, adjust the feedback.
+                    if (score == 3495250)
+                    {
+                        feedback = "100%!!!!!";
+                    }
+                    else
+                    {
+                        feedback = "A perfect score - well done! But did you get maximum points..?";
+                    }
+                    
                     break;
 
                 default:

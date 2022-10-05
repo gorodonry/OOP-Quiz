@@ -62,7 +62,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             _numberOfQuestionsInQuiz = navigationContext.Parameters.GetValue<int>("NumberOfQuestionsInQuiz");
             _score = navigationContext.Parameters.GetValue<int>("Score");
 
-            _generalFeedback = FinishedQuizFeedback.GetFeedbackBasedOnNumberOfQuestionsCorrectlyAnswered(_numberOfQuestionsCorrect);
+            _generalFeedback = FinishedQuizFeedback.GetFeedbackBasedOnNumberOfQuestionsCorrectlyAnswered(_numberOfQuestionsCorrect, _score);
 
             RaisePropertyChanged(nameof(QuestionCategory));
 

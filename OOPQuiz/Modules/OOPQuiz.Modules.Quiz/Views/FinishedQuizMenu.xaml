@@ -28,6 +28,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 
@@ -43,11 +44,25 @@
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
+                
+                <!-- Feedback based on the number of questions the user got right -->
                 <TextBlock Grid.Row="1"
                            HorizontalAlignment="Center"
                            Height="50" MaxWidth="400"
                            TextAlignment="Center" TextWrapping="Wrap"
                            Text="{Binding GeneralFeedback}"/>
+                
+                <!-- Display the final score achieved by the user -->
+                <StackPanel Grid.Row="2"
+                            HorizontalAlignment="Center">
+                    <TextBlock Margin="0 50 0 0"
+                               HorizontalAlignment="Center"
+                               Text="Your final score was"/>
+                    <TextBlock Margin="0 10 0 50"
+                               HorizontalAlignment="Center"
+                               FontSize="50"
+                               Text="{Binding Score, StringFormat={}{0}pts}"/>
+                </StackPanel>
             </Grid>
             
             <!-- Display the individual questions for the user to review -->

@@ -64,7 +64,7 @@
                     <TextBlock TextWrapping="WrapWithOverflow"
                                TextAlignment="Justify"
                                Style="{StaticResource MaterialDesignTextBlock}">
-                        A (mostly) multichoice quiz with three different categories available.
+                        A (mostly) multichoice quiz about OOP (Object-Oriented Programming) with three different categories available.
                         Just like any other multichoice quiz, click on the answer you have selected and then click 'submit answer'.
                         It's not rocket science!
                         <LineBreak/><LineBreak/>
