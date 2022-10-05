@@ -9,7 +9,6 @@ using Prism.Commands;
 using System;
 using OOPQuiz.Core;
 using OOPQuiz.Modules.Quiz.Views;
-using System.Linq;
 
 namespace OOPQuiz.Modules.Quiz.ViewModels
 {
@@ -203,10 +202,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
 
                 var parameters = new NavigationParameters
                 {
-                    { "QuestionCategory", QuestionCategory },
-                    { "NumberOfQuestionsCorrect",  AnswersForProgressBar.Count(x => x == "True") },
-                    { "NumberOfQuestionsInQuiz", AnswersForProgressBar.Count },
-                    { "Score", Score }
+                    { "QuizModel", _model }
                 };
 
                 _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(FinishedQuizMenu), parameters);

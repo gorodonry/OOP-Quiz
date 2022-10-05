@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics;
 using OOPQuiz.Core.Models;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace OOPQuiz.Modules.Quiz.Models
 {
@@ -26,6 +27,8 @@ namespace OOPQuiz.Modules.Quiz.Models
         protected bool _currentQuestionAnswered = false;
         protected bool? _userCorrect;
         protected string _feedbackForCurrentQuestion = string.Empty;
+
+        protected List<string> _feedbackGiven = new();
 
         protected int _score = 0;
         protected int _pointsBet = 0;
@@ -142,6 +145,38 @@ namespace OOPQuiz.Modules.Quiz.Models
         public string ButtonAction => _buttonAction;
 
         /// <summary>
+        /// The feedback provided for each question answered so far.
+        /// </summary>
+        /// <remarks>
+        /// Only returned if the quiz has been finished.
+        /// </remarks>
+        public List<string> FeedbackGiven
+        {
+            get
+            {
+                if (AnswerStatuses.Count(x => x == "True") + AnswerStatuses.Count(x => x == "False") == numberOfQuestions)
+                    return _feedbackGiven;
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// The questions asked in the quiz.
+        /// </summary>
+        /// <remarks>
+        /// Only returned if the quiz has been finished.
+        /// </remarks>
+        public List<IQuestion> Questions
+        {
+            get
+            {
+                if (AnswerStatuses.Count(x => x == "True") + AnswerStatuses.Count(x => x == "False") == numberOfQuestions)
+                    return _questions;
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Loads the information for the next question.
         /// </summary>
         public void LoadNextQuestion()
@@ -248,6 +283,8 @@ namespace OOPQuiz.Modules.Quiz.Models
             _currentQuestionAnswered = true;
 
             _answerStatuses[_currentQuestionIndex] = Methods.Capitalise(_userCorrect.ToString());
+
+            _feedbackGiven.Add(_feedbackForCurrentQuestion);
         }
 
         /// <summary>

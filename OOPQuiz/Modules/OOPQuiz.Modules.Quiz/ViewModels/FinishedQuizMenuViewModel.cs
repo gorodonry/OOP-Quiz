@@ -1,6 +1,7 @@
 ﻿using Prism.Mvvm;
 using Prism.Regions;
 using OOPQuiz.Modules.Quiz.Models;
+using System.Linq;
 
 namespace OOPQuiz.Modules.Quiz.ViewModels
 {
@@ -56,11 +57,14 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            _questionCategory = navigationContext.Parameters.GetValue<string>("QuestionCategory");
+            // Obtain all necessary information for this menu from the model.
+            QuizRunnerModel modelFromQuiz = navigationContext.Parameters.GetValue<QuizRunnerModel>("QuizModel");
 
-            _numberOfQuestionsCorrect = navigationContext.Parameters.GetValue<int>("NumberOfQuestionsCorrect");
-            _numberOfQuestionsInQuiz = navigationContext.Parameters.GetValue<int>("NumberOfQuestionsInQuiz");
-            _score = navigationContext.Parameters.GetValue<int>("Score");
+            _questionCategory = modelFromQuiz.QuestionCategory;
+
+            _numberOfQuestionsCorrect = modelFromQuiz.AnswerStatuses.Count(x => x == "True");
+            _numberOfQuestionsInQuiz = modelFromQuiz.AnswerStatuses.Count;
+            _score = modelFromQuiz.UserScore;
 
             _generalFeedback = FinishedQuizFeedback.GetFeedbackBasedOnNumberOfQuestionsCorrectlyAnswered(_numberOfQuestionsCorrect, _score);
 

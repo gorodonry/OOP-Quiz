@@ -9,6 +9,7 @@
         /// Provides feedback based on the number of questions the user got right.
         /// </summary>
         /// <param name="numberOfQuestionsCorrectlyAnswered">The number of questions correctly answered by the user.</param>
+        /// <param name="score">The final score achieved by the user.</param>
         /// <returns>A string containing feedback.</returns>
         public static string GetFeedbackBasedOnNumberOfQuestionsCorrectlyAnswered(int numberOfQuestionsCorrectlyAnswered, int score)
         {
