@@ -244,6 +244,23 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             SubmitAnswer.RaiseCanExecuteChanged();
         }
 
+        private DelegateCommand _exitToMainMenu;
+        public DelegateCommand ExitToMainMenu =>
+            _exitToMainMenu ?? (_exitToMainMenu = new DelegateCommand(ExecuteExitToMainMenu));
+
+        /// <summary>
+        /// Terminates the quiz and returns the user to the main menu.
+        /// </summary>
+        /// <remarks>
+        /// The current <see cref="QuizRunnerViewModel"/> will not be kept alive, so all current progress will be lost.
+        /// </remarks>
+        void ExecuteExitToMainMenu()
+        {
+            _exitingQuiz = true;
+
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(MainMenu));
+        }
+
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             if (!navigationContext.Parameters.ContainsKey("OnNavigatedTo"))
