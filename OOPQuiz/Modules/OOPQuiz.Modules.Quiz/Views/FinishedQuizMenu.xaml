@@ -9,6 +9,7 @@
     <UserControl.Resources>
         <converters:StringToAnswerStatusColourConverter x:Key="StringToAnswerStatusColourConverter"/>
         <converters:StringToAnswerStatusSupportingColourConverter x:Key="StringToAnswerStatusSupportingColourConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid>
@@ -150,7 +151,21 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                
+
+                <!-- Display the answer given by the use (open-ended) -->
+                <Border Grid.Row="2"
+                        HorizontalAlignment="Center"
+                        Margin="25 20 25 15" Padding="30 20 30 20"
+                        BorderBrush="Gray" BorderThickness="1"
+                        CornerRadius="5"
+                        Visibility="{Binding SelectedQuestionIsOpenEnded, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               MaxHeight="120"
+                               Foreground="{Binding AnswerStatusForSelectedQuestion, Converter={StaticResource StringToAnswerStatusColourConverter}}"
+                               Text="{Binding AnswerGivenForSelectedQuestion, StringFormat={}Your answer was: {0}}"/>
+                </Border>
+
                 <!-- Display the question-specific feedback -->
                 <TextBlock Grid.Row="3"
                            HorizontalAlignment="Center"

@@ -1,7 +1,6 @@
 ﻿using Prism.Mvvm;
 using Prism.Regions;
 using OOPQuiz.Modules.Quiz.Models;
-using System.Linq;
 using Prism.Commands;
 using OOPQuiz.Core;
 using OOPQuiz.Modules.Quiz.Views;
@@ -62,6 +61,24 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         /// </summary>
         public string FeedbackForSelectedQuestion => _model.FeedbackForSelectedQuestion;
 
+        /// <summary>
+        /// The answer given by the user for the question currently being reviewed by the user.
+        /// </summary>
+        /// <remarks>
+        /// Useful for when the user is reviewing open-ended questions.
+        /// </remarks>
+        public string AnswerGivenForSelectedQuestion => _model.AnswerGivenForSelectedQuestion;
+
+        /// <summary>
+        /// The answer status for the question currently being reviewed by the user.
+        /// </summary>
+        public string AnswerStatusForSelectedQuestion => _model.AnswerStatusForSelectedQuestion;
+
+        /// <summary>
+        /// Indicates whether or not the question the user is reviewing is open-ended.
+        /// </summary>
+        public bool SelectedQuestionIsOpenEnded => _model.SelectedQuestionIsOpenEnded;
+
         private DelegateCommand<QuestionNumberAnswerPair> _selectQuestion;
         public DelegateCommand<QuestionNumberAnswerPair> SelectQuestion =>
             _selectQuestion ?? (_selectQuestion = new DelegateCommand<QuestionNumberAnswerPair>(ExecuteSelectQuestion));
@@ -76,7 +93,10 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
 
             RaisePropertyChanged(nameof(SelectedQuestionNumber));
             RaisePropertyChanged(nameof(SelectedQuestion));
+            RaisePropertyChanged(nameof(SelectedQuestionIsOpenEnded));
             RaisePropertyChanged(nameof(FeedbackForSelectedQuestion));
+            RaisePropertyChanged(nameof(AnswerGivenForSelectedQuestion));
+            RaisePropertyChanged(nameof(AnswerStatusForSelectedQuestion));
         }
 
         private DelegateCommand _exitToMainMenu;

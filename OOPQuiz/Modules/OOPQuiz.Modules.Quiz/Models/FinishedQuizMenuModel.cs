@@ -14,6 +14,7 @@ namespace OOPQuiz.Modules.Quiz.Models
 
         protected string _questionCategory;
         protected List<IQuestion> _questions;
+        protected List<string> _answersGiven;
         protected List<string> _specificQuestionFeedback;
         protected List<QuestionNumberAnswerPair> _finalAnswerStatuses;
 
@@ -100,12 +101,55 @@ namespace OOPQuiz.Modules.Quiz.Models
         }
 
         /// <summary>
+        /// The answer given by the user for the question currently being reviewed by the user.
+        /// </summary>
+        /// <remarks>
+        /// Useful for when the user is reviewing open-ended questions.
+        /// </remarks>
+        public string AnswerGivenForSelectedQuestion
+        {
+            get
+            {
+                if (_answersGiven is not null)
+                    return _answersGiven[_selectedQuestionNumber - 1];
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// The answer status for the question currently being reviewed by the user.
+        /// </summary>
+        public string AnswerStatusForSelectedQuestion
+        {
+            get
+            {
+                if (_finalAnswerStatuses is not null)
+                    return _finalAnswerStatuses[_selectedQuestionNumber - 1].AnswerAsString;
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Indicates whether or not the question the user is reviewing is open-ended.
+        /// </summary>
+        public bool SelectedQuestionIsOpenEnded
+        {
+            get
+            {
+                if (_questions is not null)
+                    return _questions[_selectedQuestionNumber - 1].Choices.Count == 0;
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Loads the necessary information from the recently completed quiz into the model for the finished quiz menu.
         /// </summary>
         /// <param name="modelFromQuiz">The model used for the recent quiz, containing all information from the quiz.</param>
         public void ProcessQuizInformation(QuizRunnerModel modelFromQuiz)
         {
             _questions = modelFromQuiz.Questions;
+            _answersGiven = modelFromQuiz.AnswersGiven;
             _specificQuestionFeedback = modelFromQuiz.FeedbackGiven;
 
             _questionCategory = modelFromQuiz.QuestionCategory;

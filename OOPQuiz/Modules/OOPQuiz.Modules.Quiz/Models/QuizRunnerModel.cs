@@ -30,6 +30,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         protected string _feedbackForCurrentQuestion = string.Empty;
 
         protected List<string> _feedbackGiven = new();
+        protected List<string> _answersGiven = new();
 
         protected int _score = 0;
         protected int _pointsBet = 0;
@@ -146,6 +147,11 @@ namespace OOPQuiz.Modules.Quiz.Models
         public string ButtonAction => _buttonAction;
 
         /// <summary>
+        /// A boolean indicating whether or not all questions have been answered.
+        /// </summary>
+        public bool QuizCompleted => AnswerStatuses.Count(x => x == "True") + AnswerStatuses.Count(x => x == "False") == numberOfQuestions;
+
+        /// <summary>
         /// The feedback provided for each question answered so far.
         /// </summary>
         /// <remarks>
@@ -155,8 +161,24 @@ namespace OOPQuiz.Modules.Quiz.Models
         {
             get
             {
-                if (AnswerStatuses.Count(x => x == "True") + AnswerStatuses.Count(x => x == "False") == numberOfQuestions)
+                if (QuizCompleted)
                     return _feedbackGiven;
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// The answers given by the user.
+        /// </summary>
+        /// <remarks>
+        /// Only returned if the quiz has been finished.
+        /// </remarks>
+        public List<string> AnswersGiven
+        {
+            get
+            {
+                if (QuizCompleted)
+                    return _answersGiven;
                 return null;
             }
         }
@@ -171,7 +193,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         {
             get
             {
-                if (AnswerStatuses.Count(x => x == "True") + AnswerStatuses.Count(x => x == "False") == numberOfQuestions)
+                if (QuizCompleted)
                     return _questions;
                 return null;
             }
@@ -286,6 +308,8 @@ namespace OOPQuiz.Modules.Quiz.Models
             _answerStatuses[_currentQuestionIndex] = Methods.Capitalise(_userCorrect.ToString());
 
             _feedbackGiven.Add(_feedbackForCurrentQuestion);
+
+            _answersGiven.Add(userAnswer);
         }
 
         /// <summary>
