@@ -112,6 +112,26 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             ExecuteSubmitBet();
         }
 
+        private DelegateCommand _exitToMainMenu;
+        public DelegateCommand ExitToMainMenu =>
+            _exitToMainMenu ?? (_exitToMainMenu = new DelegateCommand(ExecuteExitToMainMenu));
+
+        /// <summary>
+        /// Terminates the current quiz. All progress will be lost.
+        /// </summary>
+        /// <remarks>
+        /// Returns to the quiz runner briefly to terminate the current instance of the <see cref="QuizRunnerViewModel"/>.
+        /// </remarks>
+        void ExecuteExitToMainMenu()
+        {
+            var parameters = new NavigationParameters
+            {
+                { "OnNavigatedTo", "Exit to Main Menu" }
+            };
+
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(QuizRunner), parameters);
+        }
+
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             _questionCategory = navigationContext.Parameters.GetValue<string>("QuestionCategory");

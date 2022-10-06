@@ -15,38 +15,25 @@
         <Style x:Key="ScoreDisplayTextBlock" TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignTextBlock}">
             <Setter Property="FontSize" Value="30"/>
         </Style>
-        <Style x:Key="ReturnMainMenuDialogButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
-            <Setter Property="Width" Value="125"/>
-            <Setter Property="Margin" Value="10 0 10 20"/>
-        </Style>
     </UserControl.Resources>
     <Grid>
         <materialDesign:DialogHost CloseOnClickAway="True">
             <materialDesign:DialogHost.DialogContent>
                 
                 <!-- Dialog that asks the user if they really want to exit to the main menu -->
-                <Grid Width="400" Height="200">
+                <Grid Style="{StaticResource ReturnMainMenuDialogParentGrid}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <materialDesign:ColorZone Grid.Row="0" Style="{StaticResource ColourZoneHeader}">
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                                   Margin="10"
-                                   FontSize="20"
+                        <TextBlock Style="{StaticResource ReturnMainMenuDialogHeaderTextBlock}"
                                    Text="{Binding QuestionCategory}"/>
                     </materialDesign:ColorZone>
-                    <TextBlock Grid.Row="1"
-                               TextAlignment="Center"
-                               TextWrapping="WrapWithOverflow"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"
-                               Margin="50 0 50 0"
-                               FontSize="15"
+                    <TextBlock Grid.Row="1" Style="{StaticResource ReturnMainMenuDialogCentralTextBlock}"
                                Text="Are you sure you want to return to the main menu? You will lose all your progress."/>
-                    <StackPanel Grid.Row="2"
-                                Orientation="Horizontal"
-                                HorizontalAlignment="Center">
+                    <StackPanel Grid.Row="2" Style="{StaticResource ReturnMainMenuDialogStackPanel}">
                         <Button Style="{StaticResource ReturnMainMenuDialogButton}"
                                 Content="Yes"
                                 Command="{Binding ExitToMainMenu}"/>
@@ -70,10 +57,8 @@
                     <Grid>
                         
                         <!-- Button to return to the main menu, opens the dialog above -->
-                        <Button HorizontalAlignment="Left" VerticalAlignment="Center"
-                                Style="{StaticResource MaterialDesignOutlinedDarkButton}"
-                                Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
-                                Margin="12 0 0 0">
+                        <Button Style="{StaticResource OpenReturnMainMenuDialogButton}"
+                                Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="ArrowLeft" VerticalAlignment="Center"/>
@@ -81,7 +66,7 @@
                                 </StackPanel>
                             </Button.Content>
                         </Button>
-                        
+
                         <TextBlock Style="{StaticResource ColourZoneHeaderCentralTextBlock}">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="{}{0}: Question {1}">

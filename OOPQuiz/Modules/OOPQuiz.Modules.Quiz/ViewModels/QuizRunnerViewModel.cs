@@ -290,6 +290,10 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
 
                 LoadNextQuestion();
             }
+            else if (navigationContext.Parameters.GetValue<string>("OnNavigatedTo") == "Exit to Main Menu")
+            {
+                ExecuteExitToMainMenu();
+            }
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
