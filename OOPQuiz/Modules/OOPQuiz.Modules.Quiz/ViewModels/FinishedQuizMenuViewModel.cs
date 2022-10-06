@@ -5,6 +5,8 @@ using System.Linq;
 using Prism.Commands;
 using OOPQuiz.Core;
 using OOPQuiz.Modules.Quiz.Views;
+using System.Collections.Generic;
+using OOPQuiz.Business.Models;
 
 namespace OOPQuiz.Modules.Quiz.ViewModels
 {
@@ -13,45 +15,77 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
     /// </summary>
     public class FinishedQuizMenuViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
-        private string _questionCategory;
+        private readonly FinishedQuizMenuModel _model = new();
+
+        /// <summary>
+        /// The number of the question currently selected by the user.
+        /// </summary>
+        public int SelectedQuestionNumber => _model.SelectedQuestionNumber;
 
         /// <summary>
         /// The category of questions asked in the recent quiz.
         /// </summary>
-        public string QuestionCategory => _questionCategory;
-
-        private int _numberOfQuestionsCorrect;
+        public string QuestionCategory => _model.QuestionCategory;
 
         /// <summary>
         /// The number of questions the user got correct in the recent quiz.
         /// </summary>
-        public int NumberOfQuestionsCorrect => _numberOfQuestionsCorrect;
-
-        private int _numberOfQuestionsInQuiz;
+        public int NumberOfQuestionsCorrect => _model.NumberOfQuestionsCorrect;
 
         /// <summary>
         /// The number of questions in the recent quiz.
         /// </summary>
-        public int NumberOfQuestionsInQuiz => _numberOfQuestionsInQuiz;
-
-        private int _score;
+        public int NumberOfQuestionsInQuiz => _model.NumberOfQuestionsInQuiz;
 
         /// <summary>
         /// The final score the user got in the recent quiz.
         /// </summary>
-        public int Score => _score;
-
-        private string _generalFeedback;
+        public int Score => _model.Score;
 
         /// <summary>
         /// General feedback based off the user's performance.
         /// </summary>
-        public string GeneralFeedback => _generalFeedback;
+        public string GeneralFeedback => _model.GeneralFeedback;
+
+        /// <summary>
+        /// A list of <see cref="QuestionNumberAnswerPair"/>'s indicating which questions the user got right.
+        /// </summary>
+        public List<QuestionNumberAnswerPair> FinalAnswerStatuses => _model.FinalAnswerStatuses;
+
+        /// <summary>
+        /// The question currently being reviewed by the user.
+        /// </summary>
+        public IQuestion SelectedQuestion => _model.SelectedQuestion;
+
+        /// <summary>
+        /// The question-specific feedback for the question currently being reviewed by the user.
+        /// </summary>
+        public string FeedbackForSelectedQuestion => _model.FeedbackForSelectedQuestion;
+
+        private DelegateCommand<QuestionNumberAnswerPair> _selectQuestion;
+        public DelegateCommand<QuestionNumberAnswerPair> SelectQuestion =>
+            _selectQuestion ?? (_selectQuestion = new DelegateCommand<QuestionNumberAnswerPair>(ExecuteSelectQuestion));
+
+        /// <summary>
+        /// Changes the selected question to the question specified.
+        /// </summary>
+        /// <param name="questionNumber">The number of the question to display.</param>
+        void ExecuteSelectQuestion(QuestionNumberAnswerPair questionInfo)
+        {
+            _model.SelectedQuestionNumber = questionInfo.QuestionNumber;
+
+            RaisePropertyChanged(nameof(SelectedQuestionNumber));
+            RaisePropertyChanged(nameof(SelectedQuestion));
+            RaisePropertyChanged(nameof(FeedbackForSelectedQuestion));
+        }
 
         private DelegateCommand _exitToMainMenu;
         public DelegateCommand ExitToMainMenu =>
             _exitToMainMenu ?? (_exitToMainMenu = new DelegateCommand(ExecuteExitToMainMenu));
 
+        /// <summary>
+        /// Navigates to the main menu.
+        /// </summary>
         void ExecuteExitToMainMenu()
         {
             _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(MainMenu));
@@ -70,23 +104,16 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             // Obtain all necessary information for this menu from the model.
-            QuizRunnerModel modelFromQuiz = navigationContext.Parameters.GetValue<QuizRunnerModel>("QuizModel");
+            _model.ProcessQuizInformation(navigationContext.Parameters.GetValue<QuizRunnerModel>("QuizModel"));
 
-            _questionCategory = modelFromQuiz.QuestionCategory;
-
-            _numberOfQuestionsCorrect = modelFromQuiz.AnswerStatuses.Count(x => x == "True");
-            _numberOfQuestionsInQuiz = modelFromQuiz.AnswerStatuses.Count;
-            _score = modelFromQuiz.UserScore;
-
-            _generalFeedback = FinishedQuizFeedback.GetFeedbackBasedOnNumberOfQuestionsCorrectlyAnswered(_numberOfQuestionsCorrect, _score);
-
+            // Alert the view to the new information.
             RaisePropertyChanged(nameof(QuestionCategory));
-
+            RaisePropertyChanged(nameof(FinalAnswerStatuses));
             RaisePropertyChanged(nameof(NumberOfQuestionsCorrect));
             RaisePropertyChanged(nameof(NumberOfQuestionsInQuiz));
             RaisePropertyChanged(nameof(Score));
-
             RaisePropertyChanged(nameof(GeneralFeedback));
+            RaisePropertyChanged(nameof(SelectedQuestion));
         }
 
         public bool KeepAlive => false;

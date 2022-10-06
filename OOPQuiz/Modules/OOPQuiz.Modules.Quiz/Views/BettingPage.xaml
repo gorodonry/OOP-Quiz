@@ -142,8 +142,7 @@
                         <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
                                    Margin="20 0 0 2"
                                    Text="Adding a bit of spice..."/>
-                        <TextBlock TextWrapping="WrapWithOverflow"
-                                   TextAlignment="Justify"
+                        <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Justify"
                                    Style="{StaticResource MaterialDesignTextBlock}">
                             To gain extra points, you can bet some or all of your current score.
                             If you get the next question right you are rewarded handsomely - but be warned; get it wrong and you will lose all the points you bet!

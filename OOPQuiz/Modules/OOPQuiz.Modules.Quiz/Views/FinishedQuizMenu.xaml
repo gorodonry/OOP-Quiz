@@ -3,7 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:OOPQuiz.Core.Converters;assembly=OOPQuiz.Core"
+             Background="White">
+    <UserControl.Resources>
+        <converters:StringToAnswerStatusColourConverter x:Key="StringToAnswerStatusColourConverter"/>
+        <converters:StringToAnswerStatusSupportingColourConverter x:Key="StringToAnswerStatusSupportingColourConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -36,7 +42,7 @@
                 <!-- Display the number of questions the user got right -->
                 <TextBlock Grid.Row="0"
                            HorizontalAlignment="Center"
-                           Margin="0 100 0 50"
+                           Margin="0 50 0 25"
                            FontSize="50">
                     <TextBlock.Text>
                         <MultiBinding StringFormat="{}{0} / {1}">
@@ -56,18 +62,102 @@
                 <!-- Display the final score achieved by the user -->
                 <StackPanel Grid.Row="2"
                             HorizontalAlignment="Center">
-                    <TextBlock Margin="0 50 0 0"
+                    <TextBlock Margin="0 20 0 0"
                                HorizontalAlignment="Center"
                                Text="Your final score was"/>
-                    <TextBlock Margin="0 10 0 50"
+                    <TextBlock Margin="0 25 0 0"
                                HorizontalAlignment="Center"
                                FontSize="50"
                                Text="{Binding Score, StringFormat={}{0}pts}"/>
                 </StackPanel>
+                
+                <!-- Allow the user to select a question to review -->
+                <StackPanel Grid.Row="3"
+                            HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Select a question to review:"
+                               Margin="0 0 0 10"
+                               HorizontalAlignment="Center"/>
+                    <ItemsControl ItemsSource="{Binding FinalAnswerStatuses}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid IsItemsHost="True" Columns="5"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Background="{Binding AnswerAsString, Converter={StaticResource StringToAnswerStatusColourConverter}}"
+                                        Width="40" Height="40"
+                                        Margin="7" Padding="0"
+                                        materialDesign:ButtonAssist.CornerRadius="4"
+                                        BorderBrush="{Binding AnswerAsString, Converter={StaticResource StringToAnswerStatusSupportingColourConverter}}"
+                                        Content="{Binding QuestionNumber}"
+                                        CommandParameter="{Binding}"
+                                        Command="{Binding DataContext.SelectQuestion, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
             </Grid>
             
             <!-- Display the individual questions for the user to review -->
-            
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                
+                <!-- Display the question, together with its number in the recent quiz -->
+                <TextBlock Grid.Row="0"
+                           HorizontalAlignment="Center"
+                           TextAlignment="Center" TextWrapping="WrapWithOverflow"
+                           Margin="30">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}Question {0}: {1}">
+                            <Binding Path="SelectedQuestionNumber"/>
+                            <Binding Path="SelectedQuestion.Question"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                
+                <!-- Display the question's accompanying image -->
+                <Image Grid.Row="1"
+                       Margin="100 0 100 0"
+                       HorizontalAlignment="Center" VerticalAlignment="Top"
+                       Source="{Binding SelectedQuestion.ImageURI}"/>
+                
+                <!-- Display the answer given by the user, along with the other possible answers (multichoice) -->
+                <ListBox Grid.Row="2"
+                         Margin="25 20 25 15"
+                         IsHitTestVisible="False"
+                         ItemsSource="{Binding SelectedQuestion.Choices}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid IsItemsHost="True" Columns="2"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                            <Setter Property="Margin" Value="2"/>
+                            <Setter Property="Height" Value="60"/>
+                            <Setter Property="Background" Value="{Binding BackgroundHexCode}"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="15 0 0 0" FontSize="15" TextWrapping="WrapWithOverflow" Text="{Binding PotentialAnswer}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                
+                <!-- Display the question-specific feedback -->
+                <TextBlock Grid.Row="3"
+                           HorizontalAlignment="Center"
+                           Margin="30 0 30 15"
+                           TextAlignment="Center" TextWrapping="WrapWithOverflow"
+                           Text="{Binding FeedbackForSelectedQuestion}"/>
+            </Grid>
             
             <!-- Button to return to the main menu -->
             <Button x:Name="ExitToMainMenuButton"

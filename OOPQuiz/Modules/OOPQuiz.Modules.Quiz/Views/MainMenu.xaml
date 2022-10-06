@@ -61,8 +61,7 @@
                     <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
                                Margin="20 0 0 2"
                                Text="Welcome to OOP Quiz!"/>
-                    <TextBlock TextWrapping="WrapWithOverflow"
-                               TextAlignment="Justify"
+                    <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Justify"
                                Style="{StaticResource MaterialDesignTextBlock}">
                         A (mostly) multichoice quiz about OOP (Object-Oriented Programming) with three different categories available.
                         Just like any other multichoice quiz, click on the answer you have selected and then click 'submit answer'.
