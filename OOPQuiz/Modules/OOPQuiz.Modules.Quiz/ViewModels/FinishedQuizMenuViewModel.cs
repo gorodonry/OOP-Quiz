@@ -48,6 +48,19 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         public string TimeTaken => _model.TimeTakenAsString;
 
         /// <summary>
+        /// The user's provisional placing against all other highscores.
+        /// </summary>
+        public int? ProvisionalPlacing
+        {
+            get
+            {
+                if (_model.QuestionCategory is not null)
+                    return _highscoreService.DetermineProvisionalPlacing(_model.QuestionCategory, _model.Score, _model.TimeTaken);
+                return null;
+            }
+        } 
+
+        /// <summary>
         /// General feedback based off the user's performance.
         /// </summary>
         public string GeneralFeedback => _model.GeneralFeedback;
@@ -189,6 +202,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             RaisePropertyChanged(nameof(NumberOfQuestionsInQuiz));
             RaisePropertyChanged(nameof(Score));
             RaisePropertyChanged(nameof(TimeTaken));
+            RaisePropertyChanged(nameof(ProvisionalPlacing));
             RaisePropertyChanged(nameof(GeneralFeedback));
             RaisePropertyChanged(nameof(SelectedQuestion));
         }

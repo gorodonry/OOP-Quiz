@@ -64,6 +64,9 @@ namespace OOPQuiz.Modules.Quiz.Models
         /// </summary>
         public string TimeTakenAsString => Methods.ConvertTimeSpanToString(_timeTaken);
 
+        /// <summary>
+        /// The time taken to complete the recent quiz.
+        /// </summary>
         public TimeSpan TimeTaken => _timeTaken;
 
         /// <summary>

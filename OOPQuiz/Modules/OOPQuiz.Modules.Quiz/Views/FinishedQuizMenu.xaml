@@ -98,12 +98,13 @@
                     <!-- Feedback based on the number of questions the user got right -->
                     <TextBlock Grid.Row="1"
                                HorizontalAlignment="Center"
-                               Height="50" MaxWidth="400"
+                               Height="50" MaxWidth="425"
                                TextAlignment="Center" TextWrapping="Wrap">
                         <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0} Your final time was: {1}.">
+                            <MultiBinding StringFormat="{}{0} Your final time was: {1}, and you placed at position {2} on the leaderboard!">
                                 <Binding Path="GeneralFeedback"/>
                                 <Binding Path="TimeTaken"/>
+                                <Binding Path="ProvisionalPlacing"/>
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>

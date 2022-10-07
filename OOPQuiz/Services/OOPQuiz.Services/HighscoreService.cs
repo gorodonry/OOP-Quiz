@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.Json;
 using OOPQuiz.Business.Models;
 using System;
+using System.Linq;
 
 using System.Diagnostics;
 
@@ -41,6 +42,15 @@ namespace OOPQuiz.Services
         }
 
         private static Dictionary<string, List<Performance>> Highscores => ReadJSON();
+
+        public int DetermineProvisionalPlacing(string category, int score, TimeSpan timeTaken)
+        {
+            List<Performance> otherCategoryScores = ReadJSON()[category];
+
+            // Find the number of scores higher than the user, and combine it with the number of same scores but a faster time than the user.
+            return otherCategoryScores.Count(x => x.Score > score) + 1 +
+                otherCategoryScores.Where(x => x.Score == score).Count(x => x.TimeTaken.TotalSeconds <= timeTaken.TotalSeconds);
+        }
 
         public void SubmitHighscore(string category, Performance performance)
         {
