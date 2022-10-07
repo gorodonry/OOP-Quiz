@@ -7,179 +7,232 @@
              xmlns:converters="clr-namespace:OOPQuiz.Core.Converters;assembly=OOPQuiz.Core"
              Background="White">
     <UserControl.Resources>
+        <converters:BooleanNegator x:Key="BooleanNegator"/>
         <converters:StringToAnswerStatusColourConverter x:Key="StringToAnswerStatusColourConverter"/>
         <converters:StringToAnswerStatusSupportingColourConverter x:Key="StringToAnswerStatusSupportingColourConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
     <Grid>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
+        <materialDesign:DialogHost CloseOnClickAway="True">
+            <materialDesign:DialogHost.DialogContent>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-
-            <!-- Header for the finished quiz menu -->
-            <materialDesign:ColorZone Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                                      Style="{StaticResource ColourZoneHeader}">
-                <TextBlock Style="{StaticResource ColourZoneHeaderCentralTextBlock}"
-                           Text="{Binding QuestionCategory}"/>
-            </materialDesign:ColorZone>
-
-            <!-- Display general performance information -->
-            <Grid Grid.Row="1" Grid.Column="0">
+                <!-- Dialog for submitting user score -->
+                <Grid Style="{StaticResource DialogParentGrid}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <materialDesign:ColorZone Grid.Row="0" Style="{StaticResource ColourZoneHeader}">
+                        <TextBlock Style="{StaticResource DialogHeaderTextBlock}"
+                                   Text="{Binding UserName, StringFormat={}Submit score for {0}}"/>
+                    </materialDesign:ColorZone>
+                    <TextBox Grid.Row="1"
+                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                             Margin="10"
+                             Width="150" MaxWidth="300"
+                             materialDesign:HintAssist.Hint="Enter your name"
+                             materialDesign:HintAssist.IsFloating="False"
+                             Visibility="{Binding ScoreSubmitted, Converter={StaticResource InverseBoolToVisConverter}}"
+                             Text="{Binding UserName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Row="1"
+                               Style="{StaticResource DialogCentralTextBlock}"
+                               Visibility="{Binding ScoreSubmitted, Converter={StaticResource BooleanToVisibilityConverter}}"
+                               Text="Score successfully submitted!"/>
+                    <StackPanel Grid.Row="2" Style="{StaticResource DialogStackPanel}">
+                        <Button Style="{StaticResource DialogButton}"
+                                Content="Submit"
+                                Command="{Binding SubmitScore}"/>
+                        <Button Style="{StaticResource DialogButton}"
+                                Content="Cancel"
+                                Visibility="{Binding ScoreSubmitted, Converter={StaticResource InverseBoolToVisConverter}}"
+                                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+                        <Button Style="{StaticResource DialogButton}"
+                                Content="Close"
+                                Visibility="{Binding ScoreSubmitted, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:DialogHost.DialogContent>
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
                     <RowDefinition/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                
-                <!-- Display the number of questions the user got right -->
-                <TextBlock Grid.Row="0"
-                           HorizontalAlignment="Center"
-                           Margin="0 50 0 25"
-                           FontSize="50">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0} / {1}">
-                            <Binding Path="NumberOfQuestionsCorrect"/>
-                            <Binding Path="NumberOfQuestionsInQuiz"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
-                
-                <!-- Feedback based on the number of questions the user got right -->
-                <TextBlock Grid.Row="1"
-                           HorizontalAlignment="Center"
-                           Height="50" MaxWidth="400"
-                           TextAlignment="Center" TextWrapping="Wrap"
-                           Text="{Binding GeneralFeedback}"/>
-                
-                <!-- Display the final score achieved by the user -->
-                <StackPanel Grid.Row="2"
-                            HorizontalAlignment="Center">
-                    <TextBlock Margin="0 20 0 0"
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Header for the finished quiz menu -->
+                <materialDesign:ColorZone Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                                          Style="{StaticResource ColourZoneHeader}">
+                    <TextBlock Style="{StaticResource ColourZoneHeaderCentralTextBlock}"
+                               Text="{Binding QuestionCategory}"/>
+                </materialDesign:ColorZone>
+
+                <!-- Display general performance information -->
+                <Grid Grid.Row="1" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Display the number of questions the user got right -->
+                    <TextBlock Grid.Row="0"
                                HorizontalAlignment="Center"
-                               Text="Your final score was"/>
-                    <TextBlock Margin="0 25 0 0"
+                               Margin="0 50 0 25"
+                               FontSize="50">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} / {1}">
+                                <Binding Path="NumberOfQuestionsCorrect"/>
+                                <Binding Path="NumberOfQuestionsInQuiz"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+
+                    <!-- Feedback based on the number of questions the user got right -->
+                    <TextBlock Grid.Row="1"
                                HorizontalAlignment="Center"
-                               FontSize="50"
-                               Text="{Binding Score, StringFormat={}{0}pts}"/>
-                </StackPanel>
-                
-                <!-- Allow the user to select a question to review -->
-                <StackPanel Grid.Row="3"
-                            HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Text="Select a question to review:"
-                               Margin="0 0 0 10"
-                               HorizontalAlignment="Center"/>
-                    <ItemsControl ItemsSource="{Binding FinalAnswerStatuses}">
-                        <ItemsControl.ItemsPanel>
+                               Height="50" MaxWidth="400"
+                               TextAlignment="Center" TextWrapping="Wrap">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} Your final time was: {1}.">
+                                <Binding Path="GeneralFeedback"/>
+                                <Binding Path="TimeTaken"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+
+                    <!-- Display the final score achieved by the user -->
+                    <StackPanel Grid.Row="2"
+                                HorizontalAlignment="Center">
+                        <TextBlock Margin="0 20 0 0"
+                                   HorizontalAlignment="Center"
+                                   Text="Your final score was"/>
+                        <TextBlock Margin="0 25 0 20"
+                                   HorizontalAlignment="Center"
+                                   FontSize="50"
+                                   Text="{Binding Score, StringFormat={}{0}pts}"/>
+                        <Button Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                                IsEnabled="{Binding ScoreSubmitted, Converter={StaticResource BooleanNegator}}"
+                                Content="Submit Score"/>
+                    </StackPanel>
+
+                    <!-- Allow the user to select a question to review -->
+                    <StackPanel Grid.Row="3"
+                                HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="Select a question to review:"
+                                   Margin="0 0 0 10"
+                                   HorizontalAlignment="Center"/>
+                        <ItemsControl ItemsSource="{Binding FinalAnswerStatuses}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid IsItemsHost="True" Columns="5"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Background="{Binding AnswerAsString, Converter={StaticResource StringToAnswerStatusColourConverter}}"
+                                            Width="40" Height="40"
+                                            Margin="7" Padding="0"
+                                            materialDesign:ButtonAssist.CornerRadius="4"
+                                            BorderBrush="{Binding AnswerAsString, Converter={StaticResource StringToAnswerStatusSupportingColourConverter}}"
+                                            Content="{Binding QuestionNumber}"
+                                            CommandParameter="{Binding}"
+                                            Command="{Binding DataContext.SelectQuestion, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Display the individual questions for the user to review -->
+                <Grid Grid.Row="1" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Display the question, together with its number in the recent quiz -->
+                    <TextBlock Grid.Row="0"
+                               HorizontalAlignment="Center"
+                               TextAlignment="Center" TextWrapping="WrapWithOverflow"
+                               Margin="30">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}Question {0}: {1}">
+                                <Binding Path="SelectedQuestionNumber"/>
+                                <Binding Path="SelectedQuestion.Question"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+
+                    <!-- Display the question's accompanying image -->
+                    <Image Grid.Row="1"
+                           Margin="100 0 100 0"
+                           HorizontalAlignment="Center" VerticalAlignment="Top"
+                           Source="{Binding SelectedQuestion.ImageURI}"/>
+
+                    <!-- Display the answer given by the user, along with the other possible answers (multichoice) -->
+                    <ListBox Grid.Row="2"
+                             Margin="25 20 25 15"
+                             IsHitTestVisible="False"
+                             ItemsSource="{Binding SelectedQuestion.Choices}">
+                        <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <UniformGrid IsItemsHost="True" Columns="5"/>
+                                <UniformGrid IsItemsHost="True" Columns="2"/>
                             </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                <Setter Property="Margin" Value="2"/>
+                                <Setter Property="Height" Value="60"/>
+                                <Setter Property="Background" Value="{Binding BackgroundHexCode}"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Button Background="{Binding AnswerAsString, Converter={StaticResource StringToAnswerStatusColourConverter}}"
-                                        Width="40" Height="40"
-                                        Margin="7" Padding="0"
-                                        materialDesign:ButtonAssist.CornerRadius="4"
-                                        BorderBrush="{Binding AnswerAsString, Converter={StaticResource StringToAnswerStatusSupportingColourConverter}}"
-                                        Content="{Binding QuestionNumber}"
-                                        CommandParameter="{Binding}"
-                                        Command="{Binding DataContext.SelectQuestion, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+                                <TextBlock Margin="15 0 0 0" FontSize="15" TextWrapping="WrapWithOverflow" Text="{Binding PotentialAnswer}"/>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
-            </Grid>
-            
-            <!-- Display the individual questions for the user to review -->
-            <Grid Grid.Row="1" Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                
-                <!-- Display the question, together with its number in the recent quiz -->
-                <TextBlock Grid.Row="0"
-                           HorizontalAlignment="Center"
-                           TextAlignment="Center" TextWrapping="WrapWithOverflow"
-                           Margin="30">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}Question {0}: {1}">
-                            <Binding Path="SelectedQuestionNumber"/>
-                            <Binding Path="SelectedQuestion.Question"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
-                
-                <!-- Display the question's accompanying image -->
-                <Image Grid.Row="1"
-                       Margin="100 0 100 0"
-                       HorizontalAlignment="Center" VerticalAlignment="Top"
-                       Source="{Binding SelectedQuestion.ImageURI}"/>
-                
-                <!-- Display the answer given by the user, along with the other possible answers (multichoice) -->
-                <ListBox Grid.Row="2"
-                         Margin="25 20 25 15"
-                         IsHitTestVisible="False"
-                         ItemsSource="{Binding SelectedQuestion.Choices}">
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid IsItemsHost="True" Columns="2"/>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                            <Setter Property="Margin" Value="2"/>
-                            <Setter Property="Height" Value="60"/>
-                            <Setter Property="Background" Value="{Binding BackgroundHexCode}"/>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Margin="15 0 0 0" FontSize="15" TextWrapping="WrapWithOverflow" Text="{Binding PotentialAnswer}"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
 
-                <!-- Display the answer given by the use (open-ended) -->
-                <Border Grid.Row="2"
-                        HorizontalAlignment="Center"
-                        Margin="25 20 25 15" Padding="30 20 30 20"
-                        BorderBrush="Gray" BorderThickness="1"
-                        CornerRadius="5"
-                        Visibility="{Binding SelectedQuestionIsOpenEnded, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <TextBlock TextAlignment="Center" TextWrapping="Wrap"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"
-                               MaxHeight="120"
-                               Foreground="{Binding AnswerStatusForSelectedQuestion, Converter={StaticResource StringToAnswerStatusColourConverter}}"
-                               Text="{Binding AnswerGivenForSelectedQuestion, StringFormat={}Your answer was: {0}}"/>
-                </Border>
+                    <!-- Display the answer given by the use (open-ended) -->
+                    <Border Grid.Row="2"
+                            HorizontalAlignment="Center"
+                            Margin="25 20 25 15" Padding="30 20 30 20"
+                            BorderBrush="Gray" BorderThickness="1"
+                            CornerRadius="5"
+                            Visibility="{Binding SelectedQuestionIsOpenEnded, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   MaxHeight="120"
+                                   Foreground="{Binding AnswerStatusForSelectedQuestion, Converter={StaticResource StringToAnswerStatusColourConverter}}"
+                                   Text="{Binding AnswerGivenForSelectedQuestion, StringFormat={}Your answer was: {0}}"/>
+                    </Border>
 
-                <!-- Display the question-specific feedback -->
-                <TextBlock Grid.Row="3"
-                           HorizontalAlignment="Center"
-                           Margin="30 0 30 15"
-                           TextAlignment="Center" TextWrapping="WrapWithOverflow"
-                           Text="{Binding FeedbackForSelectedQuestion}"/>
+                    <!-- Display the question-specific feedback -->
+                    <TextBlock Grid.Row="3"
+                               HorizontalAlignment="Center"
+                               Margin="30 0 30 15"
+                               TextAlignment="Center" TextWrapping="WrapWithOverflow"
+                               Text="{Binding FeedbackForSelectedQuestion}"/>
+                </Grid>
+
+                <!-- Button to return to the main menu -->
+                <Button x:Name="ExitToMainMenuButton"
+                        Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                        Style="{StaticResource QuizButton}"
+                        Command="{Binding ExitToMainMenu}"
+                        Content="Return to Main Menu"/>
             </Grid>
-            
-            <!-- Button to return to the main menu -->
-            <Button x:Name="ExitToMainMenuButton"
-                    Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-                    Style="{StaticResource QuizButton}"
-                    Command="{Binding ExitToMainMenu}"
-                    Content="Return to Main Menu"/>
-        </Grid>
+        </materialDesign:DialogHost>
     </Grid>
 </UserControl>

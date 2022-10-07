@@ -6,6 +6,7 @@ using OOPQuiz.Core;
 using OOPQuiz.Modules.Quiz.Views;
 using System.Collections.Generic;
 using OOPQuiz.Business.Models;
+using OOPQuiz.Services.Interfaces;
 
 namespace OOPQuiz.Modules.Quiz.ViewModels
 {
@@ -40,6 +41,11 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         /// The final score the user got in the recent quiz.
         /// </summary>
         public int Score => _model.Score;
+
+        /// <summary>
+        /// The time taken to complete the recent quiz.
+        /// </summary>
+        public string TimeTaken => _model.TimeTakenAsString;
 
         /// <summary>
         /// General feedback based off the user's performance.
@@ -79,6 +85,30 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         /// </summary>
         public bool SelectedQuestionIsOpenEnded => _model.SelectedQuestionIsOpenEnded;
 
+        private string _userName;
+
+        /// <summary>
+        /// The name of the user who took the quiz.
+        /// </summary>
+        public string UserName
+        {
+            get { return _userName; }
+            set
+            {
+                SetProperty(ref _userName, value.Trim());
+
+                RaisePropertyChanged(nameof(UserName));
+                SubmitScore.RaiseCanExecuteChanged();
+            }
+        }
+
+        private bool _scoreSubmitted = false;
+
+        /// <summary>
+        /// A boolean indicating whether or not the user's score has been submitted.
+        /// </summary>
+        public bool ScoreSubmitted => _scoreSubmitted;
+
         private DelegateCommand<QuestionNumberAnswerPair> _selectQuestion;
         public DelegateCommand<QuestionNumberAnswerPair> SelectQuestion =>
             _selectQuestion ?? (_selectQuestion = new DelegateCommand<QuestionNumberAnswerPair>(ExecuteSelectQuestion));
@@ -86,7 +116,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         /// <summary>
         /// Changes the selected question to the question specified.
         /// </summary>
-        /// <param name="questionNumber">The number of the question to display.</param>
+        /// <param name="questionInfo">The number of the question to display.</param>
         void ExecuteSelectQuestion(QuestionNumberAnswerPair questionInfo)
         {
             _model.SelectedQuestionNumber = questionInfo.QuestionNumber;
@@ -97,6 +127,32 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             RaisePropertyChanged(nameof(FeedbackForSelectedQuestion));
             RaisePropertyChanged(nameof(AnswerGivenForSelectedQuestion));
             RaisePropertyChanged(nameof(AnswerStatusForSelectedQuestion));
+        }
+
+        private DelegateCommand _submitScore;
+        public DelegateCommand SubmitScore =>
+            _submitScore ?? (_submitScore = new DelegateCommand(ExecuteSubmitScore, CanExecuteSubmitScore));
+
+        /// <summary>
+        /// Adds the user's score to the leaderboard.
+        /// </summary>
+        void ExecuteSubmitScore()
+        {
+            _highscoreService.SubmitHighscore(QuestionCategory, new(UserName, _model.Score, _model.TimeTaken));
+
+            _scoreSubmitted = true;
+
+            RaisePropertyChanged(nameof(ScoreSubmitted));
+            SubmitScore.RaiseCanExecuteChanged();
+        }
+
+        /// <summary>
+        /// Determines if the user can submit their score or not.
+        /// </summary>
+        /// <returns>True if the user has entered a username, otherwise False.</returns>
+        bool CanExecuteSubmitScore()
+        {
+            return !string.IsNullOrEmpty(UserName) && !ScoreSubmitted;
         }
 
         private DelegateCommand _exitToMainMenu;
@@ -132,6 +188,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             RaisePropertyChanged(nameof(NumberOfQuestionsCorrect));
             RaisePropertyChanged(nameof(NumberOfQuestionsInQuiz));
             RaisePropertyChanged(nameof(Score));
+            RaisePropertyChanged(nameof(TimeTaken));
             RaisePropertyChanged(nameof(GeneralFeedback));
             RaisePropertyChanged(nameof(SelectedQuestion));
         }
@@ -140,9 +197,13 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
 
         private readonly IRegionManager _regionManager;
 
-        public FinishedQuizMenuViewModel(IRegionManager regionManager)
+        private readonly IHighscoreService _highscoreService;
+
+        public FinishedQuizMenuViewModel(IRegionManager regionManager, IHighscoreService highscoreService)
         {
             _regionManager = regionManager;
+
+            _highscoreService = highscoreService;
         }
     }
 }

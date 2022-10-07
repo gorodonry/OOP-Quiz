@@ -18,23 +18,23 @@
             <materialDesign:DialogHost.DialogContent>
 
                 <!-- Dialog that asks the user if they really want to exit to the main menu -->
-                <Grid Style="{StaticResource ReturnMainMenuDialogParentGrid}">
+                <Grid Style="{StaticResource DialogParentGrid}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <materialDesign:ColorZone Grid.Row="0" Style="{StaticResource ColourZoneHeader}">
-                        <TextBlock Style="{StaticResource ReturnMainMenuDialogHeaderTextBlock}"
+                        <TextBlock Style="{StaticResource DialogHeaderTextBlock}"
                                    Text="{Binding QuestionCategory}"/>
                     </materialDesign:ColorZone>
-                    <TextBlock Grid.Row="1" Style="{StaticResource ReturnMainMenuDialogCentralTextBlock}"
+                    <TextBlock Grid.Row="1" Style="{StaticResource DialogCentralTextBlock}"
                                Text="Are you sure you want to return to the main menu? You will lose all your progress."/>
-                    <StackPanel Grid.Row="2" Style="{StaticResource ReturnMainMenuDialogStackPanel}">
-                        <Button Style="{StaticResource ReturnMainMenuDialogButton}"
+                    <StackPanel Grid.Row="2" Style="{StaticResource DialogStackPanel}">
+                        <Button Style="{StaticResource DialogButton}"
                                 Content="Yes"
                                 Command="{Binding ExitToMainMenu}"/>
-                        <Button Style="{StaticResource ReturnMainMenuDialogButton}"
+                        <Button Style="{StaticResource DialogButton}"
                                 Content="No"
                                 Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
                     </StackPanel>

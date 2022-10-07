@@ -88,11 +88,13 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
 
         private readonly IRegionManager _regionManager;
 
-        public MainMenuViewModel(IRegionManager regionManager, IQuestionService questionService)
+        public MainMenuViewModel(IRegionManager regionManager, IQuestionService questionService, IHighscoreService highscoreService)
         {
             _regionManager = regionManager;
 
             _questionCategories = questionService.GetQuestionCategories().ToList();
+
+            highscoreService.GetHighscores();
         }
     }
 }

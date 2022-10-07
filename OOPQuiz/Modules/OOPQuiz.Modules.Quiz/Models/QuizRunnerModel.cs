@@ -5,7 +5,6 @@ using System;
 using OOPQuiz.Core.Models;
 using System.Collections.ObjectModel;
 using System.Linq;
-
 using System.Diagnostics;
 
 namespace OOPQuiz.Modules.Quiz.Models
@@ -33,6 +32,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         protected List<string> _answersGiven = new();
 
         protected int _score = 0;
+        protected Stopwatch _stopwatch = new Stopwatch();
         protected int _pointsBet = 0;
 
         protected string _buttonAction = "Submit Answer";
@@ -42,7 +42,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         /// </summary>
         public QuizRunnerModel()
         {
-
+            _stopwatch.Start();
         }
 
         /// <summary>
@@ -200,6 +200,22 @@ namespace OOPQuiz.Modules.Quiz.Models
         }
 
         /// <summary>
+        /// The time taken by the user to complete the quiz.
+        /// </summary>
+        /// <remarks>
+        /// Only returned if the quiz has been finished.
+        /// </remarks>
+        public TimeSpan TimeTaken
+        {
+            get
+            {
+                if (QuizCompleted)
+                    return _stopwatch.Elapsed;
+                throw new AccessViolationException("The quiz has not yet finished");
+            }
+        }
+
+        /// <summary>
         /// Loads the information for the next question.
         /// </summary>
         public void LoadNextQuestion()
@@ -310,6 +326,9 @@ namespace OOPQuiz.Modules.Quiz.Models
             _feedbackGiven.Add(_feedbackForCurrentQuestion);
 
             _answersGiven.Add(userAnswer);
+
+            if (QuizCompleted)
+                _stopwatch.Stop();
         }
 
         /// <summary>

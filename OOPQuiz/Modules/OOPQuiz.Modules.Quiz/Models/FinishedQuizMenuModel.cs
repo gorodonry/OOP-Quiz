@@ -1,4 +1,6 @@
 ﻿using OOPQuiz.Business.Models;
+using OOPQuiz.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,6 +21,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         protected List<QuestionNumberAnswerPair> _finalAnswerStatuses;
 
         protected int _score;
+        protected TimeSpan _timeTaken;
         protected string _generalFeedback;
 
         protected int _selectedQuestionNumber = 1;
@@ -55,6 +58,13 @@ namespace OOPQuiz.Modules.Quiz.Models
         /// The final score the user got in the recent quiz.
         /// </summary>
         public int Score => _score;
+
+        /// <summary>
+        /// The time taken to complete the recent quiz as a string.
+        /// </summary>
+        public string TimeTakenAsString => Methods.ConvertTimeSpanToString(_timeTaken);
+
+        public TimeSpan TimeTaken => _timeTaken;
 
         /// <summary>
         /// General feedback based off the user's performance.
@@ -157,6 +167,10 @@ namespace OOPQuiz.Modules.Quiz.Models
             _numberOfQuestionsCorrect = modelFromQuiz.AnswerStatuses.Count(x => x == "True");
             _numberOfQuestionsInQuiz = modelFromQuiz.AnswerStatuses.Count;
             _score = modelFromQuiz.UserScore;
+
+            // I am only interested in accuracy to the nearest second.
+            TimeSpan insanelyAccurateTime = modelFromQuiz.TimeTaken;
+            _timeTaken = new(insanelyAccurateTime.Hours, insanelyAccurateTime.Minutes, insanelyAccurateTime.Seconds);
 
             _generalFeedback = FinishedQuizFeedback.GetFeedbackBasedOnNumberOfQuestionsCorrectlyAnswered(_numberOfQuestionsCorrect, _score);
 
