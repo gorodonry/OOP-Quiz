@@ -5,7 +5,7 @@ namespace OOPQuiz.Business.Models
     /// <summary>
     /// Stores information about an attempt on the quiz by a user.
     /// </summary>
-    public class Performance
+    public class Performance : IComparable
     {
         protected string _name;
 
@@ -39,5 +39,23 @@ namespace OOPQuiz.Business.Models
         /// The time taken to complete the quiz by this user.
         /// </summary>
         public TimeSpan TimeTaken => _timeTaken;
+
+        public int CompareTo(object? obj)
+        {
+            if (obj is null)
+                return 1;
+
+            Performance? otherPerformance = obj as Performance;
+
+            if (otherPerformance is null)
+                throw new ArgumentException("Object is not a Performance");
+
+            // Performance objects are sorted from highest to lowest score.
+            if (otherPerformance.Score != _score)
+                return otherPerformance.Score.CompareTo(_score);
+
+            // Performance objects with the same score are sorted from shortest to longest time.
+            return _timeTaken.CompareTo(otherPerformance.TimeTaken);
+        }
     }
 }

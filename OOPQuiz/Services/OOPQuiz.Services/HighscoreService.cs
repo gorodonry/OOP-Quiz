@@ -45,7 +45,10 @@ namespace OOPQuiz.Services
 
         public int DetermineProvisionalPlacing(string category, int score, TimeSpan timeTaken)
         {
-            List<Performance> otherCategoryScores = ReadJSON()[category];
+            if (!Highscores.ContainsKey(category))
+                throw new ArgumentException($"Category specified is invalid: {category}");
+
+            List<Performance> otherCategoryScores = Highscores[category];
 
             // Find the number of scores higher than the user, and combine it with the number of same scores but a faster time than the user.
             return otherCategoryScores.Count(x => x.Score > score) + 1 +
@@ -57,9 +60,16 @@ namespace OOPQuiz.Services
             WriteJSON(category, performance);
         }
 
-        public Dictionary<string, List<Performance>> GetHighscores()
+        public Dictionary<string, List<Performance>> GetOrderedHighscores()
         {
-            return Highscores;
+            Dictionary<string, List<Performance>> highscores = Highscores;
+
+            foreach (string category in highscores.Keys)
+            {
+                highscores[category].Sort();
+            }
+
+            return highscores;
         }
     }
 }

@@ -1,6 +1,23 @@
 {
-  "Python": [],
-  "C#": [],
+  "Python": [
+    {
+      "Name": "Ryan Gordon",
+      "Score": 3495250,
+      "TimeTaken": "00:00:32"
+    }
+  ],
+  "C#": [
+    {
+      "Name": "Ryan Gordon",
+      "Score": 3495250,
+      "TimeTaken": "00:00:33"
+    },
+    {
+      "Name": "Ryan Gordon",
+      "Score": 3495250,
+      "TimeTaken": "00:00:27"
+    }
+  ],
   "History of OOP": [
     {
       "Name": "Ryan Gordon",

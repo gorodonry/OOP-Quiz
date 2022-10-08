@@ -3,8 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:OOPQuiz.Core.Converters;assembly=OOPQuiz.Core">
     <UserControl.Resources>
+        <converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter"/>
         <Style x:Key="BulletPoint" TargetType="Ellipse">
             <Setter Property="Height" Value="4"/>
             <Setter Property="Width" Value="4"/>
@@ -30,9 +32,9 @@
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="450"/>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="450"/>
             </Grid.ColumnDefinitions>
 
             <!-- Header for the main menu -->
@@ -52,6 +54,7 @@
             <!-- Provide instructions on how to use the quiz in an expander -->
             <Expander Grid.Row="1" Grid.Column="0"
                       ExpandDirection="Down"
+                      IsExpanded="True"
                       Margin="20 30 0 0">
                 <Expander.Header>
                     <TextBlock HorizontalAlignment="Center"
@@ -113,7 +116,87 @@
             </StackPanel>
             
             <!-- Display user highscores on the right -->
-            
+            <Grid Grid.Row="1" Grid.Column="2" Margin="0 25 50 25">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           HorizontalAlignment="Center"
+                           Margin="0 25 0 15"
+                           FontSize="18"
+                           Text="{Binding HighscoreDisplayCategory, StringFormat={}{0} Highscores}"/>
+
+                <!-- Allow the user to select a question category to display highscores in -->
+                <ListBox x:Name="SelectHighscoreCategoryListBox"
+                         Grid.Row="1"
+                         Margin="0 0 0 25"
+                         ItemsSource="{Binding QuestionCategories}"
+                         SelectedItem="{Binding HighscoreDisplayCategory, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid IsItemsHost="True" Columns="{Binding QuestionCategories.Count}"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+
+                <!-- Display the highscores for the selected category -->
+                <Grid Grid.Row="2" Height="30" Margin="0 0 17 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" VerticalAlignment="Bottom" Text="Rank"/>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Bottom" Text="Name"/>
+                    <TextBlock Grid.Column="2" VerticalAlignment="Bottom" Text="Score"/>
+                    <TextBlock Grid.Column="3" VerticalAlignment="Bottom" Text="Time"/>
+                </Grid>
+                <Separator Grid.Row="3"/>
+                <ScrollViewer Grid.Row="4"
+                              materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
+                    <ItemsControl ItemsSource="{Binding HighscoresToDisplay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" Text="{Binding Key}" HorizontalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding Value.Name}"/>
+                                    <TextBlock Grid.Column="2" Text="{Binding Value.Score}"/>
+                                    <TextBlock Grid.Column="3" Text="{Binding Value.TimeTaken, Converter={StaticResource TimeSpanToStringConverter}}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="{x:Type ContentPresenter}">
+                                <Setter Property="Margin" Value="0 7 0 7"/>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
             
             <!-- Start quiz button -->
             <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"

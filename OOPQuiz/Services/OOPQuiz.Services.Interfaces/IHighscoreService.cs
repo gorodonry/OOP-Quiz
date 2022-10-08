@@ -10,10 +10,10 @@ namespace OOPQuiz.Services.Interfaces
     public interface IHighscoreService
     {
         /// <summary>
-        /// A dictionary of all the scores achieved by users.
+        /// A dictionary of all the scores achieved by users, with the performances ordered by score and time.
         /// </summary>
         /// <returns>A dictionary with the key as the question category, and the value as a list of user performances.</returns>
-        public Dictionary<string, List<Performance>> GetHighscores();
+        public Dictionary<string, List<Performance>> GetOrderedHighscores();
 
         /// <summary>
         /// Returns a provisional placing for the user, should they wish to submit their score.

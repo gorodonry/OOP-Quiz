@@ -6,6 +6,7 @@ using OOPQuiz.Services.Interfaces;
 using System.Collections.Generic;
 using Prism.Commands;
 using System.Linq;
+using OOPQuiz.Business.Models;
 
 using System.Diagnostics;
 
@@ -16,6 +17,8 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
     /// </summary>
     public class MainMenuViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
+        private readonly Dictionary<string, List<Performance>> _highscores;
+
         private readonly List<string> _questionCategories;
 
         /// <summary>
@@ -36,6 +39,59 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
                 SetProperty(ref _selectedQuestionCategory, value);
 
                 StartQuiz.RaiseCanExecuteChanged();
+            }
+        }
+
+        private string _highscoreDisplayCategory;
+
+        /// <summary>
+        /// The question category to display highscores of.
+        /// </summary>
+        public string HighscoreDisplayCategory
+        {
+            get { return _highscoreDisplayCategory; }
+            set
+            {
+                SetProperty(ref _highscoreDisplayCategory, value);
+
+                RaisePropertyChanged(nameof(HighscoresToDisplay));
+            }
+        }
+
+        private int _highscoreDisplayIndex = 0;
+
+        /// <summary>
+        /// The index of the highscore category being displayed.
+        /// </summary>
+        /// <remarks>
+        /// Initially set to 0.
+        /// </remarks>
+        public int HighscoreDisplayIndex
+        {
+            get { return _highscoreDisplayIndex; }
+            set { SetProperty(ref _highscoreDisplayIndex, value); }
+        }
+
+        /// <summary>
+        /// The highscores for the selected category.
+        /// </summary>
+        public Dictionary<int, Performance> HighscoresToDisplay
+        {
+            get
+            {
+                if (_highscores is not null && _highscoreDisplayCategory is not null)
+                {
+                    Dictionary<int, Performance> categoryScoresWithRanks = new();
+
+                    for (int i = 0; i < _highscores[_highscoreDisplayCategory].Count; i++)
+                    {
+                        categoryScoresWithRanks.Add(i + 1, _highscores[_highscoreDisplayCategory][i]);
+                    }
+
+                    return categoryScoresWithRanks;
+                }
+
+                return null;
             }
         }
 
@@ -71,7 +127,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            RaisePropertyChanged(nameof(QuestionCategories));
+
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -94,7 +150,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
 
             _questionCategories = questionService.GetQuestionCategories().ToList();
 
-            highscoreService.GetHighscores();
+            _highscores = highscoreService.GetOrderedHighscores();
         }
     }
 }
