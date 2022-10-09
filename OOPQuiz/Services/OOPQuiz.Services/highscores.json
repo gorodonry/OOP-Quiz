@@ -4,6 +4,11 @@
       "Name": "Ryan Gordon",
       "Score": 3495250,
       "TimeTaken": "00:00:32"
+    },
+    {
+      "Name": "Esmeraldadoris",
+      "Score": 0,
+      "TimeTaken": "00:03:10"
     }
   ],
   "C#": [
@@ -16,13 +21,23 @@
       "Name": "Ryan Gordon",
       "Score": 3495250,
       "TimeTaken": "00:00:27"
+    },
+    {
+      "Name": "Howzat",
+      "Score": 50,
+      "TimeTaken": "00:07:27"
     }
   ],
   "History of OOP": [
     {
       "Name": "Ryan Gordon",
       "Score": 3495250,
-      "TimeTaken": "00:00:27"
+      "TimeTaken": "00:00:25"
+    },
+    {
+      "Name": "Howzat",
+      "Score": 370,
+      "TimeTaken": "00:03:46"
     }
   ]
 }

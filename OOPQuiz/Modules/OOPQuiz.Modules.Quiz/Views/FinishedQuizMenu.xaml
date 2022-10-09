@@ -34,7 +34,8 @@
                              materialDesign:HintAssist.Hint="Enter your name"
                              materialDesign:HintAssist.IsFloating="False"
                              Visibility="{Binding ScoreSubmitted, Converter={StaticResource InverseBoolToVisConverter}}"
-                             Text="{Binding UserName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding UserName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                             MaxLength="40"/>
                     <TextBlock Grid.Row="1"
                                Style="{StaticResource DialogCentralTextBlock}"
                                Visibility="{Binding ScoreSubmitted, Converter={StaticResource BooleanToVisibilityConverter}}"

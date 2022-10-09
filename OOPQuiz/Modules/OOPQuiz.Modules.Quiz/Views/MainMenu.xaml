@@ -183,7 +183,12 @@
                                     </Grid.ColumnDefinitions>
 
                                     <TextBlock Grid.Column="0" Text="{Binding Key}" HorizontalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="{Binding Value.Name}"/>
+                                    <TextBlock Grid.Column="1"
+                                               Margin="0 0 5 0"
+                                               TextTrimming="CharacterEllipsis"
+                                               materialDesign:TextBlockAssist.AutoToolTip="True"
+                                               Text="{Binding Value.Name}">
+                                    </TextBlock>
                                     <TextBlock Grid.Column="2" Text="{Binding Value.Score}"/>
                                     <TextBlock Grid.Column="3" Text="{Binding Value.TimeTaken, Converter={StaticResource TimeSpanToStringConverter}}"/>
                                 </Grid>
