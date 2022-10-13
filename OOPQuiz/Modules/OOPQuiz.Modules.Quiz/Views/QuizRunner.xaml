@@ -151,7 +151,7 @@
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
                                 <Setter Property="Margin" Value="2"/>
-                                <Setter Property="Height" Value="60"/>
+                                <Setter Property="Height" Value="70"/>
                                 <Setter Property="Background" Value="{Binding BackgroundHexCode}"/>
                             </Style>
                         </ListBox.ItemContainerStyle>
