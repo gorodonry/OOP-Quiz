@@ -157,7 +157,7 @@
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Margin="15 0 0 0" FontSize="20" Text="{Binding PotentialAnswer}"/>
+                                <TextBlock Margin="15 0 0 0" FontSize="20" Text="{Binding PotentialAnswer}" TextWrapping="Wrap"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
