@@ -131,8 +131,7 @@
                 <!-- Information on how to bet -->
                 <Expander Grid.Row="2" Grid.Column="0"
                           ExpandDirection="Down"
-                          Margin="20 30 0 0"
-                          Background="White">
+                          Margin="20 30 0 0">
                     <Expander.Header>
                         <TextBlock HorizontalAlignment="Center"
                                    Text="Betting Instructions"/>

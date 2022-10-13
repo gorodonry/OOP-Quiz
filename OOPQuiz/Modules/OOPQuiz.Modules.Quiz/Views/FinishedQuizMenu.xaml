@@ -200,7 +200,11 @@
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Margin="15 0 0 0" FontSize="15" TextWrapping="WrapWithOverflow" Text="{Binding PotentialAnswer}"/>
+                                <TextBlock Margin="15 0 0 0"
+                                           FontSize="15"
+                                           Foreground="Black"
+                                           TextWrapping="WrapWithOverflow"
+                                           Text="{Binding PotentialAnswer}"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
