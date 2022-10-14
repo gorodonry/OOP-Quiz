@@ -21,7 +21,7 @@ namespace OOPQuiz.Core.Models
         /// The string with the first character converted to upper case.
         /// </returns>
         /// <remarks>
-        /// String should be trimmed before parsed into this method.
+        /// String should be trimmed before passed into this method.
         /// </remarks>
         public static string Capitalise(string str)
         {
@@ -55,11 +55,23 @@ namespace OOPQuiz.Core.Models
 
                 int k = rng.Next(n + 1);
 
-                T value = list[k];
-
-                list[k] = list[n];
-                list[n] = value;
+                (list[n], list[k]) = (list[k], list[n]);
             }
+        }
+
+        /// <summary>
+        /// Converts a <see cref="TimeSpan"/> to a formatted string.
+        /// </summary>
+        /// <param name="timeSpan">The <see cref="TimeSpan"/> to convert into a string.</param>
+        /// <returns>A string in the format hh:mm:ss.</returns>
+        /// <remarks>
+        /// Hours are only returned if they are present.
+        /// </remarks>
+        public static string ConvertTimeSpanToString(TimeSpan timeSpan)
+        {
+            return $"{(timeSpan.Hours == 0 ? string.Empty : $"{timeSpan.Hours}:")}" +
+                $"{(timeSpan.Minutes.ToString().Length == 2 ? timeSpan.Minutes : $"0{timeSpan.Minutes}")}:" +
+                $"{(timeSpan.Seconds.ToString().Length == 2 ? timeSpan.Seconds : $"0{timeSpan.Seconds}")}";
         }
     }
 }

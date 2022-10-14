@@ -30,35 +30,19 @@ namespace OOPQuiz.Business.Models
             _feedback = feedback;
         }
 
-        /// <summary>
-        /// The question for the user to answer.
-        /// </summary>
         public string Question => _question;
 
-        /// <summary>
-        /// The answer to the question.
-        /// </summary>
         public string Answer => Methods.Capitalise(_answer.ToString());
 
-        /// <summary>
-        /// The supporting image for the question.
-        /// </summary>
         public string ImageURI => _imageURI;
 
-        /// <summary>
-        /// Feedback for the user after the question.
-        /// </summary>
-        /// <remarks>
-        /// Empty if the question doesn't provide any feedback.
-        /// </remarks>
         public string Feedback => _feedback;
 
-        /// <summary>
-        /// The choices the user has for the question (true/false).
-        /// </summary>
-        /// <remarks>
-        /// Any feedback for true/false questions should be provided as general feedback.
-        /// </remarks>
         public List<Choice> Choices => _choices;
+
+        public object Clone()
+        {
+            return new TrueFalseQuestion(_question, _answer, _imageURI, _feedback);
+        }
     }
 }

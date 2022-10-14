@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using OOPQuiz.Business.Models;
+using System.Collections.Immutable;
 
 namespace OOPQuiz.Services.Interfaces
 {
@@ -9,13 +10,13 @@ namespace OOPQuiz.Services.Interfaces
     public interface IQuestionService
     {
         /// <summary>
-        /// The question categories in this program.
+        /// Get the question categories in this program.
         /// </summary>
         /// <returns>A list of question categories.</returns>
-        public List<string> GetQuestionCategories();
+        public ImmutableList<string> GetQuestionCategories();
 
         /// <summary>
-        /// The questions in this program.
+        /// Get the questions in this program.
         /// </summary>
         /// <returns>A dictionary with the key as the question category and the value as a list of questions for that category.</returns>
         public Dictionary<string, List<IQuestion>> GetQuestions();

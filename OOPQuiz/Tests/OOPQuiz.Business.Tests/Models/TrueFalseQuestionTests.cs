@@ -83,5 +83,17 @@ namespace OOPQuiz.Business.Tests.Models
                 expected.Remove(choice.PotentialAnswer);
             }
         }
+
+        [Fact]
+        public void TestClone()
+        {
+            // Clone should not be the same instance but should have all the same data.
+            var trueFalseQuestion = new TrueFalseQuestion("", true, "");
+
+            var clone = trueFalseQuestion.Clone();
+
+            Assert.IsType<TrueFalseQuestion>(clone);
+            Assert.NotSame(trueFalseQuestion, clone);
+        }
     }
 }

@@ -23,9 +23,9 @@ namespace OOPQuiz.Modules.Quiz.Views
             if (_acceptableBetChars.IsMatch(e.Text) && (int.TryParse(BettingInput.Text, out _) || string.IsNullOrEmpty(BettingInput.Text)))
             {
                 // Take into account the position of the caret.
-                int newBet = int.Parse(BettingInput.Text.Insert(BettingInput.CaretIndex, e.Text));
+                string newBet = BettingInput.Text.Insert(BettingInput.CaretIndex, e.Text);
 
-                e.Handled = !(newBet <= int.Parse(UserScore.Text.Remove(0, "Score: ".Length)));
+                e.Handled = newBet == "00" || !(int.Parse(newBet) <= int.Parse(UserScore.Text.Remove(0, "Score: ".Length)));
             }
             else
             {

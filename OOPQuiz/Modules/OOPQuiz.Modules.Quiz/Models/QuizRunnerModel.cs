@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using OOPQuiz.Services.Interfaces;
 using System;
-using System.Diagnostics;
 using OOPQuiz.Core.Models;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Diagnostics;
 
 namespace OOPQuiz.Modules.Quiz.Models
 {
@@ -27,7 +28,11 @@ namespace OOPQuiz.Modules.Quiz.Models
         protected bool? _userCorrect;
         protected string _feedbackForCurrentQuestion = string.Empty;
 
+        protected List<string> _feedbackGiven = new();
+        protected List<string> _answersGiven = new();
+
         protected int _score = 0;
+        protected Stopwatch _stopwatch = new Stopwatch();
         protected int _pointsBet = 0;
 
         protected string _buttonAction = "Submit Answer";
@@ -37,7 +42,7 @@ namespace OOPQuiz.Modules.Quiz.Models
         /// </summary>
         public QuizRunnerModel()
         {
-
+            _stopwatch.Start();
         }
 
         /// <summary>
@@ -140,6 +145,75 @@ namespace OOPQuiz.Modules.Quiz.Models
         /// One of "Submit Answer", "Next Question", and "Finish Quiz".
         /// </remarks>
         public string ButtonAction => _buttonAction;
+
+        /// <summary>
+        /// A boolean indicating whether or not all questions have been answered.
+        /// </summary>
+        public bool QuizCompleted => AnswerStatuses.Count(x => x == "True") + AnswerStatuses.Count(x => x == "False") == numberOfQuestions;
+
+        /// <summary>
+        /// The feedback provided for each question answered so far.
+        /// </summary>
+        /// <remarks>
+        /// Only returned if the quiz has been finished.
+        /// </remarks>
+        public List<string> FeedbackGiven
+        {
+            get
+            {
+                if (QuizCompleted)
+                    return _feedbackGiven;
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// The answers given by the user.
+        /// </summary>
+        /// <remarks>
+        /// Only returned if the quiz has been finished.
+        /// </remarks>
+        public List<string> AnswersGiven
+        {
+            get
+            {
+                if (QuizCompleted)
+                    return _answersGiven;
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// The questions asked in the quiz.
+        /// </summary>
+        /// <remarks>
+        /// Only returned if the quiz has been finished.
+        /// </remarks>
+        public List<IQuestion> Questions
+        {
+            get
+            {
+                if (QuizCompleted)
+                    return _questions;
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// The time taken by the user to complete the quiz.
+        /// </summary>
+        /// <remarks>
+        /// Only returned if the quiz has been finished.
+        /// </remarks>
+        public TimeSpan TimeTaken
+        {
+            get
+            {
+                if (QuizCompleted)
+                    return _stopwatch.Elapsed;
+                throw new AccessViolationException("The quiz has not yet finished");
+            }
+        }
 
         /// <summary>
         /// Loads the information for the next question.
@@ -248,6 +322,13 @@ namespace OOPQuiz.Modules.Quiz.Models
             _currentQuestionAnswered = true;
 
             _answerStatuses[_currentQuestionIndex] = Methods.Capitalise(_userCorrect.ToString());
+
+            _feedbackGiven.Add(_feedbackForCurrentQuestion);
+
+            _answersGiven.Add(userAnswer);
+
+            if (QuizCompleted)
+                _stopwatch.Stop();
         }
 
         /// <summary>

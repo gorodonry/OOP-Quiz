@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace OOPQuiz.Business.Models
 {
     /// <summary>
     /// Contains all information relevant to a single question.
     /// </summary>
-    public interface IQuestion
+    public interface IQuestion: ICloneable
     {
         /// <summary>
         /// The question for the user to answer.

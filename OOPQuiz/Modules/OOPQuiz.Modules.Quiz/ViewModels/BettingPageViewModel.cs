@@ -3,8 +3,9 @@ using Prism.Regions;
 using OOPQuiz.Core;
 using OOPQuiz.Modules.Quiz.Views;
 using Prism.Commands;
-using System.Diagnostics;
 using System.Collections.ObjectModel;
+
+using System.Diagnostics;
 
 namespace OOPQuiz.Modules.Quiz.ViewModels
 {
@@ -109,6 +110,26 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             _pointsBetByUser = "0";
 
             ExecuteSubmitBet();
+        }
+
+        private DelegateCommand _exitToMainMenu;
+        public DelegateCommand ExitToMainMenu =>
+            _exitToMainMenu ?? (_exitToMainMenu = new DelegateCommand(ExecuteExitToMainMenu));
+
+        /// <summary>
+        /// Terminates the current quiz. All progress will be lost.
+        /// </summary>
+        /// <remarks>
+        /// Returns to the quiz runner briefly to terminate the current instance of the <see cref="QuizRunnerViewModel"/>.
+        /// </remarks>
+        void ExecuteExitToMainMenu()
+        {
+            var parameters = new NavigationParameters
+            {
+                { "OnNavigatedTo", "Exit to Main Menu" }
+            };
+
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(QuizRunner), parameters);
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)

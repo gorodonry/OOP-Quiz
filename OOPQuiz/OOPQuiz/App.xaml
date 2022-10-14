@@ -18,6 +18,12 @@
                 <Setter Property="CornerRadius" Value="4"/>
                 <Setter Property="Margin" Value="7"/>
             </Style>
+            <Style x:Key="ColourZoneHeaderCentralTextBlock" TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignHeadline5TextBlock}">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="0 10 0 10"/>
+                <Setter Property="FontSize" Value="30"/>
+            </Style>
             
             <!-- Styling for the progress bar used by multiple views of the quiz -->
             <Style x:Key="ProgressBarPanel" TargetType="StackPanel">
@@ -53,6 +59,41 @@
             <Style x:Key="QuizButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
                 <Setter Property="Width" Value="750"/>
                 <Setter Property="Margin" Value="0 0 0 30"/>
+            </Style>
+            
+            <!-- Styling for the dialog host content for the quiz -->
+            <Style x:Key="DialogButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
+                <Setter Property="Width" Value="125"/>
+                <Setter Property="Margin" Value="10 0 10 20"/>
+            </Style>
+            <Style x:Key="DialogParentGrid" TargetType="Grid">
+                <Setter Property="Width" Value="400"/>
+                <Setter Property="Height" Value="200"/>
+            </Style>
+            <Style x:Key="DialogHeaderTextBlock" TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignHeadline5TextBlock}">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="FontSize" Value="20"/>
+            </Style>
+            <Style x:Key="DialogCentralTextBlock" TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignBody2TextBlock}">
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="50 0 50 0"/>
+                <Setter Property="FontSize" Value="15"/>
+            </Style>
+            <Style x:Key="DialogStackPanel" TargetType="StackPanel">
+                <Setter Property="Orientation" Value="Horizontal"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="OpenReturnMainMenuDialogButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedDarkButton}">
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="12 0 0 0"/>
+                <Setter Property="Width" Value="200"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
             </Style>
 
         </ResourceDictionary>

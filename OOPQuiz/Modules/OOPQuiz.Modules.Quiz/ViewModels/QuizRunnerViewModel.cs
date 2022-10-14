@@ -4,11 +4,12 @@ using OOPQuiz.Services.Interfaces;
 using OOPQuiz.Modules.Quiz.Models;
 using OOPQuiz.Business.Models;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using Prism.Commands;
 using System;
 using OOPQuiz.Core;
 using OOPQuiz.Modules.Quiz.Views;
+
+using System.Diagnostics;
 
 namespace OOPQuiz.Modules.Quiz.ViewModels
 {
@@ -197,9 +198,15 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             }
             else
             {
+                // Navigate to the finished quiz menu.
                 _exitingQuiz = true;
 
-                // Navigate to a finish screen for the quiz (coming in a later sprint).
+                var parameters = new NavigationParameters
+                {
+                    { "QuizModel", _model }
+                };
+
+                _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(FinishedQuizMenu), parameters);
             }
         }
 
@@ -237,6 +244,23 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             SubmitAnswer.RaiseCanExecuteChanged();
         }
 
+        private DelegateCommand _exitToMainMenu;
+        public DelegateCommand ExitToMainMenu =>
+            _exitToMainMenu ?? (_exitToMainMenu = new DelegateCommand(ExecuteExitToMainMenu));
+
+        /// <summary>
+        /// Terminates the quiz and returns the user to the main menu.
+        /// </summary>
+        /// <remarks>
+        /// The current <see cref="QuizRunnerViewModel"/> will not be kept alive, so all current progress will be lost.
+        /// </remarks>
+        void ExecuteExitToMainMenu()
+        {
+            _exitingQuiz = true;
+
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(MainMenu));
+        }
+
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             if (!navigationContext.Parameters.ContainsKey("OnNavigatedTo"))
@@ -265,6 +289,10 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
                 RaisePropertyChanged(nameof(UserHasBetPoints));
 
                 LoadNextQuestion();
+            }
+            else if (navigationContext.Parameters.GetValue<string>("OnNavigatedTo") == "Exit to Main Menu")
+            {
+                ExecuteExitToMainMenu();
             }
         }
 

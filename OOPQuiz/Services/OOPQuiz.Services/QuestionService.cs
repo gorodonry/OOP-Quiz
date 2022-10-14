@@ -2,7 +2,7 @@ using OOPQuiz.Business.Models;
 using OOPQuiz.Services.Interfaces;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Collections.Immutable;
 
 namespace OOPQuiz.Services
 {
@@ -321,22 +321,29 @@ namespace OOPQuiz.Services
             { "History of OOP", OOPHistoryQuestions }
         };
 
-        /// <summary>
-        /// The question categories in this program.
-        /// </summary>
-        /// <returns>A list of question categories.</returns>
-        public List<string> GetQuestionCategories()
+        public ImmutableList<string> GetQuestionCategories()
         {
-            return allQuestions.Keys.ToList();
+            return allQuestions.Keys.ToImmutableList();
         }
 
-        /// <summary>
-        /// The questions in this program.
-        /// </summary>
-        /// <returns>A dictionary with the key as the question category and the value as a list of questions for that category.</returns>
         public Dictionary<string, List<IQuestion>> GetQuestions()
         {
-            return allQuestions;
+            // Create and then return a deep copy of the question dictionary.
+            Dictionary<string, List<IQuestion>> deepCopy = new();
+
+            foreach (KeyValuePair<string, List<IQuestion>> entry in allQuestions)
+            {
+                List<IQuestion> subDeepCopy = new();
+
+                foreach (IQuestion subEntry in entry.Value)
+                {
+                    subDeepCopy.Add((IQuestion)subEntry.Clone());
+                }
+
+                deepCopy.Add(entry.Key, subDeepCopy);
+            }
+
+            return deepCopy;
         }
     }
 }

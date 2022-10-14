@@ -3,8 +3,211 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:OOPQuiz.Core.Converters;assembly=OOPQuiz.Core">
+    <UserControl.Resources>
+        <converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter"/>
+        <Style x:Key="BulletPoint" TargetType="Ellipse">
+            <Setter Property="Height" Value="4"/>
+            <Setter Property="Width" Value="4"/>
+            <Setter Property="Fill" Value="Black"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+        <Style x:Key="BulletPointHost" TargetType="BulletDecorator">
+            <Setter Property="Margin" Value="10 0 0 0"/>
+        </Style>
+        <Style x:Key="BulletTextBlock" TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignTextBlock}">
+            <Setter Property="Margin" Value="5 0 0 0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="TextAlignment" Value="Justify"/>
+            <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="450"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="450"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Header for the main menu -->
+            <materialDesign:ColorZone Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                                      Style="{StaticResource ColourZoneHeader}">
+                <Grid>
+                    <TextBlock Style="{StaticResource ColourZoneHeaderCentralTextBlock}"
+                               Text="OOP Quiz"/>
+                    <TextBlock Style="{StaticResource MaterialDesignTextBlock}"
+                               HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                               Margin="0 0 30 3"
+                               FontSize="20"
+                               Text="By Ryan Gordon"/>
+                </Grid>
+            </materialDesign:ColorZone>
             
+            <!-- Provide instructions on how to use the quiz in an expander -->
+            <Expander Grid.Row="1" Grid.Column="0"
+                      ExpandDirection="Down"
+                      IsExpanded="True"
+                      Margin="20 30 0 0">
+                <Expander.Header>
+                    <TextBlock HorizontalAlignment="Center"
+                               Text="Instructions"/>
+                </Expander.Header>
+                <StackPanel Margin="10 15 0 15">
+                    <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                               Margin="20 0 0 2"
+                               Text="Welcome to OOP Quiz!"/>
+                    <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Justify"
+                               Style="{StaticResource MaterialDesignTextBlock}">
+                        A (mostly) multichoice quiz about OOP (Object-Oriented Programming) with three different categories available.
+                        Just like any other multichoice quiz, click on the answer you have selected and then click 'submit answer'.
+                        It's not rocket science!
+                        <LineBreak/><LineBreak/>
+                        To make things interesting, this quiz also allows you to bet points after every question (provided you have points to bet...).
+                        Instructions for how to do this are available when you bet, if it isn't intuitive.
+                        The maximum number of points you can get is 3 495 250 (not arbitrary I swear) and the minmum is 0.
+                        <LineBreak/><LineBreak/>
+                        There are three different question categories:
+                        <LineBreak/>
+                        <BulletDecorator Style="{StaticResource BulletPointHost}">
+                            <BulletDecorator.Bullet>
+                                <Ellipse Style="{StaticResource BulletPoint}"/>
+                            </BulletDecorator.Bullet>
+                            <TextBlock Style="{StaticResource BulletTextBlock}">C# - object oriented questions for C# users</TextBlock>
+                        </BulletDecorator>
+                        <LineBreak/>
+                        <BulletDecorator Style="{StaticResource BulletPointHost}">
+                            <BulletDecorator.Bullet>
+                                <Ellipse Style="{StaticResource BulletPoint}"/>
+                            </BulletDecorator.Bullet>
+                            <TextBlock Style="{StaticResource BulletTextBlock}">Python - object oriented questions for Python users</TextBlock>
+                        </BulletDecorator>
+                        <LineBreak/>
+                        <BulletDecorator Style="{StaticResource BulletPointHost}">
+                            <BulletDecorator.Bullet>
+                                <Ellipse Style="{StaticResource BulletPoint}"/>
+                            </BulletDecorator.Bullet>
+                            <TextBlock Style="{StaticResource BulletTextBlock}">History of OOP - questions about the history of OOP</TextBlock>
+                        </BulletDecorator>
+                        <LineBreak/><LineBreak/>
+                        If you have no idea what C# or Python are I would recommend going with History of OOP (which contains no coding jargon),
+                        but you're welcome to try any of them. Good luck!
+                        <LineBreak/><LineBreak/>
+                        For the record, C# and Python are programming languages - this quiz was written using C#.
+                    </TextBlock>
+                </StackPanel>
+            </Expander>
+            
+            <!-- Allow for the selection of a question category -->
+            <StackPanel Grid.Row="1" Grid.Column="1"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock FontSize="15"
+                           Text="Select a question category"/>
+                <ComboBox ItemsSource="{Binding QuestionCategories}"
+                          SelectedItem="{Binding SelectedQuestionCategory}"
+                          Margin="20 10 0 0"/>
+            </StackPanel>
+            
+            <!-- Display user highscores on the right -->
+            <Grid Grid.Row="1" Grid.Column="2" Margin="0 25 50 25">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           HorizontalAlignment="Center"
+                           Margin="0 25 0 15"
+                           FontSize="18"
+                           Text="{Binding HighscoreDisplayCategory, StringFormat={}{0} Highscores}"/>
+
+                <!-- Allow the user to select a question category to display highscores in -->
+                <ListBox x:Name="SelectHighscoreCategoryListBox"
+                         Grid.Row="1"
+                         Margin="0 0 0 25"
+                         ItemsSource="{Binding QuestionCategories}"
+                         SelectedIndex="{Binding HighscoreDisplayIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid IsItemsHost="True" Columns="{Binding QuestionCategories.Count}"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+
+                <!-- Display the highscores for the selected category -->
+                <Grid Grid.Row="2" Height="30" Margin="0 0 17 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" VerticalAlignment="Bottom" Text="Rank"/>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Bottom" Text="Name"/>
+                    <TextBlock Grid.Column="2" VerticalAlignment="Bottom" Text="Score"/>
+                    <TextBlock Grid.Column="3" VerticalAlignment="Bottom" Text="Time"/>
+                </Grid>
+                <Separator Grid.Row="3"/>
+                <ScrollViewer Grid.Row="4"
+                              materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
+                    <ItemsControl ItemsSource="{Binding HighscoresToDisplay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" Text="{Binding Key}" HorizontalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1"
+                                               Margin="0 0 5 0"
+                                               TextTrimming="CharacterEllipsis"
+                                               materialDesign:TextBlockAssist.AutoToolTip="True"
+                                               Text="{Binding Value.Name}">
+                                    </TextBlock>
+                                    <TextBlock Grid.Column="2" Text="{Binding Value.Score}"/>
+                                    <TextBlock Grid.Column="3" Text="{Binding Value.TimeTaken, Converter={StaticResource TimeSpanToStringConverter}}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="{x:Type ContentPresenter}">
+                                <Setter Property="Margin" Value="0 7 0 7"/>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+            
+            <!-- Start quiz button -->
+            <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+                    Style="{StaticResource QuizButton}"
+                    Command="{Binding StartQuiz}"
+                    Content="Take Quiz"/>
+        </Grid>
     </Grid>
 </UserControl>

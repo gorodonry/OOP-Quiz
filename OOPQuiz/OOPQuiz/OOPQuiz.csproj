@@ -9,9 +9,6 @@
     <None Remove="Assets\csharp.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\csharp.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="4.5.0" />
     <PackageReference Include="Prism.Unity" Version="8.1.97" />
   </ItemGroup>
@@ -23,9 +20,8 @@
     <ProjectReference Include="..\Services\OOPQuiz.Services\OOPQuiz.Services.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\csharp.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\" />
+    <Resource Include="Assets\csharp.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 </Project>

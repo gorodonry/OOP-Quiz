@@ -23,6 +23,7 @@ namespace OOPQuiz
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IQuestionService, QuestionService>();
+            containerRegistry.RegisterSingleton<IHighscoreService, HighscoreService>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

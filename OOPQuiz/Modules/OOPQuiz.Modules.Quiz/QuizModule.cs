@@ -23,7 +23,11 @@ namespace OOPQuiz.Modules.Quiz
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            // Register the menus for navigation.
             containerRegistry.RegisterForNavigation<MainMenu, MainMenuViewModel>();
+            containerRegistry.RegisterForNavigation<FinishedQuizMenu, FinishedQuizMenuViewModel>();
+
+            // Register the quiz and quiz-affiliated views for navigation.
             containerRegistry.RegisterForNavigation<QuizRunner, QuizRunnerViewModel>();
             containerRegistry.RegisterForNavigation<BettingPage, BettingPageViewModel>();
         }

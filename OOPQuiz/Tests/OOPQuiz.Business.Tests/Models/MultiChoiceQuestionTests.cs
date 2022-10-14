@@ -140,5 +140,17 @@ namespace OOPQuiz.Business.Tests.Models
 
             Assert.Contains(expected, actual);
         }
+
+        [Fact]
+        public void TestClone()
+        {
+            // Clone should not be the same instance but should have all the same data.
+            var multiChoiceQuestion = new MultiChoiceQuestion("", "Choice 1", "", new() { new("Choice 1"), new("Choice 2") });
+
+            var clone = multiChoiceQuestion.Clone();
+
+            Assert.IsType<MultiChoiceQuestion>(clone);
+            Assert.NotSame(multiChoiceQuestion, clone);
+        }
     }
 }

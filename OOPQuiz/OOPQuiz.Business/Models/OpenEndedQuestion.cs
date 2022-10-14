@@ -29,32 +29,19 @@ namespace OOPQuiz.Business.Models
             _feedback = feedback;
         }
 
-        /// <summary>
-        /// The question for the user to answer.
-        /// </summary>
         public string Question => _question;
 
-        /// <summary>
-        /// The answer to the question.
-        /// </summary>
         public string Answer => _answer;
 
-        /// <summary>
-        /// The supporting image for the question.
-        /// </summary>
         public string ImageURI => _imageURI;
 
-        /// <summary>
-        /// Feedback for the user after the question.
-        /// </summary>
-        /// <remarks>
-        /// Empty if the question doesn't provide any feedback.
-        /// </remarks>
         public string Feedback => _feedback;
 
-        /// <summary>
-        /// Returns an empty dictionary since this is an open-ended question.
-        /// </summary>
         public List<Choice> Choices => _choices;
+
+        public object Clone()
+        {
+            return new OpenEndedQuestion(_question, _answer, _imageURI, _feedback);
+        }
     }
 }
