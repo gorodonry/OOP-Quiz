@@ -38,23 +38,12 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
             {
                 SetProperty(ref _selectedQuestionCategory, value);
 
-                StartQuiz.RaiseCanExecuteChanged();
-            }
-        }
+                HighscoreDisplayIndex = _questionCategories.IndexOf(value);
 
-        private string _highscoreDisplayCategory;
-
-        /// <summary>
-        /// The question category to display highscores of.
-        /// </summary>
-        public string HighscoreDisplayCategory
-        {
-            get { return _highscoreDisplayCategory; }
-            set
-            {
-                SetProperty(ref _highscoreDisplayCategory, value);
-
+                RaisePropertyChanged(nameof(HighscoreDisplayIndex));
+                RaisePropertyChanged(nameof(HighscoreDisplayCategory));
                 RaisePropertyChanged(nameof(HighscoresToDisplay));
+                StartQuiz.RaiseCanExecuteChanged();
             }
         }
 
@@ -69,7 +58,26 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         public int HighscoreDisplayIndex
         {
             get { return _highscoreDisplayIndex; }
-            set { SetProperty(ref _highscoreDisplayIndex, value); }
+            set
+            {
+                SetProperty(ref _highscoreDisplayIndex, value);
+
+                RaisePropertyChanged(nameof(HighscoreDisplayCategory));
+                RaisePropertyChanged(nameof(HighscoresToDisplay));
+            }
+        }
+
+        /// <summary>
+        /// The question category of the highscores being displayed.
+        /// </summary>
+        public string HighscoreDisplayCategory
+        {
+            get
+            {
+                if (_questionCategories is not null)
+                    return _questionCategories[_highscoreDisplayIndex];
+                return null;
+            }
         }
 
         /// <summary>
@@ -79,13 +87,13 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
         {
             get
             {
-                if (_highscores is not null && _highscoreDisplayCategory is not null)
+                if (_highscores is not null)
                 {
                     Dictionary<int, Performance> categoryScoresWithRanks = new();
 
-                    for (int i = 0; i < _highscores[_highscoreDisplayCategory].Count; i++)
+                    for (int i = 0; i < _highscores[_questionCategories[_highscoreDisplayIndex]].Count; i++)
                     {
-                        categoryScoresWithRanks.Add(i + 1, _highscores[_highscoreDisplayCategory][i]);
+                        categoryScoresWithRanks.Add(i + 1, _highscores[_questionCategories[_highscoreDisplayIndex]][i]);
                     }
 
                     return categoryScoresWithRanks;
@@ -127,7 +135,7 @@ namespace OOPQuiz.Modules.Quiz.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-
+            
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

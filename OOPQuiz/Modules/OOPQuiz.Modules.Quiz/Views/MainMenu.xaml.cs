@@ -10,8 +10,6 @@ namespace OOPQuiz.Modules.Quiz.Views
         public MainMenu()
         {
             InitializeComponent();
-
-            SelectHighscoreCategoryListBox.SelectedIndex = 0;
         }
     }
 }

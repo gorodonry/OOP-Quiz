@@ -136,7 +136,7 @@
                          Grid.Row="1"
                          Margin="0 0 0 25"
                          ItemsSource="{Binding QuestionCategories}"
-                         SelectedItem="{Binding HighscoreDisplayCategory, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
+                         SelectedIndex="{Binding HighscoreDisplayIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid IsItemsHost="True" Columns="{Binding QuestionCategories.Count}"/>
