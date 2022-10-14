@@ -139,7 +139,7 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Button Background="{Binding AnswerAsString, Converter={StaticResource StringToAnswerStatusColourConverter}}"
+                                    <Button Background="{Binding AnswerAsString, Converter={StaticResource StringToAnswerStatusColourConverter}, ConverterParameter=DarkerColour}"
                                             Width="40" Height="40"
                                             Margin="7" Padding="0"
                                             materialDesign:ButtonAssist.CornerRadius="4"
@@ -219,7 +219,7 @@
                         <TextBlock TextAlignment="Center" TextWrapping="Wrap"
                                    HorizontalAlignment="Center" VerticalAlignment="Center"
                                    MaxHeight="120"
-                                   Foreground="{Binding AnswerStatusForSelectedQuestion, Converter={StaticResource StringToAnswerStatusColourConverter}}"
+                                   Foreground="{Binding AnswerStatusForSelectedQuestion, Converter={StaticResource StringToAnswerStatusColourConverter}, ConverterParameter=DarkerColour}"
                                    Text="{Binding AnswerGivenForSelectedQuestion, StringFormat={}Your answer was: {0}}"/>
                     </Border>
 

@@ -22,7 +22,13 @@ namespace OOPQuiz.Core.Converters
 
                 case "True":
                     // If the question has been correctly answered, return green.
-                    return "#228B22";
+                    if (parameter is null)
+                        return "#00FF00";
+
+                    if (parameter.ToString() == "DarkerColour")
+                        return "#228B22";
+
+                    return "#00FF00";
 
                 case "False":
                     // If the question has been incorrectly answered, return red.
