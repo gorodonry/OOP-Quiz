@@ -133,7 +133,7 @@ namespace OOPQuiz.Services
                     new("It is a variable")
                 }),
             new MultiChoiceQuestion(
-                question: "What needs to be at the beginning of every file using OOP?",
+                question: "Which of these is almost always at the beginning of every file using OOP?",
                 answer: "A namespace declaration",
                 imageURI: Path.Combine(Directory.GetCurrentDirectory(), $@"{imagePath}csharp_question3.png"),
                 choices: new()
@@ -143,7 +143,7 @@ namespace OOPQuiz.Services
                     new("using System.Dataclasses;"),
                     new("using System;")
                 },
-                feedback: "This isn't specific to OOP - every C# file needs this."),
+                feedback: "This isn't specific to OOP - every C# file needs this. Coding without a namespace declaration is unnecessarily difficult."),
             new TrueFalseQuestion(
                 question: "It is possible to set the age of a Dog object to 5.",
                 answer: false,
